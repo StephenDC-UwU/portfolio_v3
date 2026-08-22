@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@theme {
+  --color-accent: var(--accent);
+  --color-accent-gold: var(--accent-gold);
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+}
+
 :root {
   /* Light / Cream Theme (Parchment & Crimson Rose) */
   --bg-primary: #E7E1D3;

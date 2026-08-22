@@ -13,6 +13,8 @@ import {
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
 import gsap from "gsap";
+import ThemeToggleButton from "./navbar/ThemeToggleButton";
+import LanguageDropdown from "./navbar/LanguageDropdown";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -101,25 +103,21 @@ export default function Navbar() {
                 key={item.id}
                 href={item.href}
                 onClick={(e) => scrollToSection(e, item.href)}
-                className={`group flex flex-col items-center justify-center transition-all duration-200 ${
-                  isActive ? "opacity-100 scale-105" : "opacity-70 hover:opacity-100"
-                }`}
+                className={`group flex flex-col items-center justify-center transition-all duration-200 ${isActive ? "opacity-100 scale-105" : "opacity-70 hover:opacity-100"
+                  }`}
               >
-                <div className="relative p-1">
+                <div className={`relative px-1.5 py-1 ${isActive ? "bg-accent rounded-full" : ""}`}>
                   <Icon
                     size={20}
                     strokeWidth={1.5}
-                    className={`transition-transform duration-200 group-hover:-translate-y-0.5`}
+                    className={` ${isActive ? "text-bg-primary" : ""} transition-transform duration-200 group-hover:-translate-y-0.5 `}
                   />
-                  {isActive && (
-                    <span
-                      className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-current"
-                    />
-                  )}
                 </div>
-                <span className="text-[11px] sm:text-xs tracking-wider font-cinzel capitalize transition-colors">
-                  {item.label}
-                </span>
+                {
+                  isActive && <span className="text-[11px] sm:text-xs tracking-wider font-cinzel capitalize transition-colors">
+                    {item.label}
+                  </span>
+                }
               </a>
             );
           })}
@@ -140,56 +138,26 @@ export default function Navbar() {
               <span>{lang.toUpperCase()}</span>
               <ChevronDown
                 size={14}
-                className={`transition-transform duration-200 ${
-                  langMenuOpen ? "rotate-180" : ""
-                }`}
+                className={`transition-transform duration-200 ${langMenuOpen ? "rotate-180" : ""
+                  }`}
               />
             </button>
 
             {/* Dropdown Menu */}
             {langMenuOpen && (
-              <div className="absolute right-0 top-full mt-2 py-1.5 w-24 rounded-xl glass-card shadow-lg z-50 text-xs font-cinzel flex flex-col animate-in fade-in zoom-in-95">
-                <button
-                  onClick={() => {
-                    setLang("es");
-                    setLangMenuOpen(false);
-                  }}
-                  className={`px-3 py-1.5 text-left hover:bg-black/10 transition-colors flex items-center justify-between ${
-                    lang === "es" ? "font-bold opacity-100" : "opacity-70"
-                  }`}
-                >
-                  <span>Español</span>
-                  {lang === "es" && <span className="text-[10px]">●</span>}
-                </button>
-                <button
-                  onClick={() => {
-                    setLang("en");
-                    setLangMenuOpen(false);
-                  }}
-                  className={`px-3 py-1.5 text-left hover:bg-black/10 transition-colors flex items-center justify-between ${
-                    lang === "en" ? "font-bold opacity-100" : "opacity-70"
-                  }`}
-                >
-                  <span>English</span>
-                  {lang === "en" && <span className="text-[10px]">●</span>}
-                </button>
-              </div>
+              <LanguageDropdown
+
+                setLangMenuOpen={setLangMenuOpen}
+                lang={lang}
+              />
             )}
           </div>
 
-          {/* Theme Toggle Button (Moon for Cream mode, Sun for Crimson mode) */}
-          <button
-            onClick={toggleTheme}
-            className="p-1.5 sm:p-2 rounded-full hover:bg-black/10 transition-all opacity-85 hover:opacity-100 hover:rotate-12 cursor-pointer"
-            aria-label="Toggle theme mode"
-            title={theme === "cream" ? "Modo Carmesí" : "Modo Crema"}
-          >
-            {theme === "cream" ? (
-              <Moon size={18} strokeWidth={1.8} className="fill-current" />
-            ) : (
-              <Sun size={18} strokeWidth={1.8} className="text-current" />
-            )}
-          </button>
+          {/* Theme Toggle Button */}
+          <ThemeToggleButton
+            toggleTheme={toggleTheme}
+            theme={theme}
+          />
         </div>
       </nav>
     </header>

@@ -179,9 +179,8 @@ export default function Hero() {
       {/* Background Ambience & Splatters (Dark mode dynamic splatter) */}
       <div
         ref={splattersRef}
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-700 z-0 ${
-          isDark ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute inset-0 pointer-events-none transition-opacity duration-700 z-0 ${isDark ? "opacity-100" : "opacity-0"
+          }`}
       >
         <SplatterArt className="w-full h-full object-cover scale-105" />
       </div>
@@ -189,9 +188,8 @@ export default function Hero() {
       {/* Floating Petals Layer (Light mode romantic gothic ambiance) */}
       <div
         ref={petalsContainerRef}
-        className={`absolute inset-0 pointer-events-none z-10 overflow-hidden transition-opacity duration-700 ${
-          !isDark ? "opacity-100" : "opacity-20"
-        }`}
+        className={`absolute inset-0 pointer-events-none z-10 overflow-hidden transition-opacity duration-700 ${!isDark ? "opacity-100" : "opacity-20"
+          }`}
       >
         {STATIC_PETALS.map((petal, i) => (
           <div
@@ -290,9 +288,8 @@ export default function Hero() {
         {/* Botanical Roses Layer (Anchors the sword with lush flora) */}
         <div
           ref={rosesRef}
-          className={`w-full max-w-4xl h-[180px] sm:h-[260px] md:h-[320px] z-30 transition-all duration-700 ${
-            isDark ? "opacity-30 scale-95" : "opacity-100 scale-100"
-          }`}
+          className={`w-full max-w-4xl h-[180px] sm:h-[260px] md:h-[320px] z-30 transition-all duration-700 ${isDark ? "opacity-30 scale-95" : "opacity-100 scale-100"
+            }`}
         >
           <RoseBotanical isDark={isDark} className="w-full h-full" />
         </div>
