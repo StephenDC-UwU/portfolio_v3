@@ -1,5 +1,46 @@
 @import "tailwindcss";
 
+/* --- Local Font-Face Fallback Definitions from /fonts --- */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/CormorantGaramond.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/CormorantGaramond-Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  src: url('/fonts/Cinzel.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('/fonts/EBGaramond.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('/fonts/EBGaramond-Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
   --color-accent: var(--accent);
   --color-accent-gold: var(--accent-gold);
@@ -8,6 +49,10 @@
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
+
+  --font-editorial: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-cinzel: var(--font-cinzel), 'Cinzel', serif;
+  --font-eb-garamond: var(--font-eb-garamond), 'EB Garamond', serif;
 }
 
 :root {
@@ -57,20 +102,24 @@ body {
   color: var(--text-primary);
   transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-x: hidden;
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
 }
 
-/* Typography Utility Classes */
+/* Typography Utility Classes mapped to public/fonts */
 .font-editorial {
-  font-family: var(--font-cormorant), Georgia, serif;
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
 }
 
 .font-cinzel {
-  font-family: var(--font-cinzel), 'Cinzel Decorative', serif;
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+}
+
+.font-eb-garamond {
+  font-family: var(--font-eb-garamond), 'EB Garamond', serif;
 }
 
 .font-sans-clean {
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
 /* Custom Scrollbar */

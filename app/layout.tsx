@@ -1,31 +1,53 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Cinzel, Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-const cormorant = Cormorant_Garamond({
+const cormorant = localFont({
+  src: [
+    {
+      path: "../public/fonts/CormorantGaramond.ttf",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/CormorantGaramond-Italic.ttf",
+      style: "italic",
+    },
+  ],
   variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const cinzel = Cinzel({
+const cinzel = localFont({
+  src: [
+    {
+      path: "../public/fonts/Cinzel.ttf",
+      style: "normal",
+    },
+  ],
   variable: "--font-cinzel",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+const ebGaramond = localFont({
+  src: [
+    {
+      path: "../public/fonts/EBGaramond.ttf",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/EBGaramond-Italic.ttf",
+      style: "italic",
+    },
+  ],
+  variable: "--font-eb-garamond",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Art is Everywhere — Creative Portfolio",
-  description: "A showcase of artistic direction, creative development, and digital craftmanship.",
+  description: "A showcase of artistic direction, creative development, and digital craftsmanship.",
 };
 
 export default function RootLayout({
@@ -36,10 +58,10 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${cormorant.variable} ${cinzel.variable} ${jakarta.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${cinzel.variable} ${ebGaramond.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col transition-colors duration-500">
+      <body className="min-h-full flex flex-col transition-colors duration-500 font-sans-clean">
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
