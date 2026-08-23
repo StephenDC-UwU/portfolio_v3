@@ -12,34 +12,51 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative w-full py-16 px-4 sm:px-8 md:px-14 border-t border-current/10 transition-colors duration-500 overflow-hidden">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-        {/* Left: Brand / Editorial Signature */}
-        <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-2">
-          <div className="flex items-center gap-2">
-            <Sparkles size={16} className="opacity-70" />
-            <span className="font-cinzel text-sm font-bold tracking-widest uppercase">
-              ART IS EVERYWHERE
-            </span>
-          </div>
-          <p className="font-editorial text-lg italic opacity-80 max-w-md">
-            {t.footer.quote}
-          </p>
+    <footer
+      id="footer"
+      className="relative w-full min-h-dvh flex flex-col justify-between py-12 sm:py-16 md:py-20 px-6 sm:px-12 md:px-16 transition-colors duration-500 overflow-hidden bg-bg-primary select-none"
+    >
+      {/* Top Header Row */}
+      <div className="max-w-7xl mx-auto w-full flex items-center justify-between border-b border-current/10 pb-6">
+        <div className="flex items-center gap-2">
+          <Sparkles size={16} className="opacity-70 animate-pulse" />
+          <span className="font-cinzel text-xs sm:text-sm font-bold tracking-[0.3em] uppercase opacity-80">
+            Art Is Everywhere
+          </span>
         </div>
+        <span className="text-[10px] sm:text-xs font-cinzel tracking-widest uppercase opacity-60">
+          Portfolio // {new Date().getFullYear()}
+        </span>
+      </div>
 
-        {/* Right: Copyright & Scroll to Top */}
-        <div className="flex flex-col sm:flex-row items-center gap-6 text-center md:text-right">
-          <div className="text-xs font-cinzel opacity-60 tracking-wider">
-            © {new Date().getFullYear()} — {t.footer.rights}
-          </div>
+      {/* Middle Climax Editorial Typography */}
+      <div className="max-w-7xl mx-auto w-full my-auto py-8 flex flex-col items-center text-center">
+        <h2 className="font-editorial text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tight leading-[0.95] opacity-90">
+          Let’s Create <br />
+          <span className="font-light italic">Something Epic.</span>
+        </h2>
 
-          <button
-            onClick={scrollToTop}
-            className="group flex items-center gap-2 px-4 py-2 rounded-full border border-current/20 hover:border-current bg-current/5 hover:bg-current/10 transition-all text-xs font-cinzel tracking-wider uppercase cursor-pointer"
-          >
-            <span>{t.footer.backToTop}</span>
-            <ArrowUp size={14} className="group-hover:-translate-y-1 transition-transform" />
-          </button>
+        <p className="mt-6 font-editorial text-lg sm:text-2xl italic opacity-75 max-w-2xl">
+          "{t.footer.quote}"
+        </p>
+
+        {/* Back to Top CTA */}
+        <button
+          onClick={scrollToTop}
+          className="group mt-10 flex items-center gap-3 px-8 py-4 rounded-full border border-current/25 hover:border-current bg-current/5 hover:bg-current/10 transition-all duration-300 text-xs sm:text-sm font-cinzel tracking-widest uppercase cursor-pointer hover:scale-105 active:scale-95 shadow-xl"
+        >
+          <span>{t.footer.backToTop}</span>
+          <ArrowUp size={16} className="group-hover:-translate-y-1 transition-transform" />
+        </button>
+      </div>
+
+      {/* Bottom Bar: Copyright */}
+      <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-current/10 text-xs font-cinzel opacity-60 tracking-wider">
+        <div>
+          © {new Date().getFullYear()} — {t.footer.rights}
+        </div>
+        <div>
+          Designed with devotion & creative code
         </div>
       </div>
     </footer>

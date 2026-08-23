@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Home,
   User,
@@ -23,37 +25,38 @@ export default function Navbar() {
   const isClickScrollingRef = useRef(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Scroll spy to update activeSection on scroll
+  // Scroll spy synchronized with GSAP ScrollTrigger pinned panels
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
     const sectionIds = ["hero", "about", "projects", "contact"];
-    const handleScroll = () => {
-      // Avoid flickering through intermediate sections when clicking a nav item
-      if (isClickScrollingRef.current) return;
+    const triggers: ScrollTrigger[] = [];
 
-      const scrollPosition = window.scrollY + window.innerHeight * 0.35;
+    const timeout = setTimeout(() => {
+      sectionIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
 
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const id = sectionIds[i];
-        const element = document.getElementById(id);
-        if (element) {
-          const top = element.offsetTop;
-          if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50) {
-            setActiveSection("contact");
-            break;
-          }
-          if (top <= scrollPosition) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
-    };
+        const panel = el.closest(".panel-section") || el;
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+        const trigger = ScrollTrigger.create({
+          trigger: panel,
+          start: "top center",
+          end: id === "contact" ? "bottom bottom" : "bottom center",
+          onToggle: (self) => {
+            if (self.isActive && !isClickScrollingRef.current) {
+              setActiveSection(id);
+            }
+          },
+        });
+
+        triggers.push(trigger);
+      });
+    }, 150);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timeout);
+      triggers.forEach((t) => t.kill());
       if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
     };
   }, []);
@@ -84,12 +87,22 @@ export default function Navbar() {
     if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
     clickTimeoutRef.current = setTimeout(() => {
       isClickScrollingRef.current = false;
-    }, 900);
+    }, 1000);
 
     const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    if (!target) return;
+
+    const panel = target.closest(".panel-section") || target;
+    const st = ScrollTrigger.getAll().find(
+      (trigger) => trigger.trigger === panel || trigger.trigger === target
+    );
+
+    const targetScroll = st ? st.start : target.getBoundingClientRect().top + window.scrollY;
+
+    window.scrollTo({
+      top: targetScroll,
+      behavior: "smooth",
+    });
   };
 
   return (

@@ -27,10 +27,10 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="section section-about relative w-full min-h-screen overflow-hidden transition-colors duration-500 bg-bg-primary"
+      className="section section-about h-full relative w-full  transition-colors duration-500 bg-bg-primary"
     >
       <div className="section-content w-full h-full relative">
-        <div className="section-inner w-full min-h-screen flex flex-col justify-center py-24 sm:py-32 px-4 sm:px-8 md:px-14 relative">
+        <div className="section-inner w-full  flex flex-col justify-start py-20 sm:py-28 px-4 sm:px-8 md:px-14 relative">
           <div className="max-w-7xl mx-auto w-full">
             {/* Section Header */}
             <div className="mb-16 sm:mb-20">

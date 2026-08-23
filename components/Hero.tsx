@@ -261,7 +261,7 @@ export default function Hero() {
               handleSwordClick();
             }
           }}
-          className={`absolute -bottom-[40dvh] left-1/2 -translate-x-1/2 30 origin-bottom select-none transition-opacity duration-500 ${isInside ? " cursor-grab opacity-100" : "cursor-grab opacity-80"}`}
+          className={`absolute -bottom-[40dvh] left-1/2 -translate-x-1/2 z-30 pointer-events-auto origin-bottom select-none transition-opacity duration-500 ${isInside ? "cursor-grab opacity-100" : "cursor-grab opacity-80"}`}
         >
           <Image
             src={sword}

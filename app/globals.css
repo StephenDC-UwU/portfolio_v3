@@ -164,24 +164,19 @@ body {
 .section {
   position: relative;
   width: 100%;
-  min-height: 100vh;
   background-color: var(--bg-primary);
-  overflow: hidden;
-  will-change: transform, opacity;
   transform-origin: center top;
 }
 
 .section-content {
   position: relative;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 }
 
 .section-inner {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  will-change: transform;
 }
 
 /* Floating animation keyframes */
