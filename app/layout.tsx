@@ -46,7 +46,7 @@ const ebGaramond = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Art is Everywhere — Creative Portfolio",
+  title: "The Filimisco - Portfolio",
   description: "A showcase of artistic direction, creative development, and digital craftsmanship.",
 };
 
@@ -58,10 +58,10 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${cormorant.variable} ${cinzel.variable} ${ebGaramond.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${cinzel.variable} ${ebGaramond.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col transition-colors duration-500 font-sans-clean">
+      <body>
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>

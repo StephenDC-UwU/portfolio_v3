@@ -117,7 +117,7 @@ export const translations = {
     },
     hero: {
       headlinePart1: "ART",
-      headlinePart2: "IS",
+      headlinePart2: "  IS",
       headlinePart3: "EVERYWHERE",
       subtitle: "Art direction, creative development, and immersive digital experiences.",
       ctaExplore: "Explore Works",

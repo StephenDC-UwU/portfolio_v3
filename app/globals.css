@@ -72,6 +72,7 @@
   --card-bg-subtle: rgba(245, 241, 233, 0.6);
   --splatter-opacity: 0;
   --rose-opacity: 1;
+  --petal-gradient: radial-gradient(ellipse at 30% 30%, #C73833 0%, #8F201D 70%, #58120F 100%);
 }
 
 [data-theme="crimson"] {
@@ -91,6 +92,7 @@
   --card-bg-subtle: rgba(45, 8, 7, 0.5);
   --splatter-opacity: 1;
   --rose-opacity: 0.15;
+  --petal-gradient: radial-gradient(ellipse at 30% 30%, #FAF6ED 0%, #D4C6A8 70%, #8A7A5D 100%);
 }
 
 html {
@@ -151,6 +153,35 @@ body {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--card-border);
+}
+
+/* Pinned Panels & Stacking Slides Styles */
+.slides-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+  will-change: transform, opacity;
+  transform-origin: center top;
+}
+
+.section-content {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+
+.section-inner {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  will-change: transform;
 }
 
 /* Floating animation keyframes */

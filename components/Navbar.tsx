@@ -6,56 +6,56 @@ import {
   User,
   LayoutGrid,
   Mail,
-  Moon,
-  Sun,
   ChevronDown,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
-import gsap from "gsap";
 import ThemeToggleButton from "./navbar/ThemeToggleButton";
 import LanguageDropdown from "./navbar/LanguageDropdown";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
-  const { lang, setLang, t } = useLanguage();
+  const { lang, t } = useLanguage();
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const navRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
+  const isClickScrollingRef = useRef(false);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // GSAP entrance animation
+  // Scroll spy to update activeSection on scroll
   useEffect(() => {
-    if (navRef.current) {
-      gsap.fromTo(
-        navRef.current,
-        { y: -50, opacity: 0, scale: 0.95 },
-        { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out", delay: 0.2 }
-      );
-    }
-  }, []);
-
-  // Track active section on scroll
-  useEffect(() => {
+    const sectionIds = ["hero", "about", "projects", "contact"];
     const handleScroll = () => {
-      const sections = ["hero", "about", "projects", "contact"];
-      const scrollPosition = window.scrollY + 200;
+      // Avoid flickering through intermediate sections when clicking a nav item
+      if (isClickScrollingRef.current) return;
 
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
+      const scrollPosition = window.scrollY + window.innerHeight * 0.35;
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const element = document.getElementById(id);
+        if (element) {
+          const top = element.offsetTop;
+          if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50) {
+            setActiveSection("contact");
+            break;
+          }
+          if (top <= scrollPosition) {
+            setActiveSection(id);
             break;
           }
         }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
+    };
   }, []);
 
   // Close language dropdown on outside click
@@ -76,8 +76,16 @@ export default function Navbar() {
     { id: "contact", label: t.nav.contact, icon: Mail, href: "#contact" },
   ];
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {
     e.preventDefault();
+    setActiveSection(id);
+    isClickScrollingRef.current = true;
+
+    if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
+    clickTimeoutRef.current = setTimeout(() => {
+      isClickScrollingRef.current = false;
+    }, 900);
+
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
@@ -85,16 +93,13 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed top-4 md:top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+    <header className="fixed bottom-4 md:top-6 md:bottom-auto left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
       <nav
         ref={navRef}
-        className="pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 md:gap-8 px-4 sm:px-7 py-2.5 sm:py-3 rounded-2xl sm:rounded-3xl glass-nav transition-all duration-300 shadow-xl"
-        style={{
-          minWidth: "min(95vw, 620px)",
-        }}
+        className="pointer-events-auto flex items-center justify-between gap-2 sm:gap-6 px-3 sm:px-6 py-2 sm:py-2.5 rounded-2xl sm:rounded-full glass-nav transition-all duration-300 shadow-xl"
       >
         {/* Navigation Links with Icons & Labels */}
-        <div className="flex items-center gap-2 sm:gap-5 md:gap-7">
+        <div className="flex items-center gap-1 sm:gap-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.id;
@@ -102,22 +107,23 @@ export default function Navbar() {
               <a
                 key={item.id}
                 href={item.href}
-                onClick={(e) => scrollToSection(e, item.href)}
-                className={`group flex flex-col items-center justify-center transition-all duration-200 ${isActive ? "opacity-100 scale-105" : "opacity-70 hover:opacity-100"
+                onClick={(e) => scrollToSection(e, item.id, item.href)}
+                aria-current={isActive ? "page" : undefined}
+                className={`group relative flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${isActive
+                  ? "bg-accent text-bg-primary shadow-md font-medium scale-[1.02]"
+                  : "text-text-primary/70 hover:text-text-primary hover:bg-black/5 dark:hover:bg-white/5"
                   }`}
               >
-                <div className={`relative px-1.5 py-1 ${isActive ? "bg-accent rounded-full" : ""}`}>
-                  <Icon
-                    size={20}
-                    strokeWidth={1.5}
-                    className={` ${isActive ? "text-bg-primary" : ""} transition-transform duration-200 group-hover:-translate-y-0.5 `}
-                  />
-                </div>
-                {
-                  isActive && <span className="text-[11px] sm:text-xs tracking-wider font-cinzel capitalize transition-colors">
-                    {item.label}
-                  </span>
-                }
+                <Icon
+                  size={18}
+                  strokeWidth={isActive ? 2 : 1.5}
+                  className="transition-transform duration-200 group-hover:scale-110 shrink-0"
+                />
+                <span
+                  className={`hidden md:block text-[11px] sm:text-xs font-cinzel tracking-wider capitalize whitespace-nowrap transition-all duration-300 `}
+                >
+                  {item.label}
+                </span>
               </a>
             );
           })}
