@@ -33,7 +33,7 @@ export default function Home() {
             pinSpacing: false,
           });
 
-          // Smoothly scale down, blur, and fade out the pinned panel while nextPanel slides over it
+          // Smoothly scale down, blur, and fade out the pinned panel while it is being covered
           gsap.fromTo(
             panel,
             { scale: 1, opacity: 1, filter: "blur(0px)" },
@@ -41,12 +41,14 @@ export default function Home() {
               scale: 0.94,
               opacity: 0,
               filter: "blur(6px)",
-              ease: "none",
+              ease: "power1.inOut",
               scrollTrigger: {
-                trigger: nextPanel,
-                start: "top bottom",
+                trigger: panel,
+                start: () => (panel.offsetHeight > window.innerHeight ? "bottom bottom" : "top top"),
+                endTrigger: nextPanel,
                 end: "top top",
                 scrub: true,
+                invalidateOnRefresh: true,
               },
             }
           );
