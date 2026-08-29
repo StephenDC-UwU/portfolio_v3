@@ -73,8 +73,8 @@ export default function Home() {
           <Hero />
         </div>
 
-        {/* 2. About Me Section (Full natural scrollable content) */}
-        <div className="panel-section relative z-20 w-full bg-bg-primary shadow-[0_-25px_50px_rgba(0,0,0,0.35)]">
+        {/* 2. About Me Section (Strictly 100dvh pinned slide with shadow) */}
+        <div className="panel-section relative z-20 w-full min-h-dvh bg-bg-primary shadow-[0_-25px_50px_rgba(0,0,0,0.35)]">
           <About />
         </div>
 

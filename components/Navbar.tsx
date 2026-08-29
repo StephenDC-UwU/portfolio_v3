@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -8,6 +9,7 @@ import {
   User,
   LayoutGrid,
   Mail,
+  BookOpen,
   ChevronDown,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -16,6 +18,8 @@ import ThemeToggleButton from "./navbar/ThemeToggleButton";
 import LanguageDropdown from "./navbar/LanguageDropdown";
 
 export default function Navbar() {
+  const router = useRouter();
+  const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const { lang, t } = useLanguage();
 
@@ -29,6 +33,8 @@ export default function Navbar() {
 
   // Scroll spy synchronized with GSAP ScrollTrigger pinned panels
   useEffect(() => {
+    if (pathname !== "/") return;
+
     gsap.registerPlugin(ScrollTrigger);
 
     const sectionIds = ["hero", "about", "projects", "contact"];
@@ -61,7 +67,7 @@ export default function Navbar() {
       triggers.forEach((t) => t.kill());
       if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
     };
-  }, []);
+  }, [pathname]);
 
   // Close language dropdown on outside click
   useEffect(() => {
@@ -75,10 +81,11 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { id: "hero", label: t.nav.home, icon: Home, href: "#hero" },
-    { id: "about", label: t.nav.about, icon: User, href: "#about" },
-    { id: "projects", label: t.nav.projects, icon: LayoutGrid, href: "#projects" },
-    { id: "contact", label: t.nav.contact, icon: Mail, href: "#contact" },
+    { id: "hero", label: t.nav.home, icon: Home, href: "#hero", isRoute: false },
+    { id: "about", label: t.nav.about, icon: User, href: "#about", isRoute: false },
+    { id: "projects", label: t.nav.projects, icon: LayoutGrid, href: "#projects", isRoute: false },
+    { id: "contact", label: t.nav.contact, icon: Mail, href: "#contact", isRoute: false },
+    { id: "blog", label: t.nav.blog, icon: BookOpen, href: "/blogs", isRoute: true },
   ];
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {
@@ -107,6 +114,32 @@ export default function Navbar() {
     });
   };
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    item: (typeof navItems)[number]
+  ) => {
+    if (item.isRoute) {
+      e.preventDefault();
+      router.push(item.href);
+      return;
+    }
+
+    if (pathname !== "/") {
+      e.preventDefault();
+      router.push("/" + item.href);
+      return;
+    }
+
+    scrollToSection(e, item.id, item.href);
+  };
+
+  const isItemActive = (item: (typeof navItems)[number]) => {
+    if (item.isRoute) {
+      return pathname === item.href || pathname?.startsWith(item.href + "/");
+    }
+    return pathname === "/" && activeSection === item.id;
+  };
+
   return (
     <header className="fixed bottom-4 md:top-6 md:bottom-auto left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
       <nav
@@ -117,12 +150,12 @@ export default function Navbar() {
         <div className="flex items-center gap-1 sm:gap-2">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeSection === item.id;
+            const isActive = isItemActive(item);
             return (
               <a
                 key={item.id}
                 href={item.href}
-                onClick={(e) => scrollToSection(e, item.id, item.href)}
+                onClick={(e) => handleNavClick(e, item)}
                 aria-current={isActive ? "page" : undefined}
                 className={`group relative flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${isActive
                   ? "bg-accent text-bg-primary shadow-md font-medium scale-[1.02]"
