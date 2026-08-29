@@ -101,7 +101,7 @@ export default function Hero() {
     }, heroRef);
 
     return () => ctx.revert();
-  }, [theme]);
+  }, []);
 
   // Sword Proximity Scaling Effect (MouseEnter, MouseMove & MouseLeave)
   useEffect(() => {
@@ -261,7 +261,7 @@ export default function Hero() {
               handleSwordClick();
             }
           }}
-          className={`absolute -bottom-[40dvh] left-1/2 -translate-x-1/2 z-30 pointer-events-auto origin-bottom select-none transition-opacity duration-500 ${isInside ? "cursor-grab opacity-100" : "cursor-grab opacity-80"}`}
+          className={`absolute bottom-[-40dvh] left-1/2 -translate-x-1/2 z-30 cursor-pointer  origin-bottom select-none transition-opacity duration-500 ${isInside ? "opacity-100" : " opacity-80"}`}
         >
           <Image
             src={sword}
@@ -273,7 +273,7 @@ export default function Hero() {
         </div>
 
         {/* Roses Image (fixed to bottom right corner, overlapping sword) */}
-        <div className={`absolute -bottom-[10dvh] lg:left-1/2 lg:-translate-x-1/2 pointer-events-none z-10 flex flex-row ${isDark ? "opacity-0" : "opacity-100"}`}>
+        <div className={`absolute bottom-[-10dvh] lg:left-1/2 lg:-translate-x-1/2 pointer-events-none z-10 flex flex-row ${isDark ? "opacity-0" : "opacity-100"}`}>
           <Image
             src={roseLeft}
             alt="Roses"

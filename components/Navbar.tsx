@@ -18,8 +18,10 @@ import LanguageDropdown from "./navbar/LanguageDropdown";
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const { lang, t } = useLanguage();
+
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
+
   const navRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const isClickScrollingRef = useRef(false);
@@ -143,7 +145,7 @@ export default function Navbar() {
         </div>
 
         {/* Separator Line */}
-        <div className="h-6 w-[1px] bg-current opacity-20 hidden xs:block" />
+        <div className="h-6 w-px bg-current opacity-20 hidden xs:block" />
 
         {/* Controls: Language Dropdown & Theme Toggle */}
         <div className="flex items-center gap-3 sm:gap-4">
@@ -151,7 +153,7 @@ export default function Navbar() {
           <div className="relative" ref={langMenuRef}>
             <button
               onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="flex items-center gap-1 text-xs font-cinzel tracking-wider px-2 py-1 rounded-lg opacity-80 hover:opacity-100 transition-all cursor-pointer"
+              className="flex items-center gap-1 text-xs font-cinzel tracking-wider px-2 py-1 rounded-lg opacity-80 hover:opacity-100 transition-opacity duration-300 cursor-pointer"
               aria-label="Toggle language"
             >
               <span>{lang.toUpperCase()}</span>
@@ -165,7 +167,6 @@ export default function Navbar() {
             {/* Dropdown Menu */}
             {langMenuOpen && (
               <LanguageDropdown
-
                 setLangMenuOpen={setLangMenuOpen}
                 lang={lang}
               />
