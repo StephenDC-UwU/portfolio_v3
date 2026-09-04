@@ -6,7 +6,7 @@ import { ArrowLeft, Compass, Sparkles } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function NotFound() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-bg-primary text-text-primary px-4 sm:px-8 py-16 overflow-hidden transition-colors duration-500 select-none">
@@ -51,7 +51,7 @@ export default function NotFound() {
         {/* Back to Home Button */}
         <div className="pt-2 flex justify-center">
           <Link
-            href="/"
+            href={`/${lang}`}
             className="inline-flex items-center gap-2.5 px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm font-cinzel uppercase tracking-widest font-semibold transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl cursor-pointer"
             style={{
               backgroundColor: "var(--text-primary)",

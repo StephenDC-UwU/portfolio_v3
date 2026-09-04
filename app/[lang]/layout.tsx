@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "../globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 
 const cormorant = localFont({
   src: [
     {
-      path: "../public/fonts/CormorantGaramond.ttf",
+      path: "../../public/fonts/CormorantGaramond.ttf",
       style: "normal",
     },
     {
-      path: "../public/fonts/CormorantGaramond-Italic.ttf",
+      path: "../../public/fonts/CormorantGaramond-Italic.ttf",
       style: "italic",
     },
   ],
@@ -22,7 +22,7 @@ const cormorant = localFont({
 const cinzel = localFont({
   src: [
     {
-      path: "../public/fonts/Cinzel.ttf",
+      path: "../../public/fonts/Cinzel.ttf",
       style: "normal",
     },
   ],
@@ -33,11 +33,11 @@ const cinzel = localFont({
 const ebGaramond = localFont({
   src: [
     {
-      path: "../public/fonts/EBGaramond.ttf",
+      path: "../../public/fonts/EBGaramond.ttf",
       style: "normal",
     },
     {
-      path: "../public/fonts/EBGaramond-Italic.ttf",
+      path: "../../public/fonts/EBGaramond-Italic.ttf",
       style: "italic",
     },
   ],
@@ -50,14 +50,22 @@ export const metadata: Metadata = {
   description: "A showcase of artistic direction, creative development, and digital craftsmanship.",
 };
 
-export default function RootLayout({
+export async function generateStaticParams() {
+  return [{ lang: "es" }, { lang: "en" }];
+}
+
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ lang: string }>;
 }>) {
+  const { lang } = await params;
+
   return (
     <html
-      lang="es"
+      lang={lang || "es"}
       className={`${cormorant.variable} ${cinzel.variable} ${ebGaramond.variable} antialiased`}
       suppressHydrationWarning
     >

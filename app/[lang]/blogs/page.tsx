@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Filter, Sparkles, ArrowRight, X, Calendar, Clock, BookOpen, Tag } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/app/(home)/components/Navbar";
 import { useLanguage } from "@/context/LanguageContext";
 import { blogPosts, BlogPost } from "@/data/blogs";
 
@@ -20,6 +20,7 @@ const categories = [
 ];
 
 export default function BlogsPage() {
+  const { lang } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
@@ -84,7 +85,7 @@ export default function BlogsPage() {
       {/* 2. MAIN BLOG BODY                                             */}
       {/* ------------------------------------------------------------- */}
       <main className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-10 sm:py-16 space-y-10 sm:space-y-12">
-        
+
         {/* Search Bar (Rounded Deep Crimson Pill) */}
         <div className="w-full max-w-2xl">
           <div className="relative flex items-center w-full bg-[#58120F] dark:bg-[#470D0B] text-[#E9DFC9] rounded-full px-5 py-3 sm:py-3.5 shadow-lg border border-[#E9DFC9]/15 focus-within:ring-2 focus-within:ring-accent transition-all">
@@ -110,16 +111,16 @@ export default function BlogsPage() {
 
         {/* 2-Column Main Feed + Sticky Sidebar Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          
+
           {/* --------------------------------------------------------- */}
           {/* LEFT: Articles Feed (Featured + Grid)                    */}
           {/* --------------------------------------------------------- */}
           <div className="lg:col-span-8 space-y-8">
-            
+
             {/* Featured Hero Article Banner */}
             {featuredPost && (
               <Link
-                href={`/blogs/${featuredPost.slug}`}
+                href={`/${lang}/blogs/${featuredPost.slug}`}
                 className="group relative w-full rounded-3xl overflow-hidden glass-card border border-current/15 shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-end min-h-[320px] sm:min-h-[400px] p-6 sm:p-8 block"
               >
                 {/* Circuit Background */}
@@ -168,7 +169,7 @@ export default function BlogsPage() {
               {regularPosts.map((post) => (
                 <Link
                   key={post.id}
-                  href={`/blogs/${post.slug}`}
+                  href={`/${lang}/blogs/${post.slug}`}
                   className="group relative rounded-2xl sm:rounded-3xl overflow-hidden glass-card border border-current/15 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1 cursor-pointer flex flex-col justify-between p-5 sm:p-6 min-h-[260px] block"
                 >
                   {/* Circuit Background Thumbnail */}
@@ -238,7 +239,7 @@ export default function BlogsPage() {
           {/* --------------------------------------------------------- */}
           <aside className="lg:col-span-4 sticky top-24 space-y-6">
             <div className="rounded-3xl p-6 sm:p-8 bg-[#58120F] text-[#E9DFC9] shadow-2xl border border-[#E9DFC9]/15 space-y-6">
-              
+
               {/* Sidebar Header */}
               <div className="flex items-center gap-2.5 border-b border-[#E9DFC9]/15 pb-4">
                 <Filter size={18} className="text-[#C5A059]" />
@@ -259,11 +260,10 @@ export default function BlogsPage() {
                       <button
                         key={cat.id}
                         onClick={() => setActiveCategory(cat.id)}
-                        className={`w-full text-left px-3.5 py-2 rounded-xl text-xs font-cinzel tracking-wider transition-all cursor-pointer flex items-center justify-between ${
-                          isActive
+                        className={`w-full text-left px-3.5 py-2 rounded-xl text-xs font-cinzel tracking-wider transition-all cursor-pointer flex items-center justify-between ${isActive
                             ? "bg-[#E9DFC9] text-[#58120F] font-bold shadow-md scale-[1.02]"
                             : "hover:bg-black/20 text-[#E9DFC9]/80 hover:text-[#E9DFC9]"
-                        }`}
+                          }`}
                       >
                         <span>{cat.label}</span>
                         {isActive && <span className="text-xs">●</span>}

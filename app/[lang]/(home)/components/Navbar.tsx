@@ -14,8 +14,9 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
-import ThemeToggleButton from "./navbar/ThemeToggleButton";
-import LanguageDropdown from "./navbar/LanguageDropdown";
+import LanguageDropdown from "@/components/navbar/LanguageDropdown";
+import ThemeToggleButton from "@/components/navbar/ThemeToggleButton";
+
 
 export default function Navbar() {
   const router = useRouter();
@@ -31,9 +32,11 @@ export default function Navbar() {
   const isClickScrollingRef = useRef(false);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
+
   // Scroll spy synchronized with GSAP ScrollTrigger pinned panels
   useEffect(() => {
-    if (pathname !== "/") return;
+    if (!isHome) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -67,7 +70,7 @@ export default function Navbar() {
       triggers.forEach((t) => t.kill());
       if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
     };
-  }, [pathname]);
+  }, [pathname, isHome]);
 
   // Close language dropdown on outside click
   useEffect(() => {
@@ -81,11 +84,11 @@ export default function Navbar() {
   }, []);
 
   const navItems = [
-    { id: "hero", label: t.nav.home, icon: Home, href: "#hero", isRoute: false },
-    { id: "about", label: t.nav.about, icon: User, href: "#about", isRoute: false },
-    { id: "projects", label: t.nav.projects, icon: LayoutGrid, href: "#projects", isRoute: false },
-    { id: "contact", label: t.nav.contact, icon: Mail, href: "#contact", isRoute: false },
-    { id: "blog", label: t.nav.blog, icon: BookOpen, href: "/blogs", isRoute: true },
+    { id: "hero", label: t.nav.home, icon: Home, href: `/${lang}#hero`, isRoute: false },
+    { id: "about", label: t.nav.about, icon: User, href: `/${lang}#about`, isRoute: false },
+    { id: "projects", label: t.nav.projects, icon: LayoutGrid, href: `/${lang}#projects`, isRoute: false },
+    { id: "contact", label: t.nav.contact, icon: Mail, href: `/${lang}#contact`, isRoute: false },
+    { id: "blog", label: t.nav.blog, icon: BookOpen, href: `/${lang}/blogs`, isRoute: true },
   ];
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {
@@ -124,20 +127,20 @@ export default function Navbar() {
       return;
     }
 
-    if (pathname !== "/") {
+    if (!isHome) {
       e.preventDefault();
-      router.push("/" + item.href);
+      router.push(`/${lang}#${item.id}`);
       return;
     }
 
-    scrollToSection(e, item.id, item.href);
+    scrollToSection(e, item.id, `#${item.id}`);
   };
 
   const isItemActive = (item: (typeof navItems)[number]) => {
     if (item.isRoute) {
       return pathname === item.href || pathname?.startsWith(item.href + "/");
     }
-    return pathname === "/" && activeSection === item.id;
+    return isHome && activeSection === item.id;
   };
 
   return (

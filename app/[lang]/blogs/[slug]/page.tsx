@@ -3,20 +3,25 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, Sparkles, Tag, Code2, ArrowRight, Compass } from "lucide-react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/app/(home)/components/Navbar";
 import { getBlogPostBySlug, blogPosts } from "@/data/blogs";
 import circuitImg from "@/app/assets/blogs/circuit.jpg";
 
 interface BlogPostPageProps {
   params: Promise<{
+    lang: string;
     slug: string;
   }>;
 }
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    slug: post.slug,
-  }));
+  const locales = ["es", "en"];
+  return locales.flatMap((lang) =>
+    blogPosts.map((post) => ({
+      lang,
+      slug: post.slug,
+    }))
+  );
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
@@ -30,7 +35,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params;
+  const { lang, slug } = await params;
   const post = getBlogPostBySlug(slug);
 
   if (!post) {
@@ -49,11 +54,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Main Container */}
       <main className="max-w-4xl mx-auto px-4 sm:px-8 md:px-12 pt-28 sm:pt-36 pb-20 space-y-10 sm:space-y-12">
-        
+
         {/* Breadcrumb & Navigation Bar */}
         <div className="flex items-center justify-between gap-4 flex-wrap pb-4 border-b border-current/10">
           <Link
-            href="/blogs"
+            href={`/${lang}/blogs`}
             className="group inline-flex items-center gap-2 text-xs font-cinzel tracking-wider uppercase font-semibold text-text-primary/70 hover:text-text-primary transition-colors cursor-pointer"
           >
             <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform" />
@@ -165,7 +170,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-10 border-t border-current/10">
           {prevPost ? (
             <Link
-              href={`/blogs/${prevPost.slug}`}
+              href={`/${lang}/blogs/${prevPost.slug}`}
               className="group p-5 sm:p-6 rounded-2xl glass-card border border-current/10 hover:border-current/30 transition-all hover:-translate-y-1 flex flex-col justify-between space-y-3 cursor-pointer"
             >
               <span className="text-[10px] font-cinzel uppercase tracking-widest opacity-60 flex items-center gap-1">
@@ -182,7 +187,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {nextPost && (
             <Link
-              href={`/blogs/${nextPost.slug}`}
+              href={`/${lang}/blogs/${nextPost.slug}`}
               className="group p-5 sm:p-6 rounded-2xl glass-card border border-current/10 hover:border-current/30 transition-all hover:-translate-y-1 flex flex-col justify-between space-y-3 text-right cursor-pointer"
             >
               <span className="text-[10px] font-cinzel uppercase tracking-widest opacity-60 flex items-center justify-end gap-1">
