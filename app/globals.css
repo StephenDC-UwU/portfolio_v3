@@ -1,45 +1,5 @@
 @import "tailwindcss";
 
-/* --- Local Font-Face Fallback Definitions from /fonts --- */
-@font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('/fonts/CormorantGaramond.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('/fonts/CormorantGaramond-Italic.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Cinzel';
-  src: url('/fonts/Cinzel.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'EB Garamond';
-  src: url('/fonts/EBGaramond.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'EB Garamond';
-  src: url('/fonts/EBGaramond-Italic.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
 
 @theme {
   --color-accent: var(--accent);
@@ -49,10 +9,6 @@
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
-
-  --font-editorial: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
-  --font-cinzel: var(--font-cinzel), 'Cinzel', serif;
-  --font-eb-garamond: var(--font-eb-garamond), 'EB Garamond', serif;
 }
 
 :root {
