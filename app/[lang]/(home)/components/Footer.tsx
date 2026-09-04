@@ -1,11 +1,33 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { ArrowUp, Sparkles } from "lucide-react";
+import { useAnimationFade } from "../hooks/useAnimationFade";
 
 export default function Footer() {
   const { t } = useLanguage();
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const topHeaderRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const quoteRef = useRef<HTMLParagraphElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const bottomBarRef = useRef<HTMLDivElement>(null);
+
+  useAnimationFade({
+    sectionRef,
+    elements: [
+      topHeaderRef,
+      titleRef,
+      quoteRef,
+      buttonRef,
+      bottomBarRef,
+    ],
+    start: "top 60%",
+    staggerDelay: "-=0.45",
+    duration: 0.8,
+  });
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -14,10 +36,11 @@ export default function Footer() {
   return (
     <footer
       id="footer"
+      ref={sectionRef}
       className="relative w-full min-h-dvh flex flex-col justify-between py-12 sm:py-16 md:py-20 px-6 sm:px-12 md:px-16 transition-colors duration-500 overflow-hidden bg-bg-primary select-none"
     >
       {/* Top Header Row */}
-      <div className="max-w-7xl mx-auto w-full flex items-center justify-between border-b border-current/10 pb-6">
+      <div ref={topHeaderRef} className="max-w-7xl mx-auto w-full flex items-center justify-between border-b border-current/10 pb-6">
         <div className="flex items-center gap-2">
           <Sparkles size={16} className="opacity-70 animate-pulse" />
           <span className="font-cinzel text-xs sm:text-sm font-bold tracking-[0.3em] uppercase opacity-80">
@@ -31,17 +54,18 @@ export default function Footer() {
 
       {/* Middle Climax Editorial Typography */}
       <div className="max-w-7xl mx-auto w-full my-auto py-8 flex flex-col items-center text-center">
-        <h2 className="font-editorial text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tight leading-[0.95] opacity-90">
+        <h2 ref={titleRef} className="font-editorial text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tight leading-[0.95] opacity-90">
           Let’s Create <br />
           <span className="font-light italic">Something Epic.</span>
         </h2>
 
-        <p className="mt-6 font-editorial text-lg sm:text-2xl italic opacity-75 max-w-2xl">
+        <p ref={quoteRef} className="mt-6 font-editorial text-lg sm:text-2xl italic opacity-75 max-w-2xl">
           "{t.footer.quote}"
         </p>
 
         {/* Back to Top CTA */}
         <button
+          ref={buttonRef}
           onClick={scrollToTop}
           className="group mt-10 flex items-center gap-3 px-8 py-4 rounded-full border border-current/25 hover:border-current bg-current/5 hover:bg-current/10 transition-all duration-300 text-xs sm:text-sm font-cinzel tracking-widest uppercase cursor-pointer hover:scale-105 active:scale-95 shadow-xl"
         >
@@ -51,7 +75,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar: Copyright */}
-      <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-current/10 text-xs font-cinzel opacity-60 tracking-wider">
+      <div ref={bottomBarRef} className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-current/10 text-xs font-cinzel opacity-60 tracking-wider">
         <div>
           © {new Date().getFullYear()} — {t.footer.rights}
         </div>

@@ -31,16 +31,23 @@ const HomePage = () => {
                         end: "top top",
                         pin: true,
                         pinSpacing: false,
+                        onLeave: () => {
+                            // Hide completely once fully covered behind the next panel
+                            gsap.set(panel, { autoAlpha: 0 });
+                        },
+                        onEnterBack: () => {
+                            // Restore visibility when scrolling back up into it
+                            gsap.set(panel, { autoAlpha: 1 });
+                        },
                     });
 
-                    // Smoothly scale down, blur, and fade out the pinned panel while it is being covered
+                    // Smoothly scale down as a solid stacking card (preserving 100% opacity)
                     gsap.fromTo(
                         panel,
-                        { scale: 1, opacity: 1, filter: "blur(0px)" },
+                        { scale: 1, filter: "brightness(1)" },
                         {
-                            scale: 0.94,
-                            opacity: 0,
-                            filter: "blur(6px)",
+                            scale: 0.96,
+                            filter: "brightness(0.9)",
                             ease: "power1.inOut",
                             scrollTrigger: {
                                 trigger: panel,
