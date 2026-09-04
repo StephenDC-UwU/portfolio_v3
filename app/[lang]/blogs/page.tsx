@@ -4,12 +4,13 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Filter, Sparkles, ArrowRight, X, Calendar, Clock, BookOpen, Tag } from "lucide-react";
-import Navbar from "@/app/(home)/components/Navbar";
+
 import { useLanguage } from "@/context/LanguageContext";
 import { blogPosts, BlogPost } from "@/data/blogs";
 
 import heroBg from "@/app/assets/blogs/hero-flatlay.jpg";
 import circuitImg from "@/app/assets/blogs/circuit.jpg";
+import Navbar from "@/components/navbar/Navbar";
 
 const categories = [
   { id: "all", label: "Todos los Artículos" },
@@ -261,8 +262,8 @@ export default function BlogsPage() {
                         key={cat.id}
                         onClick={() => setActiveCategory(cat.id)}
                         className={`w-full text-left px-3.5 py-2 rounded-xl text-xs font-cinzel tracking-wider transition-all cursor-pointer flex items-center justify-between ${isActive
-                            ? "bg-[#E9DFC9] text-[#58120F] font-bold shadow-md scale-[1.02]"
-                            : "hover:bg-black/20 text-[#E9DFC9]/80 hover:text-[#E9DFC9]"
+                          ? "bg-[#E9DFC9] text-[#58120F] font-bold shadow-md scale-[1.02]"
+                          : "hover:bg-black/20 text-[#E9DFC9]/80 hover:text-[#E9DFC9]"
                           }`}
                       >
                         <span>{cat.label}</span>

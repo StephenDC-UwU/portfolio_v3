@@ -3,7 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, Sparkles, Tag, Code2, ArrowRight, Compass } from "lucide-react";
-import Navbar from "@/app/(home)/components/Navbar";
+
+import Navbar from "@/components/navbar/Navbar";
 import { getBlogPostBySlug, blogPosts } from "@/data/blogs";
 import circuitImg from "@/app/assets/blogs/circuit.jpg";
 
