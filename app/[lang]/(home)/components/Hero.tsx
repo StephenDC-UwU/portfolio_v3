@@ -8,6 +8,7 @@ import Image from "next/image";
 import sword from "@/app/assets/hero/sword.svg"
 import roseLeft from "@/app/assets/hero/roses-lefth.png"
 import spotBleed from "@/app/assets/hero/spot-bleed.svg"
+import AnimationTitleHero from "./hero/AnimationTitleHero";
 
 
 // Predefined petal positions for pure deterministic rendering
@@ -222,7 +223,7 @@ export default function Hero() {
 
         {/* Main Content */}
 
-        <div className="w-full max-w-6xl mx-auto px-5 xl:px-0 lg:pb-20">
+        <div className="w-full max-w-6xl mx-auto px-5 xl:px-0 lg:pb-20 ">
           {/* Top / Middle Content: Main Editorial Headline */}
           <div className="relative z-20">
             <div ref={headlineRef}>
@@ -231,7 +232,8 @@ export default function Hero() {
               <h1 className="hero-animate-text font-cinzel uppercase ">
                 {/* First Line: "ART" */}
                 <span className="text-4xl sm:text-6xl md:text-6xl lg:text-8xl font-black">
-                  <span>{t.hero.headlinePart1}</span>
+                  {/* <span>{t.hero.headlinePart1}</span> */}
+                  <AnimationTitleHero initWord={t.hero.headlinePart1} />
                   {/* Second Line: "IS" */}
                   <span className="font-normal text-2xl sm:text-5xl md:text-6xl lg:text-7xl ">
                     {' '}{t.hero.headlinePart2}
@@ -239,7 +241,7 @@ export default function Hero() {
                 </span>
 
                 {/* Second Line: "EVERYWHERE" */}
-                <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-normal">
+                <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-normal ">
                   {t.hero.headlinePart3}
                 </span>
               </h1>
@@ -273,7 +275,12 @@ export default function Hero() {
         </div>
 
         {/* Roses Image (fixed to bottom right corner, overlapping sword) */}
-        <div className={`absolute bottom-[-10dvh] lg:left-1/2 lg:-translate-x-1/2 pointer-events-none z-10 flex flex-row ${isDark ? "opacity-0" : "opacity-100"}`}>
+        <div
+          className={`absolute bottom-[-10dvh] lg:left-1/2 lg:-translate-x-1/2 pointer-events-none z-10 flex flex-row transition-all duration-700 ${isDark
+              ? "!opacity-0 invisible pointer-events-none"
+              : "opacity-100 slide-in-blurred-bottom"
+            }`}
+        >
           <Image
             src={roseLeft}
             alt="Roses"

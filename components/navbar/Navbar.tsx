@@ -144,7 +144,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed bottom-4 md:top-6 md:bottom-auto left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+    <header className="fixed bottom-4 md:top-6 md:bottom-auto left-0 right-0 z-50 flex justify-center px-4 pointer-events-none slide-in-blurred-top">
       <nav
         ref={navRef}
         className="pointer-events-auto flex items-center justify-between gap-2 sm:gap-6 px-3 sm:px-6 py-2 sm:py-2.5 rounded-2xl sm:rounded-full glass-nav transition-all duration-300 shadow-xl"

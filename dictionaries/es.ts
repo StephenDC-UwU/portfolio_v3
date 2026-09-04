@@ -7,7 +7,7 @@ export const ES = {
       blog: "Blog",
     },
     hero: {
-      headlinePart1: "ART",
+      headlinePart1: "ARTE",
       headlinePart2: "IS",
       headlinePart3: "EVERYWHERE",
       subtitle: "Dirección de arte, desarrollo creativo y experiencias digitales inmersivas.",
