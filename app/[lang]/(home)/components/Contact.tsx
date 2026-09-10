@@ -132,9 +132,8 @@ export default function Contact() {
                         type="text"
                         {...register("name")}
                         placeholder={t.contact.namePlaceholder}
-                        className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${
-                          errors.name ? "border-accent ring-1 ring-accent/30" : "border-current/15"
-                        } focus:border-current focus:outline-none transition-colors text-sm`}
+                        className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${errors.name ? "border-accent ring-1 ring-accent/30" : "border-current/15"
+                          } focus:border-current focus:outline-none transition-colors text-sm`}
                       />
                       {errors.name && (
                         <p className="text-[11px] font-cinzel text-accent tracking-wide pt-0.5 animate-in fade-in">
@@ -152,9 +151,8 @@ export default function Contact() {
                         type="email"
                         {...register("email")}
                         placeholder={t.contact.emailPlaceholder}
-                        className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${
-                          errors.email ? "border-accent ring-1 ring-accent/30" : "border-current/15"
-                        } focus:border-current focus:outline-none transition-colors text-sm`}
+                        className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${errors.email ? "border-accent ring-1 ring-accent/30" : "border-current/15"
+                          } focus:border-current focus:outline-none transition-colors text-sm`}
                       />
                       {errors.email && (
                         <p className="text-[11px] font-cinzel text-accent tracking-wide pt-0.5 animate-in fade-in">
@@ -173,9 +171,8 @@ export default function Contact() {
                       rows={3}
                       {...register("message")}
                       placeholder={t.contact.messagePlaceholder}
-                      className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${
-                        errors.message ? "border-accent ring-1 ring-accent/30" : "border-current/15"
-                      } focus:border-current focus:outline-none transition-colors text-sm resize-none`}
+                      className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${errors.message ? "border-accent ring-1 ring-accent/30" : "border-current/15"
+                        } focus:border-current focus:outline-none transition-colors text-sm resize-none`}
                     />
                     {errors.message && (
                       <p className="text-[11px] font-cinzel text-accent tracking-wide pt-0.5 animate-in fade-in">

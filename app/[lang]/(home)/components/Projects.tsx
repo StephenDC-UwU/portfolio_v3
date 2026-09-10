@@ -68,11 +68,10 @@ export default function Projects() {
                   <button
                     key={tab.id}
                     onClick={() => setFilter(tab.id)}
-                    className={`px-4 py-2 rounded-full text-xs font-cinzel tracking-wider uppercase transition-all duration-200 cursor-pointer ${
-                      filter === tab.id
+                    className={`px-4 py-2 rounded-full text-xs font-cinzel tracking-wider uppercase transition-all duration-200 cursor-pointer ${filter === tab.id
                         ? "bg-current text-white dark:text-black font-semibold shadow-md scale-105"
                         : "border border-current/20 hover:border-current/60 opacity-75 hover:opacity-100"
-                    }`}
+                      }`}
                     style={{
                       backgroundColor: filter === tab.id ? "var(--text-primary)" : "transparent",
                       color: filter === tab.id ? "var(--bg-primary)" : "var(--text-primary)",
@@ -97,7 +96,7 @@ export default function Projects() {
                     style={{ background: imageBackgrounds[project.id] || imageBackgrounds["1"] }}
                   >
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
-                    
+
                     {/* Floating badge */}
                     <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md text-white text-[11px] font-cinzel tracking-wider uppercase border border-white/10">
                       <Sparkles size={12} />
