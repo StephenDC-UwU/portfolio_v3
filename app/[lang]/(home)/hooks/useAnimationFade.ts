@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, RefObject } from "react";
+import { useEffect, useRef, RefObject } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -51,6 +51,16 @@ export function useAnimationFade({
   yOffset = 35,
   ease = "power3.out",
 }: UseAnimationFadeOptions) {
+  // Use refs to avoid recreating the GSAP timeline on every re-render when inline arrays are passed
+  const elementsRef = useRef(elements);
+  elementsRef.current = elements;
+
+  const headerRefRef = useRef(headerRef);
+  headerRefRef.current = headerRef;
+
+  const contentRefRef = useRef(contentRef);
+  contentRefRef.current = contentRef;
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -67,11 +77,13 @@ export function useAnimationFade({
         },
       });
 
+      const currentElements = elementsRef.current;
+
       // Build the ordered cascade steps
       let cascadeSteps: (HTMLElement | HTMLElement[])[] = [];
 
-      if (elements && elements.length > 0) {
-        cascadeSteps = elements
+      if (currentElements && currentElements.length > 0) {
+        cascadeSteps = currentElements
           .map((item) => {
             if (Array.isArray(item)) {
               return item
@@ -86,11 +98,11 @@ export function useAnimationFade({
           });
       } else {
         // Fallback for headerRef + contentRef
-        if (headerRef?.current) {
-          cascadeSteps.push(headerRef.current);
+        if (headerRefRef.current?.current) {
+          cascadeSteps.push(headerRefRef.current.current);
         }
-        if (contentRef) {
-          const raw = Array.isArray(contentRef) ? contentRef : [contentRef];
+        if (contentRefRef.current) {
+          const raw = Array.isArray(contentRefRef.current) ? contentRefRef.current : [contentRefRef.current];
           const elList = raw
             .map((r) => r.current)
             .filter(Boolean) as HTMLElement[];
@@ -115,9 +127,6 @@ export function useAnimationFade({
     return () => ctx.revert();
   }, [
     sectionRef,
-    elements,
-    headerRef,
-    contentRef,
     start,
     toggleActions,
     duration,

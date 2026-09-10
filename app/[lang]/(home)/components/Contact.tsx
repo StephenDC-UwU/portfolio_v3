@@ -1,48 +1,90 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { Send, Mail, MapPin, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { Send, CheckCircle2, ArrowUpRight, Loader2 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/Icons";
 import { useAnimationFade } from "../hooks/useAnimationFade";
+import { useContactForm } from "../hooks/useContactForm";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 export default function Contact() {
-  const { t } = useLanguage();
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSent, setIsSent] = useState(false);
+  const { t, lang } = useLanguage();
+  const { sendMessage, isSubmitting, isSent } = useContactForm();
+
+  // Esquema de validación con Zod adaptado al idioma
+  const contactSchema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(2, {
+          message:
+            lang === "en"
+              ? "Name must be at least 2 characters"
+              : "El nombre debe tener al menos 2 caracteres",
+        }),
+        email: z.string().email({
+          message:
+            lang === "en"
+              ? "Please enter a valid email address"
+              : "Por favor ingresa un correo válido",
+        }),
+        message: z.string().min(5, {
+          message:
+            lang === "en"
+              ? "Message must be at least 5 characters"
+              : "El mensaje debe tener al menos 5 caracteres",
+        }),
+      }),
+    [lang]
+  );
+
+  type ContactFormValues = z.infer<typeof contactSchema>;
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
 
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const formColRef = useRef<HTMLDivElement>(null);
   const infoColRef = useRef<HTMLDivElement>(null);
 
+  const animationElements = useMemo(
+    () => [headerRef, [formColRef, infoColRef]],
+    []
+  );
+
   useAnimationFade({
     sectionRef,
-    elements: [
-      headerRef,
-      [formColRef, infoColRef],
-    ],
+    elements: animationElements,
     start: "top 60%",
     staggerDelay: "-=0.2",
     duration: 0.85,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSent(true);
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setIsSent(false), 5000);
-    }, 1000);
+  const onSubmit = async (data: ContactFormValues) => {
+    const result = await sendMessage(data);
+    if (result.success) {
+      reset();
+    }
   };
 
   const socialLinks = [
-    { name: "GitHub", handle: "@creative-dev", icon: GithubIcon, href: "https://github.com" },
-    { name: "LinkedIn", handle: "/in/creativedev", icon: LinkedinIcon, href: "https://linkedin.com" },
-    { name: "X / Twitter", handle: "@artis_everywhere", icon: TwitterIcon, href: "https://twitter.com" },
+    { name: "GitHub", handle: "@StephenDC-UwU", icon: GithubIcon, href: "https://github.com/StephenDC-UwU" },
+    { name: "LinkedIn", handle: "/in/Sixto Uriarte", icon: LinkedinIcon, href: "https://www.linkedin.com/in/sixto-steven-uriarte-moreira-99681b244/" },
+    // { name: "X / Twitter", handle: "@artis_everywhere", icon: TwitterIcon, href: "https://twitter.com/x/" },
   ];
 
   return (
@@ -77,8 +119,8 @@ export default function Contact() {
               {/* Left Column: Interactive Contact Form */}
               <div ref={formColRef} className="lg:col-span-7">
                 <form
-                  onSubmit={handleSubmit}
-                  className="p-6 sm:p-8 rounded-3xl glass-card space-y-5 shadow-xl"
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="p-6 sm:p-8  glass-card space-y-5 shadow-xl"
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {/* Name Field */}
@@ -88,12 +130,17 @@ export default function Contact() {
                       </label>
                       <input
                         type="text"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        {...register("name")}
                         placeholder={t.contact.namePlaceholder}
-                        className="w-full px-4 py-2.5 rounded-xl bg-current/5 border border-current/15 focus:border-current focus:outline-none transition-colors text-sm"
+                        className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${
+                          errors.name ? "border-accent ring-1 ring-accent/30" : "border-current/15"
+                        } focus:border-current focus:outline-none transition-colors text-sm`}
                       />
+                      {errors.name && (
+                        <p className="text-[11px] font-cinzel text-accent tracking-wide pt-0.5 animate-in fade-in">
+                          {errors.name.message}
+                        </p>
+                      )}
                     </div>
 
                     {/* Email Field */}
@@ -103,12 +150,17 @@ export default function Contact() {
                       </label>
                       <input
                         type="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        {...register("email")}
                         placeholder={t.contact.emailPlaceholder}
-                        className="w-full px-4 py-2.5 rounded-xl bg-current/5 border border-current/15 focus:border-current focus:outline-none transition-colors text-sm"
+                        className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${
+                          errors.email ? "border-accent ring-1 ring-accent/30" : "border-current/15"
+                        } focus:border-current focus:outline-none transition-colors text-sm`}
                       />
+                      {errors.email && (
+                        <p className="text-[11px] font-cinzel text-accent tracking-wide pt-0.5 animate-in fade-in">
+                          {errors.email.message}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -119,12 +171,17 @@ export default function Contact() {
                     </label>
                     <textarea
                       rows={3}
-                      required
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      {...register("message")}
                       placeholder={t.contact.messagePlaceholder}
-                      className="w-full px-4 py-2.5 rounded-xl bg-current/5 border border-current/15 focus:border-current focus:outline-none transition-colors text-sm resize-none"
+                      className={`w-full px-4 py-2.5 rounded-xl bg-current/5 border ${
+                        errors.message ? "border-accent ring-1 ring-accent/30" : "border-current/15"
+                      } focus:border-current focus:outline-none transition-colors text-sm resize-none`}
                     />
+                    {errors.message && (
+                      <p className="text-[11px] font-cinzel text-accent tracking-wide pt-0.5 animate-in fade-in">
+                        {errors.message.message}
+                      </p>
+                    )}
                   </div>
 
                   {/* Submit Button */}
@@ -138,7 +195,10 @@ export default function Contact() {
                     }}
                   >
                     {isSubmitting ? (
-                      <span>{t.contact.sending}</span>
+                      <>
+                        <Loader2 size={15} className="animate-spin" />
+                        <span>{t.contact.sending}</span>
+                      </>
                     ) : isSent ? (
                       <>
                         <CheckCircle2 size={16} />
@@ -158,7 +218,7 @@ export default function Contact() {
               <div ref={infoColRef} className="lg:col-span-5 space-y-5 flex flex-col justify-between">
 
                 {/* Social Channels Card */}
-                <div className="p-5 sm:p-7 rounded-3xl glass-card space-y-3.5 shadow-xl">
+                <div className="p-5 sm:p-7 glass-card space-y-3.5 shadow-xl">
                   <h3 className="font-cinzel text-base sm:text-lg font-semibold tracking-wider">
                     {t.contact.socialsTitle}
                   </h3>
@@ -178,7 +238,7 @@ export default function Contact() {
                             <Icon size={16} className="opacity-70 group-hover:opacity-100" />
                             <span className="text-xs sm:text-sm font-medium">{social.name}</span>
                           </div>
-                          <div className="flex items-center gap-1 opacity-60 group-hover:opacity-100 text-xs">
+                          <div className="flex items-center gap-1 opacity-60 group-hover:opacity-100 text-sm">
                             <span>{social.handle}</span>
                             <ArrowUpRight size={13} />
                           </div>

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { Toaster } from "@/components/ui/sonner";
 
 const cormorant = localFont({
   src: [
@@ -72,6 +73,7 @@ export default async function RootLayout({
       <body>
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
+          <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
     </html>
