@@ -114,9 +114,9 @@ export const EN = {
   },
   notFound: {
     code: "404",
-    tagline: "SENDERO INEXISTENTE",
-    title: "Extraviado en el Vacío",
-    description: "La página o manuscrito que buscas se ha desvanecido o nunca existió en este plano digital.",
-    backHome: "Regresar al Santuario",
+    tagline: "PATHWAY UNFOUND",
+    title: "Lost in the Void",
+    description: "The page or manuscript you seek has faded away or never existed in this digital realm.",
+    backHome: "Return to Sanctuary",
   },
 };

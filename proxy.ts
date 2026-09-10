@@ -8,7 +8,7 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
 
   if (pathnameHasLocale) {
@@ -29,11 +29,13 @@ export function proxy(request: NextRequest) {
   }
 
   // Redirect to localized URL preserving query string
-  const cleanPath = pathname === "/" ? "" : (pathname.startsWith("/") ? pathname : `/${pathname}`);
-  const redirectUrl = new URL(
-    `/${targetLocale}${cleanPath}`,
-    request.url
-  );
+  const cleanPath =
+    pathname === "/"
+      ? ""
+      : pathname.startsWith("/")
+        ? pathname
+        : `/${pathname}`;
+  const redirectUrl = new URL(`/${targetLocale}${cleanPath}`, request.url);
   redirectUrl.search = request.nextUrl.search;
 
   return NextResponse.redirect(redirectUrl);

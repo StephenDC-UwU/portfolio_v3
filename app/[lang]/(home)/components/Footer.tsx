@@ -42,7 +42,6 @@ export default function Footer() {
       {/* Top Header Row */}
       <div ref={topHeaderRef} className="max-w-7xl mx-auto w-full flex items-center justify-between border-b border-current/10 pb-6">
         <div className="flex items-center gap-2">
-          <Sparkles size={16} className="opacity-70 animate-pulse" />
           <span className="font-cinzel text-xs sm:text-sm font-bold tracking-[0.3em] uppercase opacity-80">
             Art Is Everywhere
           </span>

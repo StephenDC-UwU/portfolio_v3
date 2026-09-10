@@ -55,6 +55,7 @@ export default function Contact() {
         <div className="section-inner w-full min-h-dvh flex flex-col justify-center py-16 sm:py-24 px-4 sm:px-8 md:px-14 relative">
           <div className="max-w-7xl mx-auto w-full">
             {/* Section Header */}
+
             <div ref={headerRef} className="mb-8 sm:mb-12">
               <div className="flex items-center gap-3 mb-2 sm:mb-3">
                 <span className="w-8 h-[1px] bg-current opacity-40" />
@@ -69,6 +70,7 @@ export default function Contact() {
                 {t.contact.subtitle}
               </p>
             </div>
+
 
             {/* 2-Column Contact Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
@@ -154,39 +156,6 @@ export default function Contact() {
 
               {/* Right Column: Direct Info & Social Cards */}
               <div ref={infoColRef} className="lg:col-span-5 space-y-5 flex flex-col justify-between">
-                {/* Quick Contact Card */}
-                <div className="p-5 sm:p-7 rounded-3xl glass-card space-y-5 shadow-xl">
-                  <h3 className="font-cinzel text-base sm:text-lg font-semibold tracking-wider">
-                    Direct Channels
-                  </h3>
-
-                  <div className="space-y-3 text-sm font-sans-clean">
-                    <a
-                      href="mailto:contact@artiseverywhere.dev"
-                      className="flex items-center gap-3 p-2.5 rounded-xl bg-current/5 border border-current/10 hover:bg-current/10 transition-colors group"
-                    >
-                      <div className="p-2 rounded-lg bg-current/10">
-                        <Mail size={16} />
-                      </div>
-                      <div>
-                        <span className="text-[10px] opacity-60 font-cinzel block">Email</span>
-                        <span className="text-xs sm:text-sm font-medium group-hover:underline">
-                          contact@artiseverywhere.dev
-                        </span>
-                      </div>
-                    </a>
-
-                    <div className="flex items-center gap-3 p-2.5 rounded-xl bg-current/5 border border-current/10">
-                      <div className="p-2 rounded-lg bg-current/10">
-                        <MapPin size={16} />
-                      </div>
-                      <div>
-                        <span className="text-[10px] opacity-60 font-cinzel block">Location</span>
-                        <span className="text-xs sm:text-sm font-medium">Madrid, Spain / Worldwide Remote</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
                 {/* Social Channels Card */}
                 <div className="p-5 sm:p-7 rounded-3xl glass-card space-y-3.5 shadow-xl">
