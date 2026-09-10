@@ -11,7 +11,7 @@ import { usePinnedSectionsOverscroll } from "./hooks/usePinnedSectionsOverscroll
 
 const HomePage = () => {
     const mainRef = useRef<HTMLElement>(null);
-    usePinnedSectionsOverscroll(mainRef);
+    usePinnedSectionsOverscroll(mainRef as React.RefObject<HTMLElement>);
 
 
     return (

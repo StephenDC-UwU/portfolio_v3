@@ -1,6 +1,8 @@
+"use client";
+
 import { useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 export const usePinnedSectionsOverscroll = (
   mainRef: React.RefObject<HTMLElement>,
@@ -11,7 +13,7 @@ export const usePinnedSectionsOverscroll = (
     const ctx = gsap.context(() => {
       const panels = gsap.utils.toArray<HTMLElement>(".panel-section");
 
-      panels.forEach((panel, i) => {
+      panels.forEach((panel: any, i: any) => {
         // Pin current panel when the next panel slides up to cover it
         if (i < panels.length - 1) {
           const nextPanel = panels[i + 1];
