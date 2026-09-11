@@ -44,6 +44,6 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip static assets, Next.js internals, and files with extensions
-    "/((?!api|_next/static|_next/image|assets|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ttf|woff|woff2|ico)$).*)",
+    "/((?!api|_next/static|_next/image|assets|videos|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ttf|woff|woff2|ico|mp4|webm|ogg|mp3|wav|mov|m4v)$).*)",
   ],
 };

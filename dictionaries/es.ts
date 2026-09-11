@@ -12,7 +12,8 @@ export const ES = {
     headlinePart1: "ARTE",
     headlinePart2: "IS",
     headlinePart3: "EVERYWHERE",
-    subtitle: "Dirección de arte, desarrollo creativo y experiencias digitales inmersivas.",
+    subtitle:
+      "Dirección de arte, desarrollo creativo y experiencias digitales inmersivas.",
     ctaExplore: "Explorar Obras",
     ctaContact: "Contactar",
     scrollDown: "Desplaza para descubrir",
@@ -25,7 +26,8 @@ export const ES = {
     title: "Forjando código y narrativa visual",
     p1: "Para mí, programar es un arte donde la tecnología se funde con la creatividad. Me especializo en dar vida a interfaces fluidas y arquitecturas robustas con TypeScript y React como motor principal.",
     p2: "Ya sea diseñando aplicaciones móviles, paneles interactivos o APIs escalables con Node.js y bases de datos modernas, miro siempre más allá del código para construir experiencias memorables.",
-    quote: "“El arte y la programacion se complementan para generar algo magico”",
+    quote:
+      "“El arte y la programacion se complementan para generar algo magico”",
     skillsTitle: "Habilidades",
     experienceTitle: "Trayectoria",
     yearsExp: "Años de Experiencia",
@@ -33,10 +35,14 @@ export const ES = {
     satisfaction: "Satisfacción Creativa",
     skills: [
       { name: "React, Next.js & TypeScript", icon: Code2, level: "Frontend" },
-      { name: "Node.js, Express & REST APIs", icon: Terminal, level: "Backend" },
+      {
+        name: "Node.js, Express & REST APIs",
+        icon: Terminal,
+        level: "Backend",
+      },
       { name: "MongoDB & SQL Databases", icon: Database, level: "Database" },
       { name: "Tailwind CSS & UI Design", icon: Palette, level: "Styling" },
-    ]
+    ],
   },
   projects: {
     tagline: "SELECCIÓN DE OBRAS",
@@ -50,50 +56,55 @@ export const ES = {
     items: [
       {
         id: "1",
-        title: "Chrono & Blade — Experiencia 3D Inmersiva",
-        category: "creative",
-        categoryLabel: "Creative Dev",
+        videoPath: "/videos/ecommerce-diversal.mp4",
+        title: "Diversal — Plataforma E-Commerce Full Stack",
+        category: "apps",
+        categoryLabel: "Web Apps",
         year: "2026",
         description:
-          "Experiencia web interactiva con física de partículas, shaders personalizados en WebGL y transiciones cinemáticas fluidas con GSAP ScrollTrigger.",
-        tags: ["GSAP", "Three.js", "Next.js", "WebGL"],
+          "Plataforma de comercio electrónico de alto rendimiento desarrollada con Next.js, backend headless con Strapi, base de datos PostgreSQL y gestión multimedia con Cloudflare.",
+        tags: ["Next.js", "Strapi", "PostgreSQL", "Cloudflare"],
       },
       {
         id: "2",
-        title: "Atelier Vanguard — Plataforma Editorial de Lujo",
+        videoPath: "/videos/iaschedule.mp4",
+        title: "IA Schedule — Dashboard de Gestión con LLM",
         category: "apps",
         categoryLabel: "Web Apps",
-        year: "2025",
+        year: "2026",
         description:
-          "Plataforma de comercio editorial de alta gama para colecciones de diseño, integrando animaciones de micro-interacción y rendimiento optimizado.",
-        tags: ["React 19", "Tailwind CSS", "TypeScript", "GSAP"],
+          "Dashboard inteligente para la gestión de empleados con asistente LLM integrado, permitiendo interactuar y modificar planificaciones mediante lenguaje natural usando Next.js, Express y MongoDB.",
+        tags: ["Next.js", "Express", "MongoDB", "LLM / AI"],
       },
       {
         id: "3",
-        title: "Gothic Typo Lab — Motor Tipográfico Cinético",
+        videoPath: "/videos/redesign-laquarium-barcelona.mp4",
+        title: "L'Aquàrium Barcelona — Rediseño & Arquitectura Monolítica",
+        category: "creative",
+        categoryLabel: "Creative Dev",
+        year: "2025",
+        description:
+          "Rediseño interactivo construido bajo una arquitectura monolítica con Next.js y Server Actions, combinando animaciones fluidas en GSAP, Tailwind CSS y un backend unificado.",
+        tags: ["Next.js", "GSAP", "Tailwind CSS", "Server Actions"],
+      },
+      {
+        id: "4",
+        videoPath: "/videos/landing-homes.mp4",
+        title: "Homes — Landing Page de Arquitectura & Real Estate",
         category: "design",
         categoryLabel: "UI / Art",
         year: "2025",
         description:
-          "Herramienta interactiva para experimentar con deformación tipográfica procedural y renderizado vectorial de alta precisión.",
-        tags: ["SVG Manipulation", "Canvas API", "GSAP Timeline"],
-      },
-      {
-        id: "4",
-        title: "Aura Audio Visualizer — Paisaje Sonoro Sinestésico",
-        category: "creative",
-        categoryLabel: "Creative Dev",
-        year: "2024",
-        description:
-          "Visualizador de audio reactivo que traduce frecuencias sonoras en composiciones visuales orgánicas y mutables.",
-        tags: ["Web Audio API", "GSAP", "Canvas"],
+          "Landing page inmobiliaria moderna y ultraligera desarrollada con Astro y Vanilla Web (HTML5, CSS3 y JS nativo), enfocada en máximo rendimiento, SEO y estética cuidada.",
+        tags: ["Astro", "Vanilla JS", "CSS3", "UI / UX"],
       },
     ],
   },
   contact: {
     tagline: "INICIAR UN DIÁLOGO",
     title: "Hagamos algo memorable",
-    subtitle: "¿Tienes una visión audaz en mente o buscas elevar tu presencia digital? Escríbeme y demos vida al proyecto.",
+    subtitle:
+      "¿Tienes una visión audaz en mente o buscas elevar tu presencia digital? Escríbeme y demos vida al proyecto.",
     nameLabel: "Nombre Completo",
     namePlaceholder: "Ej. Alejandro Rossi",
     emailLabel: "Correo Electrónico",
@@ -114,7 +125,8 @@ export const ES = {
     code: "404",
     tagline: "SENDERO INEXISTENTE",
     title: "Extraviado en el Vacío",
-    description: "La página o manuscrito que buscas se ha desvanecido o nunca existió en este plano digital.",
+    description:
+      "La página o manuscrito que buscas se ha desvanecido o nunca existió en este plano digital.",
     backHome: "Regresar al Santuario",
   },
 };
