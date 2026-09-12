@@ -93,17 +93,22 @@ export default function Navbar() {
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {
     e.preventDefault();
+    if (activeSection === id) return;
+
+    // 1. Immediately highlight the clicked tab
     setActiveSection(id);
     isClickScrollingRef.current = true;
-
     if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
 
     const target = document.querySelector(href);
-    if (!target) return;
+    if (!target) {
+      isClickScrollingRef.current = false;
+      return;
+    }
 
-    const panel = target.closest(".panel-section") || target;
+    const panel = (target.closest(".panel-section") || target) as HTMLElement;
     const allPanels = Array.from(document.querySelectorAll<HTMLElement>(".panel-section"));
-    const panelIndex = allPanels.indexOf(panel as HTMLElement);
+    const panelIndex = allPanels.indexOf(panel);
 
     let targetScroll = 0;
     if (panelIndex > 0) {
@@ -114,18 +119,40 @@ export default function Navbar() {
       targetScroll = 0;
     }
 
-    gsap.to(window, {
-      scrollTo: { y: targetScroll, autoKill: false },
-      duration: 0.45,
-      ease: "power2.out",
-      onComplete: () => {
-        isClickScrollingRef.current = false;
-      },
+    gsap.killTweensOf(window);
+    gsap.killTweensOf(panel);
+
+    // 2. Set panel visibility states so hidden panels don't flash
+    allPanels.forEach((p, idx) => {
+      if (idx < panelIndex) {
+        gsap.set(p, { autoAlpha: 0 });
+      } else {
+        gsap.set(p, { autoAlpha: 1, scale: 1, filter: "brightness(1)" });
+      }
     });
 
-    clickTimeoutRef.current = setTimeout(() => {
-      isClickScrollingRef.current = false;
-    }, 500);
+    // 3. Jump scroll directly to the exact target position (bypassing intermediate animations)
+    window.scrollTo(0, targetScroll);
+    ScrollTrigger.update();
+
+    // 4. Smoothly animate ONLY the target section into view
+    gsap.fromTo(
+      panel,
+      { opacity: 0.3, y: 15 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.3,
+        ease: "power2.out",
+        onComplete: () => {
+          setActiveSection(id);
+          if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
+          clickTimeoutRef.current = setTimeout(() => {
+            isClickScrollingRef.current = false;
+          }, 100);
+        },
+      }
+    );
   };
 
   const handleNavClick = (
