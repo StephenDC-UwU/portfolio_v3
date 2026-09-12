@@ -1,11 +1,18 @@
-import { Code2, Database, Palette, Terminal } from "lucide-react";
+import {
+  Code2,
+  Database,
+  GitBranch,
+  Palette,
+  Sparkles,
+  Terminal,
+} from "lucide-react";
+import { getProjectsByLang } from "@/data/projects";
 
 export const ES = {
   seo: {
     title: "The Filimisco - Portfolio",
     description: "Portfolio of Sixto Steven Uriarte Moreira",
   },
-
   nav: {
     home: "Inicio",
     about: "Sobre Mí",
@@ -45,8 +52,22 @@ export const ES = {
         icon: Terminal,
         level: "Backend",
       },
-      { name: "MongoDB & SQL Databases", icon: Database, level: "Database" },
-      { name: "Tailwind CSS & UI Design", icon: Palette, level: "Styling" },
+      {
+        name: "MongoDB & SQL Databases",
+        icon: Database,
+        level: "Base de Datos",
+      },
+      { name: "Tailwind CSS & UI Design", icon: Palette, level: "Diseño & UI" },
+      {
+        name: "State (Redux / Zustand)",
+        icon: Sparkles,
+        level: "Estado",
+      },
+      {
+        name: "Docker, Git & Testing",
+        icon: GitBranch,
+        level: "DevOps & Tools",
+      },
     ],
   },
   projects: {
@@ -58,65 +79,16 @@ export const ES = {
     filterDesign: "UI / Art",
     viewProject: "Ver Proyecto",
     sourceCode: "Código",
-    items: [
-      {
-        id: "1",
-        videoPath: "/videos/ecommerce-diversal.mp4",
-        title: "Diversal — Plataforma E-Commerce Full Stack",
-        githubFrontend:
-          "https://github.com/StephenDC-UwU/frontend-ecommerce_diversal",
-        githubBackend:
-          "https://github.com/StephenDC-UwU/backend-ecommerce_diversal",
-        demoUrl: "https://frontend-ecommerce-diversal.vercel.app/",
-        category: "apps",
-        categoryLabel: "Web Apps",
-        year: "2026",
-        description:
-          "Plataforma de comercio electrónico de alto rendimiento desarrollada con Next.js, backend headless con Strapi, base de datos PostgreSQL y gestión multimedia con Cloudflare.",
-        tags: ["Next.js", "Strapi", "PostgreSQL", "Cloudflare"],
-      },
-      {
-        id: "2",
-        videoPath: "/videos/iaschedule.mp4",
-        title: "IA Schedule — Dashboard de Gestión con LLM",
-        githubFrontend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
-        githubBackend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
-        demoUrl: "https://frontend-ia-schedule-v2.vercel.app/",
-        category: "apps",
-        categoryLabel: "Web Apps",
-        year: "2026",
-        description:
-          "Dashboard inteligente para la gestión de empleados con asistente LLM integrado, permitiendo interactuar y modificar planificaciones mediante lenguaje natural usando Next.js, Express y MongoDB.",
-        tags: ["Next.js", "Express", "MongoDB", "LLM / AI"],
-      },
-      {
-        id: "3",
-        videoPath: "/videos/redesign-laquarium-barcelona.mp4",
-        title: "L'Aquàrium Barcelona — Rediseño & Arquitectura Monolítica",
-        githubFrontend:
-          "https://github.com/StephenDC-UwU/redesign-laquarium-barcelona",
-        demoUrl: "https://redesign-laquarium-barcelona.vercel.app/",
-        category: "creative",
-        categoryLabel: "Creative Dev",
-        year: "2025",
-        description:
-          "Rediseño interactivo construido bajo una arquitectura monolítica con Next.js y Server Actions, combinando animaciones fluidas en GSAP, Tailwind CSS y un backend unificado.",
-        tags: ["Next.js", "GSAP", "Tailwind CSS", "Server Actions"],
-      },
-      {
-        id: "4",
-        videoPath: "/videos/landing-homes.mp4",
-        title: "Homes — Landing Page de Arquitectura & Real Estate",
-        githubFrontend: "https://github.com/StephenDC-UwU/landpage_new_homes",
-        demoUrl: "https://landpage-new-homes.vercel.app/",
-        category: "design",
-        categoryLabel: "UI / Art",
-        year: "2025",
-        description:
-          "Landing page inmobiliaria moderna y ultraligera desarrollada con Astro y Vanilla Web (HTML5, CSS3 y JS nativo), enfocada en máximo rendimiento, SEO y estética cuidada.",
-        tags: ["Astro", "Vanilla JS", "CSS3", "UI / UX"],
-      },
-    ],
+    previewLoading: "Cargando...",
+    previewActive: "Preview",
+    githubTooltipMulti: "Repositorios de GitHub (Frontend & Backend)",
+    githubTooltipSingle: "Repositorio de GitHub",
+    githubAriaMulti: "Repositorios de GitHub",
+    githubAriaSingle: "Repositorio de GitHub",
+    repositoriesHeader: "Repositorios",
+    frontendRepo: "Frontend",
+    backendRepo: "Backend",
+    items: getProjectsByLang("es"),
   },
   contact: {
     tagline: "INICIAR UN DIÁLOGO",
@@ -135,9 +107,14 @@ export const ES = {
     socialsTitle: "Redes & Enlaces",
   },
   footer: {
+    tagline: "El Arte Está en Todos Lados",
+    portfolioLabel: "Portafolio",
+    titlePart1: "Creemos Algo",
+    titlePart2: "Memorable.",
     quote: "“El arte no es lo que ves, sino lo que haces ver a otros.”",
     rights: "Todos los derechos reservados.",
     backToTop: "Volver Arriba",
+    devotion: "Diseñado con devoción y código creativo",
   },
   notFound: {
     code: "404",
@@ -171,5 +148,70 @@ export const ES = {
     manifestoTitle: "The Vibe Manifest",
     manifestoQuote:
       "“El código bien forjado es como la poesía: invisible para quien lo ejecuta, pero transformador para quien lo experimenta.”",
+  },
+  legal: {
+    bannerTagline: "PRIVACIDAD & PREFERENCIAS",
+    bannerTitle: "Uso de Almacenamiento & Cookies",
+    bannerDescription:
+      "Este santuario digital utiliza cookies esenciales y almacenamiento local exclusivamente para recordar tu preferencia de idioma y tema visual (claro/oscuro). No empleamos cookies de rastreo publicitario.",
+    acceptBtn: "Aceptar",
+    configureBtn: "Políticas & Detalles",
+    closeBtn: "Cerrar",
+
+    modalTitle: "Transparencia Legal & Privacidad",
+    modalSubtitle: "Conoce cómo protegemos tu experiencia y datos en este espacio.",
+    tabs: {
+      cookies: "Cookies",
+      privacy: "Privacidad",
+      legalNotice: "Aviso Legal",
+    },
+
+    cookiesSection: {
+      title: "Política de Cookies Técnicas",
+      p1: "Este sitio web utiliza cookies técnicas indispensables para garantizar el correcto funcionamiento y la personalización de tu navegación. No utilizamos cookies de terceros con fines publicitarios ni de seguimiento comercial.",
+      tableHeaderCookie: "Cookie / Clave",
+      tableHeaderPurpose: "Propósito",
+      tableHeaderDuration: "Duración",
+      items: [
+        {
+          name: "portfolio_lang",
+          purpose:
+            "Almacena tu preferencia de idioma (Español o Inglés) detectada desde tu navegador o seleccionada manualmente.",
+          duration: "1 año (Cookie)",
+        },
+        {
+          name: "portfolio_theme",
+          purpose:
+            "Guarda tu preferencia de estilo visual (Tema Crema o Crimson) para mantenerlo en futuras visitas.",
+          duration: "Persistente (LocalStorage)",
+        },
+        {
+          name: "portfolio_consent",
+          purpose:
+            "Registra la confirmación de lectura y aceptación de esta política de privacidad.",
+          duration: "1 año (LocalStorage)",
+        },
+      ],
+      footnote:
+        "Puedes limpiar o bloquear estas claves en cualquier momento desde las opciones de configuración de privacidad de tu navegador web.",
+    },
+
+    privacySection: {
+      title: "Política de Privacidad y Tratamiento de Datos",
+      p1: "La privacidad es un pilar fundamental en este portfolio. La información recopilada a través del formulario de contacto (nombre, correo electrónico y mensaje) se utiliza única y exclusivamente para responder a tus consultas profesionales.",
+      p2: "Bajo ninguna circunstancia tus datos serán vendidos, cedidos, transferidos ni compartidos con empresas externas o plataformas de marketing.",
+      rightsTitle: "Tus Derechos",
+      rightsText:
+        "Tienes derecho a solicitar la rectificación o eliminación total de cualquier mensaje o dato de contacto enviado escribiendo directamente a través de los canales de comunicación oficiales.",
+    },
+
+    legalSection: {
+      title: "Aviso Legal y Propiedad Intelectual",
+      p1: "El presente sitio web es un portfolio profesional y obra de desarrollo creativo perteneciente a Sixto Steven Uriarte Moreira (The Filimisco).",
+      p2: "Todos los diseños, código fuente, animaciones, logotipos, redacciones y recursos multimedia presentes en este sitio están protegidos por leyes de derechos de autor y propiedad intelectual.",
+      p3: "Las marcas y tecnologías mencionadas (React, Next.js, etc.) son propiedad de sus respectivos autores y se citan únicamente con fines ilustrativos y de atribución técnica.",
+    },
+
+    footerLink: "Aviso Legal & Privacidad",
   },
 };

@@ -43,19 +43,19 @@ export default function Footer() {
       <div ref={topHeaderRef} className="max-w-7xl mx-auto w-full flex items-center justify-between border-b border-current/10 pb-6">
         <div className="flex items-center gap-2">
           <span className="font-cinzel text-xs sm:text-sm font-bold tracking-[0.3em] uppercase opacity-80">
-            Art Is Everywhere
+            {t.footer.tagline}
           </span>
         </div>
         <span className="text-[10px] sm:text-xs font-cinzel tracking-widest uppercase opacity-60">
-          Portfolio // {new Date().getFullYear()}
+          {t.footer.portfolioLabel} // {new Date().getFullYear()}
         </span>
       </div>
 
       {/* Middle Climax Editorial Typography */}
       <div className="max-w-7xl mx-auto w-full my-auto py-8 flex flex-col items-center text-center">
         <h2 ref={titleRef} className="font-editorial text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tight leading-[0.95] opacity-90">
-          Let’s Create <br />
-          <span className="font-light italic">Something Epic.</span>
+          {t.footer.titlePart1} <br />
+          <span className="font-light italic">{t.footer.titlePart2}</span>
         </h2>
 
         <p ref={quoteRef} className="mt-6 font-editorial text-lg sm:text-2xl italic opacity-75 max-w-2xl">
@@ -79,7 +79,7 @@ export default function Footer() {
           © {new Date().getFullYear()} — {t.footer.rights}
         </div>
         <div>
-          Designed with devotion & creative code
+          {t.footer.devotion}
         </div>
       </div>
     </footer>

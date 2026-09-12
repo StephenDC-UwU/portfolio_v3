@@ -2,6 +2,7 @@ import { GithubIcon } from "@/components/Icons";
 import { useProjectCardAnimation } from "@/app/[lang]/(home)/hooks/useProjectCardAnimation";
 import { ArrowUpRight, Sparkles, Globe, Server } from "lucide-react";
 import { ProjectItem } from "@/types/ProjectItem";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ProjectCard({
     project,
@@ -10,10 +11,11 @@ export default function ProjectCard({
 }: {
     project: ProjectItem;
     bgStyle: string;
-    viewProjectText: string;
+    viewProjectText?: string;
 }) {
-
+    const { t } = useLanguage();
     const { isHovered, isVideoReady, videoRef, handleMouseEnter, handleMouseLeave, hasMultipleGithub, singleGithubUrl, isGithubMenuOpen, menuRef, handleToggleGithubMenu } = useProjectCardAnimation(project);
+    const resolvedViewText = viewProjectText || t.projects.viewProject;
 
 
     return (
@@ -80,13 +82,13 @@ export default function ProjectCard({
                 <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
                     {project.videoPath && isHovered && !isVideoReady && (
                         <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300/90 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-amber-400/20 animate-pulse">
-                            Cargando...
+                            {t.projects.previewLoading}
                         </span>
                     )}
                     {project.videoPath && isVideoReady && isHovered && (
                         <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-300/90 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-emerald-400/20 flex items-center gap-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                            Preview
+                            {t.projects.previewActive}
                         </span>
                     )}
                     <span className="text-white/80 text-xs font-cinzel px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
@@ -139,8 +141,8 @@ export default function ProjectCard({
                                         ? "border-amber-400/60 bg-current/15 text-amber-400 shadow-[0_0_12px_rgba(226,184,87,0.3)] scale-105"
                                         : "border-current/20 hover:border-current hover:bg-current/10"
                                         }`}
-                                    title="Repositorios de GitHub (Frontend & Backend)"
-                                    aria-label="Repositorios de GitHub"
+                                    title={t.projects.githubTooltipMulti}
+                                    aria-label={t.projects.githubAriaMulti}
                                     aria-expanded={isGithubMenuOpen}
                                 >
                                     <GithubIcon size={16} />
@@ -153,7 +155,7 @@ export default function ProjectCard({
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         <div className="px-2.5 py-1 text-[10px] font-mono tracking-widest uppercase opacity-60 border-b border-white/10 flex items-center justify-between">
-                                            <span className="text-white">Repositorios</span>
+                                            <span className="text-white">{t.projects.repositoriesHeader}</span>
                                             <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                                         </div>
 
@@ -167,7 +169,7 @@ export default function ProjectCard({
                                             >
                                                 <span className="flex items-center gap-2 font-medium">
                                                     <Globe size={13} className="text-amber-400 opacity-80 group-hover/item:opacity-100" />
-                                                    <span className="text-sm">Frontend Repo</span>
+                                                    <span className="text-sm">{t.projects.frontendRepo}</span>
                                                 </span>
                                                 <ArrowUpRight size={12} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />
                                             </a>
@@ -183,7 +185,7 @@ export default function ProjectCard({
                                             >
                                                 <span className="flex items-center gap-2 font-medium">
                                                     <Server size={13} className="text-amber-300 opacity-80 group-hover/item:opacity-100" />
-                                                    <span className="text-sm">Backend Repo</span>
+                                                    <span className="text-sm">{t.projects.backendRepo}</span>
                                                 </span>
                                                 <ArrowUpRight size={12} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />
                                             </a>
@@ -197,16 +199,16 @@ export default function ProjectCard({
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="p-2 rounded-full border border-current/20 hover:border-current hover:bg-current/10 transition-all cursor-pointer flex items-center justify-center text-current hover:scale-105"
-                                title="Repositorio de GitHub"
-                                aria-label="Repositorio de GitHub"
+                                title={t.projects.githubTooltipSingle}
+                                aria-label={t.projects.githubAriaSingle}
                             >
                                 <GithubIcon size={16} />
                             </a>
                         ) : (
                             <button
                                 className="p-2 rounded-full border border-current/20 hover:border-current hover:bg-current/10 transition-all cursor-pointer"
-                                title="Repositorio de GitHub"
-                                aria-label="Repositorio de GitHub"
+                                title={t.projects.githubTooltipSingle}
+                                aria-label={t.projects.githubAriaSingle}
                             >
                                 <GithubIcon size={16} />
                             </button>
@@ -224,7 +226,7 @@ export default function ProjectCard({
                                     color: "var(--bg-primary)",
                                 }}
                             >
-                                <span>{viewProjectText}</span>
+                                <span>{resolvedViewText}</span>
                                 <ArrowUpRight size={14} />
                             </a>
                         ) : (
@@ -235,7 +237,7 @@ export default function ProjectCard({
                                     color: "var(--bg-primary)",
                                 }}
                             >
-                                <span>{viewProjectText}</span>
+                                <span>{resolvedViewText}</span>
                                 <ArrowUpRight size={14} />
                             </button>
                         )}
