@@ -60,7 +60,7 @@ portfolio_v3/
 ├── app/
 │   ├── [lang]/              # Multilingual dynamic routes (/es, /en)
 │   │   ├── (home)/          # Main portfolio pages & sections
-│   │   ├── blogs/           # Blog listing and articles
+│   │   ├── blogs/ - (TO-DO)           # Blog listing and articles
 │   │   ├── layout.tsx       # Root layout with fonts, Analytics & Speed Insights
 │   │   └── page.tsx         # Language handler / root redirect
 │   ├── globals.css          # Global CSS tokens and theme variables
@@ -83,6 +83,7 @@ Follow these steps to set up and run the project locally:
 ### 1. Prerequisites
 
 Make sure you have installed:
+
 - [Node.js](https://nodejs.org/) (version 20 or higher recommended)
 - [pnpm](https://pnpm.io/) _(recommended)_, `npm`, or `yarn`
 
@@ -129,13 +130,13 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 
 In `package.json`, you can run the following commands:
 
-| Command | Description |
-| :--- | :--- |
-| `pnpm dev` | Starts the development server with Hot Module Replacement (HMR). |
-| `pnpm build` | Compiles and optimizes the application for production. |
-| `pnpm start` | Runs the compiled production server. |
-| `pnpm lint` | Runs ESLint to identify code quality issues. |
-| `pnpm tsc` | Runs the TypeScript compiler to verify type definitions. |
+| Command      | Description                                                      |
+| :----------- | :--------------------------------------------------------------- |
+| `pnpm dev`   | Starts the development server with Hot Module Replacement (HMR). |
+| `pnpm build` | Compiles and optimizes the application for production.           |
+| `pnpm start` | Runs the compiled production server.                             |
+| `pnpm lint`  | Runs ESLint to identify code quality issues.                     |
+| `pnpm tsc`   | Runs the TypeScript compiler to verify type definitions.         |
 
 ---
 
