@@ -1,6 +1,10 @@
 import { Code2, Database, Palette, Terminal } from "lucide-react";
 
 export const EN = {
+  seo: {
+    title: "The Filimisco - Portfolio",
+    description: "Portfolio of Sixto Steven Uriarte Moreira",
+  },
   nav: {
     home: "Home",
     about: "About",
@@ -12,7 +16,8 @@ export const EN = {
     headlinePart1: "ART",
     headlinePart2: "IS",
     headlinePart3: "EVERYWHERE",
-    subtitle: "Dirección de arte, desarrollo creativo y experiencias digitales inmersivas.",
+    subtitle:
+      "Dirección de arte, desarrollo creativo y experiencias digitales inmersivas.",
     ctaExplore: "Explorar Obras",
     ctaContact: "Contactar",
     scrollDown: "Desplaza para descubrir",
@@ -25,7 +30,8 @@ export const EN = {
     title: "Forjando código y narrativa visual",
     p1: "Para mí, programar es un arte donde la tecnología se funde con la creatividad. Me especializo en dar vida a interfaces fluidas y arquitecturas robustas con TypeScript y React como motor principal.",
     p2: "Ya sea diseñando aplicaciones móviles, paneles interactivos o APIs escalables con Node.js y bases de datos modernas, miro siempre más allá del código para construir experiencias memorables.",
-    quote: "“El arte y la programacion se complementan para generar algo magico”",
+    quote:
+      "“El arte y la programacion se complementan para generar algo magico”",
     skillsTitle: "Habilidades",
     experienceTitle: "Trayectoria",
     yearsExp: "Años de Experiencia",
@@ -33,7 +39,11 @@ export const EN = {
     satisfaction: "Satisfacción Creativa",
     skills: [
       { name: "React, Next.js & TypeScript", icon: Code2, level: "Frontend" },
-      { name: "Node.js, Express & REST APIs", icon: Terminal, level: "Backend" },
+      {
+        name: "Node.js, Express & REST APIs",
+        icon: Terminal,
+        level: "Backend",
+      },
       { name: "MongoDB & SQL Databases", icon: Database, level: "Database" },
       { name: "Tailwind CSS & UI Design", icon: Palette, level: "Styling" },
       // { name: "State (Redux / Zustand)", icon: Sparkles, level: "Architecture" },
@@ -54,6 +64,11 @@ export const EN = {
         id: "1",
         videoPath: "/videos/ecommerce-diversal.mp4",
         title: "Diversal — Full Stack E-Commerce Platform",
+        githubFrontend:
+          "https://github.com/StephenDC-UwU/frontend-ecommerce_diversal",
+        githubBackend:
+          "https://github.com/StephenDC-UwU/backend-ecommerce_diversal",
+        demoUrl: "https://frontend-ecommerce-diversal.vercel.app/",
         category: "apps",
         categoryLabel: "Web Apps",
         year: "2026",
@@ -65,6 +80,9 @@ export const EN = {
         id: "2",
         videoPath: "/videos/iaschedule.mp4",
         title: "IA Schedule — AI & LLM Employee Dashboard",
+        githubFrontend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
+        githubBackend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
+        demoUrl: "https://frontend-ia-schedule-v2.vercel.app/",
         category: "apps",
         categoryLabel: "Web Apps",
         year: "2026",
@@ -76,6 +94,9 @@ export const EN = {
         id: "3",
         videoPath: "/videos/redesign-laquarium-barcelona.mp4",
         title: "L'Aquàrium Barcelona — Redesign & Monolithic Experience",
+        githubFrontend:
+          "https://github.com/StephenDC-UwU/redesign-laquarium-barcelona",
+        demoUrl: "https://redesign-laquarium-barcelona.vercel.app/",
         category: "creative",
         categoryLabel: "Creative Dev",
         year: "2025",
@@ -87,6 +108,8 @@ export const EN = {
         id: "4",
         videoPath: "/videos/landing-homes.mp4",
         title: "Homes — Real Estate & Architecture Landing",
+        githubFrontend: "https://github.com/StephenDC-UwU/landpage_new_homes",
+        demoUrl: "https://landpage-new-homes.vercel.app/",
         category: "design",
         categoryLabel: "UI / Art",
         year: "2025",
@@ -99,7 +122,8 @@ export const EN = {
   contact: {
     tagline: "INICIAR UN DIÁLOGO",
     title: "Hagamos algo memorable",
-    subtitle: "¿Tienes una visión audaz en mente o buscas elevar tu presencia digital? Escríbeme y demos vida al proyecto.",
+    subtitle:
+      "¿Tienes una visión audaz en mente o buscas elevar tu presencia digital? Escríbeme y demos vida al proyecto.",
     nameLabel: "Nombre Completo",
     namePlaceholder: "Ej. Alejandro Rossi",
     emailLabel: "Correo Electrónico",
@@ -120,7 +144,33 @@ export const EN = {
     code: "404",
     tagline: "PATHWAY UNFOUND",
     title: "Lost in the Void",
-    description: "The page or manuscript you seek has faded away or never existed in this digital realm.",
+    description:
+      "The page or manuscript you seek has faded away or never existed in this digital realm.",
     backHome: "Return to Sanctuary",
+  },
+  blog: {
+    seoTitle: "Blog & Articles | The Filimisco",
+    seoDescription:
+      "Thoughts, chronicles, and experiments on creative development, Vibe Coding, web architecture, and digital craftsmanship.",
+    heroTitlePart1: "VIBE CODE",
+    heroTitlePart2: "IS REAL",
+    heroSubtitle:
+      "Thoughts, chronicles, and experiments on development, art, and code.",
+    searchPlaceholder: "Search articles, technologies, or concepts...",
+    filterTitle: "Filters",
+    categoriesLabel: "Categories",
+    categories: [
+      { id: "all", label: "All Articles" },
+      { id: "vibe-coding", label: "Vibe Coding" },
+      { id: "creative-dev", label: "Creative Dev" },
+      { id: "full-stack", label: "Full Stack" },
+      { id: "art-code", label: "UI & Art" },
+    ],
+    readMore: "Read more",
+    noArticles: "No articles or chronicles were found matching your search.",
+    resetFilters: "Reset filters",
+    manifestoTitle: "The Vibe Manifest",
+    manifestoQuote:
+      "“Well-crafted code is like poetry: invisible to those who run it, but transformative to those who experience it.”",
   },
 };

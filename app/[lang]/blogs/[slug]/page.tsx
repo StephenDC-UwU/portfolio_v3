@@ -28,10 +28,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
-  if (!post) return { title: "Blog Post Not Found" };
+  if (!post) return { title: "Artículo No Encontrado | The Filimisco" };
+
   return {
-    title: `${post.title} | Blog`,
+    title: `${post.title} | The Filimisco`,
     description: post.excerpt,
+    openGraph: {
+      title: `${post.title} | The Filimisco`,
+      description: post.excerpt,
+      type: "article",
+      publishedTime: post.date,
+      tags: post.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} | The Filimisco`,
+      description: post.excerpt,
+    },
   };
 }
 

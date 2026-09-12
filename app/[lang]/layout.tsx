@@ -4,6 +4,8 @@ import "../globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { Toaster } from "@/components/ui/sonner";
+import { ES } from "@/dictionaries/es";
+import { EN } from "@/dictionaries/en";
 
 const cormorant = localFont({
   src: [
@@ -46,10 +48,19 @@ const ebGaramond = localFont({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "The Filimisco - Portfolio",
-  description: "A showcase of artistic direction, creative development, and digital craftsmanship.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const dictionary = lang === "en" ? EN : ES;
+
+  return {
+    title: dictionary.seo.title,
+    description: dictionary.seo.description,
+  };
+}
 
 export async function generateStaticParams() {
   return [{ lang: "es" }, { lang: "en" }];

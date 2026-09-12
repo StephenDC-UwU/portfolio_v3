@@ -1,6 +1,11 @@
 import { Code2, Database, Palette, Terminal } from "lucide-react";
 
 export const ES = {
+  seo: {
+    title: "The Filimisco - Portfolio",
+    description: "Portfolio of Sixto Steven Uriarte Moreira",
+  },
+
   nav: {
     home: "Inicio",
     about: "Sobre Mí",
@@ -58,6 +63,11 @@ export const ES = {
         id: "1",
         videoPath: "/videos/ecommerce-diversal.mp4",
         title: "Diversal — Plataforma E-Commerce Full Stack",
+        githubFrontend:
+          "https://github.com/StephenDC-UwU/frontend-ecommerce_diversal",
+        githubBackend:
+          "https://github.com/StephenDC-UwU/backend-ecommerce_diversal",
+        demoUrl: "https://frontend-ecommerce-diversal.vercel.app/",
         category: "apps",
         categoryLabel: "Web Apps",
         year: "2026",
@@ -69,6 +79,9 @@ export const ES = {
         id: "2",
         videoPath: "/videos/iaschedule.mp4",
         title: "IA Schedule — Dashboard de Gestión con LLM",
+        githubFrontend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
+        githubBackend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
+        demoUrl: "https://frontend-ia-schedule-v2.vercel.app/",
         category: "apps",
         categoryLabel: "Web Apps",
         year: "2026",
@@ -80,6 +93,9 @@ export const ES = {
         id: "3",
         videoPath: "/videos/redesign-laquarium-barcelona.mp4",
         title: "L'Aquàrium Barcelona — Rediseño & Arquitectura Monolítica",
+        githubFrontend:
+          "https://github.com/StephenDC-UwU/redesign-laquarium-barcelona",
+        demoUrl: "https://redesign-laquarium-barcelona.vercel.app/",
         category: "creative",
         categoryLabel: "Creative Dev",
         year: "2025",
@@ -91,6 +107,8 @@ export const ES = {
         id: "4",
         videoPath: "/videos/landing-homes.mp4",
         title: "Homes — Landing Page de Arquitectura & Real Estate",
+        githubFrontend: "https://github.com/StephenDC-UwU/landpage_new_homes",
+        demoUrl: "https://landpage-new-homes.vercel.app/",
         category: "design",
         categoryLabel: "UI / Art",
         year: "2025",
@@ -128,5 +146,30 @@ export const ES = {
     description:
       "La página o manuscrito que buscas se ha desvanecido o nunca existió en este plano digital.",
     backHome: "Regresar al Santuario",
+  },
+  blog: {
+    seoTitle: "Bitácora & Artículos | The Filimisco",
+    seoDescription:
+      "Pensamientos, crónicas y experimentos sobre desarrollo creativo, Vibe Coding, arquitectura web y arte digital.",
+    heroTitlePart1: "VIBE CODE",
+    heroTitlePart2: "IS REAL",
+    heroSubtitle:
+      "Pensamientos, crónicas y experimentos sobre desarrollo, arte y código.",
+    searchPlaceholder: "Buscar artículos, tecnologías o conceptos...",
+    filterTitle: "Filtros",
+    categoriesLabel: "Categorías",
+    categories: [
+      { id: "all", label: "Todos los Artículos" },
+      { id: "vibe-coding", label: "Vibe Coding" },
+      { id: "creative-dev", label: "Creative Dev" },
+      { id: "full-stack", label: "Full Stack" },
+      { id: "art-code", label: "UI & Arte" },
+    ],
+    readMore: "Ver más",
+    noArticles: "No se encontraron crónicas o artículos para tu búsqueda.",
+    resetFilters: "Restablecer filtros",
+    manifestoTitle: "The Vibe Manifest",
+    manifestoQuote:
+      "“El código bien forjado es como la poesía: invisible para quien lo ejecuta, pero transformador para quien lo experimenta.”",
   },
 };

@@ -1,18 +1,7 @@
 import { GithubIcon } from "@/components/Icons";
-import { ArrowUpRight, Sparkles } from "lucide-react";
-import { useRef, useState } from "react";
-
-interface ProjectItem {
-    id: string;
-    title: string;
-    category: string;
-    categoryLabel: string;
-    year: string;
-    description: string;
-    tags: string[];
-    videoPath?: string;
-}
-
+import { useProjectCardAnimation } from "@/app/[lang]/(home)/hooks/useProjectCardAnimation";
+import { ArrowUpRight, Sparkles, Globe, Server } from "lucide-react";
+import { ProjectItem } from "@/types/ProjectItem";
 
 export default function ProjectCard({
     project,
@@ -23,39 +12,9 @@ export default function ProjectCard({
     bgStyle: string;
     viewProjectText: string;
 }) {
-    const [isHovered, setIsHovered] = useState(false);
-    const [isVideoReady, setIsVideoReady] = useState(false);
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-        if (project.videoPath) {
-            // Temporizador para la línea de carga antes de reproducir el video
-            timerRef.current = setTimeout(() => {
-                setIsVideoReady(true);
-                if (videoRef.current) {
-                    videoRef.current.muted = true;
-                    videoRef.current.play().catch((err) => {
-                        console.log("Error al reproducir video:", err);
-                    });
-                }
-            }, 700);
-        }
-    };
+    const { isHovered, isVideoReady, videoRef, handleMouseEnter, handleMouseLeave, hasMultipleGithub, singleGithubUrl, isGithubMenuOpen, menuRef, handleToggleGithubMenu } = useProjectCardAnimation(project);
 
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-        if (timerRef.current) {
-            clearTimeout(timerRef.current);
-            timerRef.current = null;
-        }
-        setIsVideoReady(false);
-        if (videoRef.current) {
-            videoRef.current.pause();
-            videoRef.current.currentTime = 0;
-        }
-    };
 
     return (
         <article
@@ -64,7 +23,7 @@ export default function ProjectCard({
             onFocus={handleMouseEnter}
             onBlur={handleMouseLeave}
             tabIndex={0}
-            className="group relative rounded-3xl glass-card overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-accent/40"
+            className="group relative rounded-xl glass-card overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl flex flex-col justify-between focus:outline-none focus:ring-2 focus:ring-accent/40"
         >
             {/* Project Card Image Banner / Video Preview */}
             <div
@@ -171,23 +130,115 @@ export default function ProjectCard({
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <button
-                            className="p-2 rounded-full border border-current/20 hover:border-current hover:bg-current/10 transition-all cursor-pointer"
-                            title="GitHub Repository"
-                            aria-label="GitHub Repository"
-                        >
-                            <GithubIcon size={16} />
-                        </button>
-                        <button
-                            className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-cinzel uppercase tracking-wider font-semibold hover:scale-105 transition-all cursor-pointer"
-                            style={{
-                                backgroundColor: "var(--text-primary)",
-                                color: "var(--bg-primary)",
-                            }}
-                        >
-                            <span>{viewProjectText}</span>
-                            <ArrowUpRight size={14} />
-                        </button>
+                        {/* GitHub Actions: Multi-Repo Menu or Direct Link */}
+                        {hasMultipleGithub ? (
+                            <div className="relative" ref={menuRef}>
+                                <button
+                                    onClick={handleToggleGithubMenu}
+                                    className={`p-2 rounded-full border transition-all duration-300 cursor-pointer flex items-center justify-center ${isGithubMenuOpen
+                                        ? "border-amber-400/60 bg-current/15 text-amber-400 shadow-[0_0_12px_rgba(226,184,87,0.3)] scale-105"
+                                        : "border-current/20 hover:border-current hover:bg-current/10"
+                                        }`}
+                                    title="Repositorios de GitHub (Frontend & Backend)"
+                                    aria-label="Repositorios de GitHub"
+                                    aria-expanded={isGithubMenuOpen}
+                                >
+                                    <GithubIcon size={16} />
+                                </button>
+
+                                {/* Mini Menu Popup */}
+                                {isGithubMenuOpen && (
+                                    <div
+                                        className="absolute bottom-full right-0 mb-3 w-48 p-1.5 rounded-2xl bg-black border border-amber-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl z-50 flex flex-col gap-1 text-xs animate-in fade-in zoom-in-95 duration-200"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <div className="px-2.5 py-1 text-[10px] font-mono tracking-widest uppercase opacity-60 border-b border-white/10 flex items-center justify-between">
+                                            <span className="text-white">Repositorios</span>
+                                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                                        </div>
+
+                                        {project.githubFrontend && (
+                                            <a
+                                                href={project.githubFrontend}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/10 text-white/90 hover:text-white transition-all group/item"
+                                                onClick={handleToggleGithubMenu}
+                                            >
+                                                <span className="flex items-center gap-2 font-medium">
+                                                    <Globe size={13} className="text-amber-400 opacity-80 group-hover/item:opacity-100" />
+                                                    <span className="text-sm">Frontend Repo</span>
+                                                </span>
+                                                <ArrowUpRight size={12} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />
+                                            </a>
+                                        )}
+
+                                        {project.githubBackend && (
+                                            <a
+                                                href={project.githubBackend}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/10 text-white/90 hover:text-white transition-all group/item"
+                                                onClick={handleToggleGithubMenu}
+                                            >
+                                                <span className="flex items-center gap-2 font-medium">
+                                                    <Server size={13} className="text-amber-300 opacity-80 group-hover/item:opacity-100" />
+                                                    <span className="text-sm">Backend Repo</span>
+                                                </span>
+                                                <ArrowUpRight size={12} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        ) : singleGithubUrl ? (
+                            <a
+                                href={singleGithubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 rounded-full border border-current/20 hover:border-current hover:bg-current/10 transition-all cursor-pointer flex items-center justify-center text-current hover:scale-105"
+                                title="Repositorio de GitHub"
+                                aria-label="Repositorio de GitHub"
+                            >
+                                <GithubIcon size={16} />
+                            </a>
+                        ) : (
+                            <button
+                                className="p-2 rounded-full border border-current/20 hover:border-current hover:bg-current/10 transition-all cursor-pointer"
+                                title="Repositorio de GitHub"
+                                aria-label="Repositorio de GitHub"
+                            >
+                                <GithubIcon size={16} />
+                            </button>
+                        )}
+
+                        {/* View Project Demo Link */}
+                        {project.demoUrl ? (
+                            <a
+                                href={project.demoUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-cinzel uppercase tracking-wider font-semibold hover:scale-105 transition-all cursor-pointer shadow-sm"
+                                style={{
+                                    backgroundColor: "var(--text-primary)",
+                                    color: "var(--bg-primary)",
+                                }}
+                            >
+                                <span>{viewProjectText}</span>
+                                <ArrowUpRight size={14} />
+                            </a>
+                        ) : (
+                            <button
+                                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-cinzel uppercase tracking-wider font-semibold hover:scale-105 transition-all cursor-pointer shadow-sm"
+                                style={{
+                                    backgroundColor: "var(--text-primary)",
+                                    color: "var(--bg-primary)",
+                                }}
+                            >
+                                <span>{viewProjectText}</span>
+                                <ArrowUpRight size={14} />
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

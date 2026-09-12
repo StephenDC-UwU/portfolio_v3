@@ -56,12 +56,15 @@ export default function About() {
             </div>
 
             {/* Visual Quote Box */}
-            <div className="p-3.5 sm:p-5 rounded-2xl glass-card relative overflow-hidden my-2 sm:my-3">
+
+            <div className="p-3.5 sm:p-5 rounded-xl glass-card relative overflow-hidden my-2 sm:my-3">
               <div className="absolute top-0 right-0 w-28 h-28 bg-current/5 rounded-full blur-2xl -mr-8 -mt-8" />
               <p className="font-editorial text-base sm:text-xl md:text-2xl italic opacity-95 leading-snug">
                 {t.about.quote}
               </p>
             </div>
+
+
           </div>
 
           {/* Right Column: Skills & Domains Cards */}
