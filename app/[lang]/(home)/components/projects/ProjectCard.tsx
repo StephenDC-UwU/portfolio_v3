@@ -14,7 +14,19 @@ export default function ProjectCard({
     viewProjectText?: string;
 }) {
     const { t } = useLanguage();
-    const { isHovered, isVideoReady, videoRef, handleMouseEnter, handleMouseLeave, hasMultipleGithub, singleGithubUrl, isGithubMenuOpen, menuRef, handleToggleGithubMenu } = useProjectCardAnimation(project);
+    const {
+        isHovered,
+        isVideoReady,
+        videoRef,
+        handleMouseEnter,
+        handleMouseLeave,
+        hasMultipleGithub,
+        singleGithubUrl,
+        isGithubMenuOpen,
+        menuRef,
+        handleToggleGithubMenu,
+        handleCloseGithubMenu,
+    } = useProjectCardAnimation(project);
     const resolvedViewText = viewProjectText || t.projects.viewProject;
 
 
@@ -165,7 +177,7 @@ export default function ProjectCard({
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/10 text-white/90 hover:text-white transition-all group/item"
-                                                onClick={handleToggleGithubMenu}
+                                                onClick={handleCloseGithubMenu}
                                             >
                                                 <span className="flex items-center gap-2 font-medium">
                                                     <Globe size={13} className="text-amber-400 opacity-80 group-hover/item:opacity-100" />
@@ -181,7 +193,7 @@ export default function ProjectCard({
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/10 text-white/90 hover:text-white transition-all group/item"
-                                                onClick={handleToggleGithubMenu}
+                                                onClick={handleCloseGithubMenu}
                                             >
                                                 <span className="flex items-center gap-2 font-medium">
                                                     <Server size={13} className="text-amber-300 opacity-80 group-hover/item:opacity-100" />

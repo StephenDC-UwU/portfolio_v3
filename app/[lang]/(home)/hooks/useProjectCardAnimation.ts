@@ -68,7 +68,12 @@ export const useProjectCardAnimation = (project: ProjectItem) => {
 
   const handleToggleGithubMenu = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsGithubMenuOpen((prev) => !prev);
+  };
+
+  const handleCloseGithubMenu = () => {
+    setIsGithubMenuOpen(false);
   };
 
   return {
@@ -83,5 +88,6 @@ export const useProjectCardAnimation = (project: ProjectItem) => {
     hasMultipleGithub,
     singleGithubUrl,
     handleToggleGithubMenu,
+    handleCloseGithubMenu,
   };
 };

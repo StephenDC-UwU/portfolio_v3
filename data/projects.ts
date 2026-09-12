@@ -1,7 +1,9 @@
 import { ProjectItem } from "@/types/ProjectItem";
 
-export interface ProjectData
-  extends Omit<ProjectItem, "title" | "description" | "categoryLabel"> {
+export interface ProjectData extends Omit<
+  ProjectItem,
+  "title" | "description" | "categoryLabel"
+> {
   translations: {
     es: {
       title: string;
@@ -46,7 +48,7 @@ export const rawProjects: ProjectData[] = [
   {
     id: "2",
     videoPath: "/videos/iaschedule.mp4",
-    githubFrontend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
+    githubFrontend: "https://github.com/StephenDC-UwU/frontend_IAScheduleV2",
     githubBackend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
     demoUrl: "https://frontend-ia-schedule-v2.vercel.app/",
     category: "apps",

@@ -82,8 +82,8 @@ export const EN = {
     githubAriaMulti: "GitHub Repositories",
     githubAriaSingle: "GitHub Repository",
     repositoriesHeader: "Repositories",
-    frontendRepo: "Frontend Repo",
-    backendRepo: "Backend Repo",
+    frontendRepo: "Frontend",
+    backendRepo: "Backend",
     items: getProjectsByLang("en"),
   },
   contact: {
