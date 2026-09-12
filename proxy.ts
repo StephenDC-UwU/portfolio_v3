@@ -16,7 +16,7 @@ export function proxy(request: NextRequest) {
   }
 
   // Check saved cookie preference or fallback to default locale
-  const cookieLocale = request.cookies.get("portfolio_lang")?.value;
+  const cookieLocale = request.cookies.get("lang-selected")?.value;
   let targetLocale = defaultLocale;
 
   if (cookieLocale && (locales as readonly string[]).includes(cookieLocale)) {

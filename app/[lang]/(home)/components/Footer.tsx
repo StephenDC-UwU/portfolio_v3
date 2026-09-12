@@ -73,13 +73,24 @@ export default function Footer() {
         </button>
       </div>
 
-      {/* Bottom Bar: Copyright */}
+      {/* Bottom Bar: Copyright & Legal */}
       <div ref={bottomBarRef} className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-current/10 text-xs font-cinzel opacity-60 tracking-wider">
         <div>
           © {new Date().getFullYear()} — {t.footer.rights}
         </div>
-        <div>
-          {t.footer.devotion}
+        <div className="flex items-center gap-6">
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("open-legal-modal", { detail: { tab: "cookies" } }));
+              }
+            }}
+            className="hover:underline hover:opacity-100 transition-opacity cursor-pointer"
+          >
+            {t.legal.footerLink}
+          </button>
+          <span>•</span>
+          <span>{t.footer.devotion}</span>
         </div>
       </div>
     </footer>

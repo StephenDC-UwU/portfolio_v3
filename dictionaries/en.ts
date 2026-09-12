@@ -59,7 +59,11 @@ export const EN = {
         icon: Sparkles,
         level: "State",
       },
-      { name: "Docker, Git & Testing", icon: GitBranch, level: "DevOps & Tools" },
+      {
+        name: "Docker, Git & Testing",
+        icon: GitBranch,
+        level: "DevOps & Tools",
+      },
     ],
   },
   projects: {
@@ -151,7 +155,8 @@ export const EN = {
     closeBtn: "Close",
 
     modalTitle: "Legal Transparency & Privacy",
-    modalSubtitle: "Understand how we protect your experience and data in this realm.",
+    modalSubtitle:
+      "Understand how we protect your experience and data in this realm.",
     tabs: {
       cookies: "Cookies",
       privacy: "Privacy",
@@ -166,19 +171,19 @@ export const EN = {
       tableHeaderDuration: "Duration",
       items: [
         {
-          name: "portfolio_lang",
+          name: "lang-selected",
           purpose:
             "Stores your language preference (Spanish or English) detected from your system or chosen manually.",
           duration: "1 year (Cookie)",
         },
         {
-          name: "portfolio_theme",
+          name: "theme-selected",
           purpose:
             "Preserves your visual palette choice (Cream or Crimson theme) across sessions.",
           duration: "Persistent (LocalStorage)",
         },
         {
-          name: "portfolio_consent",
+          name: "consent-accepted",
           purpose:
             "Remembers your acknowledgment and acceptance of this privacy and cookie policy.",
           duration: "1 year (LocalStorage)",

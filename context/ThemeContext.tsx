@@ -17,7 +17,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [, startTransition] = useTransition();
 
   useEffect(() => {
-    const saved = (typeof window !== "undefined" ? localStorage.getItem("portfolio_theme") : null) as Theme | null;
+    const saved = (typeof window !== "undefined" ? localStorage.getItem("theme-selected") : null) as Theme | null;
     if (saved === "crimson" || saved === "cream") {
       startTransition(() => {
         setThemeState(saved);
@@ -31,7 +31,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
     if (typeof window !== "undefined") {
-      localStorage.setItem("portfolio_theme", newTheme);
+      localStorage.setItem("theme-selected", newTheme);
       document.documentElement.setAttribute("data-theme", newTheme);
     }
   };

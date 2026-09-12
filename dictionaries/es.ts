@@ -159,7 +159,8 @@ export const ES = {
     closeBtn: "Cerrar",
 
     modalTitle: "Transparencia Legal & Privacidad",
-    modalSubtitle: "Conoce cómo protegemos tu experiencia y datos en este espacio.",
+    modalSubtitle:
+      "Conoce cómo protegemos tu experiencia y datos en este espacio.",
     tabs: {
       cookies: "Cookies",
       privacy: "Privacidad",
@@ -174,19 +175,19 @@ export const ES = {
       tableHeaderDuration: "Duración",
       items: [
         {
-          name: "portfolio_lang",
+          name: "lang-selected",
           purpose:
             "Almacena tu preferencia de idioma (Español o Inglés) detectada desde tu navegador o seleccionada manualmente.",
           duration: "1 año (Cookie)",
         },
         {
-          name: "portfolio_theme",
+          name: "theme-selected",
           purpose:
             "Guarda tu preferencia de estilo visual (Tema Crema o Crimson) para mantenerlo en futuras visitas.",
           duration: "Persistente (LocalStorage)",
         },
         {
-          name: "portfolio_consent",
+          name: "consent-accepted",
           purpose:
             "Registra la confirmación de lectura y aceptación de esta política de privacidad.",
           duration: "1 año (LocalStorage)",

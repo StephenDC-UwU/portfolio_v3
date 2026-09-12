@@ -4,6 +4,7 @@ import "../globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { Toaster } from "@/components/ui/sonner";
+import CookieConsent from "@/components/legal/CookieConsent";
 import { ES } from "@/dictionaries/es";
 import { EN } from "@/dictionaries/en";
 
@@ -83,7 +84,10 @@ export default async function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <LanguageProvider>{children}</LanguageProvider>
+          <LanguageProvider>
+            {children}
+            <CookieConsent />
+          </LanguageProvider>
           <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>

@@ -32,7 +32,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   // Keep cookie in sync with current URL language
   useEffect(() => {
     if (typeof document !== "undefined") {
-      document.cookie = `portfolio_lang=${currentLang};path=/;max-age=31536000;SameSite=Lax`;
+      document.cookie = `lang-selected=${currentLang};path=/;max-age=31536000;SameSite=Lax`;
     }
   }, [currentLang]);
 
@@ -40,7 +40,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     if (newLang === currentLang) return;
 
     if (typeof document !== "undefined") {
-      document.cookie = `portfolio_lang=${newLang};path=/;max-age=31536000;SameSite=Lax`;
+      document.cookie = `lang-selected=${newLang};path=/;max-age=31536000;SameSite=Lax`;
     }
 
     if (!pathname) {
