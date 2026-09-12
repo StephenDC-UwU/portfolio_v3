@@ -185,7 +185,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto px-8 py-3 rounded-full text-xs sm:text-sm font-cinzel uppercase tracking-widest font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 shadow-md cursor-pointer disabled:opacity-50"
+                    className="w-full sm:w-auto px-8 py-3 rounded-xl text-xs sm:text-sm font-cinzel uppercase tracking-widest font-semibold flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 shadow-md cursor-pointer disabled:opacity-50"
                     style={{
                       backgroundColor: "var(--text-primary)",
                       color: "var(--bg-primary)",

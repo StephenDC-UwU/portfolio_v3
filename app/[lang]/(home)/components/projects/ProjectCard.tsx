@@ -41,8 +41,8 @@ export default function ProjectCard({
         >
             {/* Project Card Image Banner / Video Preview */}
             <div
-                className="relative w-full h-56 sm:h-72 overflow-hidden flex items-center justify-center p-6 select-none"
-                style={{ background: bgStyle }}
+                className="relative w-full h-56 sm:h-72 overflow-hidden flex items-center justify-center p-6 select-none bg-bg-primary"
+                style={{ backgroundColor: "var(--accent)" }}
             >
                 {/* Loading Progress Bar (Línea de carga) */}
                 {project.videoPath && (
@@ -84,10 +84,10 @@ export default function ProjectCard({
 
                 {/* Floating badge */}
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md text-white text-[11px] font-cinzel tracking-wider uppercase border border-white/15 shadow-sm">
-                    <Sparkles
+                    {/*   <Sparkles
                         size={12}
                         className={isVideoReady && isHovered ? "text-amber-400 animate-pulse" : ""}
-                    />
+                    /> */}
                     <span>{project.categoryLabel}</span>
                 </div>
 
@@ -110,10 +110,10 @@ export default function ProjectCard({
 
                 {/* Decorative Art Motif inside preview (Poster fallback) */}
                 <div
-                    className={`relative z-10 text-center text-white/90 p-4 transition-all duration-500 ${isVideoReady && isHovered ? "opacity-0 scale-95" : "opacity-100 scale-100"
+                    className={`relative z-10 text-center text-text-primary p-4 transition-all duration-500 ${isVideoReady && isHovered ? "opacity-0 scale-95" : "opacity-100 scale-100"
                         }`}
                 >
-                    <span className="font-editorial text-2xl sm:text-3xl font-light italic tracking-wider block transform group-hover:scale-105 transition-transform duration-500">
+                    <span className="font-editorial text-2xl text-bg-primary sm:text-3xl font-light italic tracking-wider block transform group-hover:scale-105 transition-transform duration-500">
                         {project.title.split("—")[0]}
                     </span>
                 </div>

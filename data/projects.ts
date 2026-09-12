@@ -81,13 +81,13 @@ export const rawProjects: ProjectData[] = [
     translations: {
       es: {
         title: "L'Aquàrium Barcelona — Rediseño & Arquitectura Monolítica",
-        categoryLabel: "Creative Dev",
+        categoryLabel: "Web Apps",
         description:
           "Rediseño interactivo construido bajo una arquitectura monolítica con Next.js y Server Actions, combinando animaciones fluidas en GSAP, Tailwind CSS y un backend unificado.",
       },
       en: {
         title: "L'Aquàrium Barcelona — Redesign & Monolithic Experience",
-        categoryLabel: "Creative Dev",
+        categoryLabel: "Web Apps",
         description:
           "Interactive web redesign built with a Next.js monolithic architecture and Server Actions, combining smooth GSAP animations, Tailwind CSS, and a unified backend.",
       },
@@ -104,13 +104,13 @@ export const rawProjects: ProjectData[] = [
     translations: {
       es: {
         title: "Homes — Landing Page de Arquitectura & Real Estate",
-        categoryLabel: "UI / Art",
+        categoryLabel: "Landing",
         description:
           "Landing page inmobiliaria moderna y ultraligera desarrollada con Astro y Vanilla Web (HTML5, CSS3 y JS nativo), enfocada en máximo rendimiento, SEO y estética cuidada.",
       },
       en: {
         title: "Homes — Real Estate & Architecture Landing",
-        categoryLabel: "UI / Art",
+        categoryLabel: "Landing",
         description:
           "Ultra-fast, modern real estate landing page crafted with Astro and Vanilla Web (HTML5, CSS3, native JS), focusing on top-tier performance, SEO, and polished aesthetics.",
       },
