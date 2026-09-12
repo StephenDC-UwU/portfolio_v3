@@ -1,13 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 import HomePage from "./(home)/HomePage";
 
-
 export default function Home() {
-  return (
-    <HomePage />
-  );
+  return <HomePage />;
 }
+

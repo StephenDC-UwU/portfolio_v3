@@ -1,5 +1,5 @@
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import Hero from "./components/Hero";
 import About from "./components/About";

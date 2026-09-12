@@ -53,13 +53,14 @@ export function useAnimationFade({
 }: UseAnimationFadeOptions) {
   // Use refs to avoid recreating the GSAP timeline on every re-render when inline arrays are passed
   const elementsRef = useRef(elements);
-  elementsRef.current = elements;
-
   const headerRefRef = useRef(headerRef);
-  headerRefRef.current = headerRef;
-
   const contentRefRef = useRef(contentRef);
-  contentRefRef.current = contentRef;
+
+  useEffect(() => {
+    elementsRef.current = elements;
+    headerRefRef.current = headerRef;
+    contentRefRef.current = contentRef;
+  }, [elements, headerRef, contentRef]);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);

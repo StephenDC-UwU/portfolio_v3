@@ -3,7 +3,7 @@
 import React, { useRef, useMemo } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { Send, CheckCircle2, ArrowUpRight, Loader2 } from "lucide-react";
-import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/Icons";
+import { GithubIcon, LinkedinIcon } from "@/components/Icons";
 import { useAnimationFade } from "../hooks/useAnimationFade";
 import { useContactForm } from "../hooks/useContactForm";
 import { useForm } from "react-hook-form";
@@ -69,9 +69,9 @@ export default function Contact() {
   useAnimationFade({
     sectionRef,
     elements: animationElements,
-    start: "top 60%",
+    start: "top 80%",
     staggerDelay: "-=0.2",
-    duration: 0.85,
+    duration: 0.7,
   });
 
   const onSubmit = async (data: ContactFormValues) => {

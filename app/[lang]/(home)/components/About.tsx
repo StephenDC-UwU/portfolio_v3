@@ -19,7 +19,7 @@ export default function About() {
       headerRef,
       [leftColRef, skillsCardRef],
     ],
-    start: "top 60%",
+    start: "top 80%",
     staggerDelay: "+=0.1",
     duration: 0.9,
   });

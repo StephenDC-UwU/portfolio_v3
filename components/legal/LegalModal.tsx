@@ -16,13 +16,12 @@ export default function LegalModal({
   defaultTab = "cookies",
 }: LegalModalProps) {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState<"cookies" | "privacy" | "legal">(defaultTab);
+  const [tabOverride, setTabOverride] = useState<"cookies" | "privacy" | "legal" | null>(null);
+  const activeTab = tabOverride ?? defaultTab;
 
-  useEffect(() => {
-    if (defaultTab) {
-      setActiveTab(defaultTab);
-    }
-  }, [defaultTab, isOpen]);
+  const setActiveTab = (tab: "cookies" | "privacy" | "legal") => {
+    setTabOverride(tab);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

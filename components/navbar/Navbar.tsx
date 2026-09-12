@@ -4,12 +4,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import {
   Home,
   User,
   LayoutGrid,
   Mail,
-  BookOpen,
   ChevronDown,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -38,7 +38,7 @@ export default function Navbar() {
   useEffect(() => {
     if (!isHome) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     const sectionIds = ["hero", "about", "projects", "contact"];
     const triggers: ScrollTrigger[] = [];
@@ -97,24 +97,35 @@ export default function Navbar() {
     isClickScrollingRef.current = true;
 
     if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
-    clickTimeoutRef.current = setTimeout(() => {
-      isClickScrollingRef.current = false;
-    }, 1000);
 
     const target = document.querySelector(href);
     if (!target) return;
 
     const panel = target.closest(".panel-section") || target;
-    const st = ScrollTrigger.getAll().find(
-      (trigger) => trigger.trigger === panel || trigger.trigger === target
-    );
+    const allPanels = Array.from(document.querySelectorAll<HTMLElement>(".panel-section"));
+    const panelIndex = allPanels.indexOf(panel as HTMLElement);
 
-    const targetScroll = st ? st.start : target.getBoundingClientRect().top + window.scrollY;
+    let targetScroll = 0;
+    if (panelIndex > 0) {
+      for (let i = 0; i < panelIndex; i++) {
+        targetScroll += allPanels[i].offsetHeight;
+      }
+    } else {
+      targetScroll = 0;
+    }
 
-    window.scrollTo({
-      top: targetScroll,
-      behavior: "smooth",
+    gsap.to(window, {
+      scrollTo: { y: targetScroll, autoKill: false },
+      duration: 0.45,
+      ease: "power2.out",
+      onComplete: () => {
+        isClickScrollingRef.current = false;
+      },
     });
+
+    clickTimeoutRef.current = setTimeout(() => {
+      isClickScrollingRef.current = false;
+    }, 500);
   };
 
   const handleNavClick = (

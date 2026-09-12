@@ -2,12 +2,11 @@
 
 import React, { useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { ArrowUp, Sparkles } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { useAnimationFade } from "../hooks/useAnimationFade";
 
 export default function Footer() {
   const { t } = useLanguage();
-
   const sectionRef = useRef<HTMLElement>(null);
   const topHeaderRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -24,13 +23,16 @@ export default function Footer() {
       buttonRef,
       bottomBarRef,
     ],
-    start: "top 60%",
+    start: "top 75%",
     staggerDelay: "-=0.45",
     duration: 0.8,
   });
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -47,7 +49,7 @@ export default function Footer() {
           </span>
         </div>
         <span className="text-[10px] sm:text-xs font-cinzel tracking-widest uppercase opacity-60">
-          {t.footer.portfolioLabel} // {new Date().getFullYear()}
+          {t.footer.portfolioLabel} {"//"} {new Date().getFullYear()}
         </span>
       </div>
 
@@ -59,7 +61,7 @@ export default function Footer() {
         </h2>
 
         <p ref={quoteRef} className="mt-6 font-editorial text-lg sm:text-2xl italic opacity-75 max-w-2xl">
-          "{t.footer.quote}"
+          &ldquo;{t.footer.quote}&rdquo;
         </p>
 
         {/* Back to Top CTA */}

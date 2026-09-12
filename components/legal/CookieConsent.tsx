@@ -1,23 +1,28 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { Cookie, ShieldCheck, X } from "lucide-react";
+import { Cookie, X } from "lucide-react";
 import LegalModal from "./LegalModal";
 
 export default function CookieConsent() {
   const { t } = useLanguage();
-  const [hasConsent, setHasConsent] = useState<boolean | null>(null);
+  const [isAcceptedLocally, setIsAcceptedLocally] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalDefaultTab, setModalDefaultTab] = useState<"cookies" | "privacy" | "legal">("cookies");
 
-  useEffect(() => {
-    // Check local storage for consent status
-    if (typeof window !== "undefined") {
-      const consent = localStorage.getItem("consent-accepted");
-      setHasConsent(consent === "accepted");
-    }
+  const isConsentStored = useSyncExternalStore(
+    (callback) => {
+      window.addEventListener("storage", callback);
+      return () => window.removeEventListener("storage", callback);
+    },
+    () => localStorage.getItem("consent-accepted") === "accepted",
+    () => true
+  );
 
+  const hasConsent = isConsentStored || isAcceptedLocally;
+
+  useEffect(() => {
     // Global listener to open legal modal from footer or links
     const handleOpenLegalModal = (e: CustomEvent<{ tab?: "cookies" | "privacy" | "legal" }>) => {
       if (e.detail?.tab) {
@@ -36,7 +41,7 @@ export default function CookieConsent() {
     if (typeof window !== "undefined") {
       localStorage.setItem("consent-accepted", "accepted");
     }
-    setHasConsent(true);
+    setIsAcceptedLocally(true);
   };
 
   const handleOpenDetails = () => {

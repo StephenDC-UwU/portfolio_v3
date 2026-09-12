@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
     initWord: string;
@@ -36,11 +36,11 @@ const listArtLanguage = [
 
 const AnimationTitleHero = ({ initWord }: Props) => {
     const [artWord, setArtWord] = useState(initWord);
-    const isFirstRender = useRef(true);
+    const [hasAnimated, setHasAnimated] = useState(false);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            isFirstRender.current = false;
+            setHasAnimated(true);
             setArtWord((prevWord) => {
                 const currentIndex = listArtLanguage.findIndex(
                     (w) => w.toLowerCase() === prevWord.toLowerCase()
@@ -56,7 +56,7 @@ const AnimationTitleHero = ({ initWord }: Props) => {
     return (
         <span
             key={artWord}
-            className={`inline-block ${!isFirstRender.current ? "animate-word-change" : ""}`}
+            className={`inline-block ${hasAnimated ? "animate-word-change" : ""}`}
         >
             {artWord}
         </span>

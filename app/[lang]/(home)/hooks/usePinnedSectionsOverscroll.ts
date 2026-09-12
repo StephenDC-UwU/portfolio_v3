@@ -13,12 +13,13 @@ export const usePinnedSectionsOverscroll = (
     const ctx = gsap.context(() => {
       const panels = gsap.utils.toArray<HTMLElement>(".panel-section");
 
-      panels.forEach((panel: any, i: any) => {
+      panels.forEach((panel: HTMLElement, i: number) => {
         // Pin current panel when the next panel slides up to cover it
         if (i < panels.length - 1) {
           const nextPanel = panels[i + 1];
 
           ScrollTrigger.create({
+            id: `panel-pin-${i}`,
             trigger: panel,
             start: () =>
               panel.offsetHeight > window.innerHeight
@@ -66,5 +67,5 @@ export const usePinnedSectionsOverscroll = (
     }, mainRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [mainRef]);
 };

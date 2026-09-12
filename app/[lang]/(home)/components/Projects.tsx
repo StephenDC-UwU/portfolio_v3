@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAnimationFade } from "../hooks/useAnimationFade";
 import ProjectCard from "./projects/ProjectCard";
@@ -8,8 +8,8 @@ import ProjectCard from "./projects/ProjectCard";
 
 export default function Projects() {
   const { t } = useLanguage();
-  const [filter, setFilter] = useState("all");
 
+  const filter = "all";
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
