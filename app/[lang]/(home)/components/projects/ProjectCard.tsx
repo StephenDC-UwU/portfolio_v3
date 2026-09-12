@@ -42,7 +42,7 @@ export default function ProjectCard({
             {/* Project Card Image Banner / Video Preview */}
             <div
                 className="relative w-full h-56 sm:h-72 overflow-hidden flex items-center justify-center p-6 select-none bg-bg-primary"
-                style={{ backgroundColor: "var(--accent)" }}
+                style={{ backgroundColor: "var(--bg-card-item)" }}
             >
                 {/* Loading Progress Bar (Línea de carga) */}
                 {project.videoPath && (

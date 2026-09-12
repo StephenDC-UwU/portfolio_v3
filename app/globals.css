@@ -16,6 +16,7 @@
   --bg-primary: #E7E1D3;
   --bg-secondary: #DDD5C4;
   --bg-card: rgba(231, 225, 211, 0.7);
+  --bg-card-item: #5B1614;
   --text-primary: #5B1614;
   --text-secondary: #7F2B28;
   --text-muted: #9E5350;
@@ -36,7 +37,8 @@
   --bg-primary: #58120F;
   --bg-secondary: #470D0B;
   --bg-card: rgba(71, 13, 11, 0.7);
-  --text-primary: #E9DFC9;
+  --bg-card-item: #DDD5C4;
+  --text-primary: #E9DFC9;  
   --text-secondary: #D4C6A8;
   --text-muted: #B8A887;
   --accent: #E9DFC9;
