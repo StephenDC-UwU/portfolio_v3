@@ -151,7 +151,7 @@ export default function ProjectCard({
                                 {/* Mini Menu Popup */}
                                 {isGithubMenuOpen && (
                                     <div
-                                        className="absolute bottom-full right-0 mb-3 w-48 p-1.5 rounded-2xl bg-black border border-amber-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl z-50 flex flex-col gap-1 text-xs animate-in fade-in zoom-in-95 duration-200"
+                                        className="absolute bottom-full left-0 sm:left-auto sm:right-0 mb-3 w-48 p-1.5 rounded-2xl bg-black border border-amber-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.6)] backdrop-blur-xl z-50 flex flex-col gap-1 text-xs animate-in fade-in zoom-in-95 duration-200"
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         <div className="px-2.5 py-1 text-[10px] font-mono tracking-widest uppercase opacity-60 border-b border-white/10 flex items-center justify-between">
