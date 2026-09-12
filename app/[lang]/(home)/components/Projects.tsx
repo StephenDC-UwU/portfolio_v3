@@ -41,7 +41,7 @@ export default function Projects() {
       className="section section-projects relative w-full transition-colors duration-500 bg-bg-primary"
     >
       <div className="section-content w-full relative">
-        <div className="section-inner w-full py-24 sm:py-32 px-4 sm:px-8 md:px-14 relative">
+        <div className="section-inner w-full pt-16 sm:pt-24 md:pt-28 pb-28 sm:pb-32 px-4 sm:px-8 md:px-14 relative">
           <div className="max-w-7xl mx-auto w-full">
             {/* Section Header & Filters */}
             <div
