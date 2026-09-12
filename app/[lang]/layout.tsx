@@ -1,5 +1,7 @@
 import localFont from "next/font/local";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import "../globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -88,6 +90,8 @@ export default async function RootLayout({
             {children}
             <CookieConsent />
           </LanguageProvider>
+          <Analytics />
+          <SpeedInsights />
           <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
