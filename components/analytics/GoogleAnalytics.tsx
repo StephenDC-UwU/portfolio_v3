@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import Script from "next/script";
 
 declare global {
   interface Window {
@@ -11,22 +10,36 @@ declare global {
   }
 }
 
-export default function GoogleAnalytics() {
-  const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+export default function GoogleAnalytics({
+  measurementId,
+}: {
+  measurementId?: string;
+}) {
+  const gaId =
+    measurementId ||
+    process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
+    "G-EVYJSDG5L2";
   const pathname = usePathname();
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
-    if (!measurementId || !pathname || typeof window === "undefined") return;
+    if (!gaId || !pathname || typeof window === "undefined") return;
+
+    // Initial pageview is already recorded by the <head> gtag snippet
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
 
     if (typeof window.gtag === "function") {
-      window.gtag("config", measurementId, {
+      window.gtag("config", gaId, {
         page_path: pathname,
       });
     }
-  }, [pathname, measurementId]);
+  }, [pathname, gaId]);
 
   useEffect(() => {
-    if (!measurementId || typeof window === "undefined") return;
+    if (!gaId || typeof window === "undefined") return;
 
     const syncConsent = () => {
       const accepted = localStorage.getItem("consent-accepted") === "accepted";
@@ -44,31 +57,7 @@ export default function GoogleAnalytics() {
       window.removeEventListener("storage", syncConsent);
       window.removeEventListener("consent-updated", syncConsent);
     };
-  }, [measurementId]);
+  }, [gaId]);
 
-  if (!measurementId) {
-    return null;
-  }
-
-  return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', '${measurementId}', {
-            page_path: window.location.pathname,
-            anonymize_ip: true
-          });
-        `}
-      </Script>
-    </>
-  );
+  return null;
 }
-

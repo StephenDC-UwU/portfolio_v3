@@ -10,7 +10,9 @@ export function proxy(request: NextRequest) {
   if (
     pathname.startsWith("/admin") ||
     pathname.startsWith("/api") ||
-    pathname.startsWith("/media")
+    pathname.startsWith("/media") ||
+    pathname === "/sitemap.xml" ||
+    pathname === "/robots.txt"
   ) {
     return NextResponse.next();
   }
@@ -52,6 +54,6 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip static assets, Payload admin/api/media, Next.js internals, and files with extensions
-    "/((?!api|admin|media|_next/static|_next/image|assets|videos|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ttf|woff|woff2|ico|mp4|webm|ogg|mp3|wav|mov|m4v)$).*)",
+    "/((?!api|admin|media|sitemap\\.xml|robots\\.txt|_next/static|_next/image|assets|videos|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ttf|woff|woff2|ico|mp4|webm|ogg|mp3|wav|mov|m4v|xml|txt)$).*)",
   ],
 };

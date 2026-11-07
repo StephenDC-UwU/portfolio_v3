@@ -120,6 +120,7 @@ export default async function RootLayout({
   params: Promise<{ lang: string }>;
 }>) {
   const { lang } = await params;
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-EVYJSDG5L2";
 
   return (
     <html
@@ -127,6 +128,23 @@ export default async function RootLayout({
       className={`${cormorant.variable} ${cinzel.variable} ${ebGaramond.variable} antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              window.gtag = gtag;
+              gtag('js', new Date());
+              gtag('config', '${gaId}');
+            `,
+          }}
+        />
+      </head>
       <body>
         <ThemeProvider>
           <LanguageProvider>
@@ -135,7 +153,7 @@ export default async function RootLayout({
           </LanguageProvider>
           <Analytics />
           <SpeedInsights />
-          <GoogleAnalytics />
+          <GoogleAnalytics measurementId={gaId} />
           <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>
