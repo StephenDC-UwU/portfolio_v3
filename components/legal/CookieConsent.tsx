@@ -40,6 +40,7 @@ export default function CookieConsent() {
   const handleAccept = () => {
     if (typeof window !== "undefined") {
       localStorage.setItem("consent-accepted", "accepted");
+      window.dispatchEvent(new Event("consent-updated"));
     }
     setIsAcceptedLocally(true);
   };

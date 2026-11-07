@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { Toaster } from "@/components/ui/sonner";
 import CookieConsent from "@/components/legal/CookieConsent";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import { ES } from "@/dictionaries/es";
 import { EN } from "@/dictionaries/en";
 
@@ -69,11 +70,41 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params;
-  const dictionary = lang === "en" ? EN : ES;
+  const isEn = lang === "en";
+  const dictionary = isEn ? EN : ES;
 
   return {
-    title: dictionary.seo.title,
+    title: {
+      default: dictionary.seo.title,
+      template: "%s | Sixto Uriarte (The Filimisco)",
+    },
     description: dictionary.seo.description,
+    keywords: dictionary.seo.keywords,
+    authors: [{ name: "Sixto Steven Uriarte Moreira" }],
+    creator: "Sixto Steven Uriarte Moreira (The Filimisco)",
+    alternates: {
+      languages: {
+        es: "/es",
+        en: "/en",
+      },
+    },
+    openGraph: {
+      title: dictionary.seo.title,
+      description: dictionary.seo.description,
+      siteName: "Sixto Uriarte — The Filimisco",
+      locale: isEn ? "en_US" : "es_ES",
+      alternateLocale: isEn ? ["es_ES"] : ["en_US"],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dictionary.seo.title,
+      description: dictionary.seo.description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
@@ -104,6 +135,7 @@ export default async function RootLayout({
           </LanguageProvider>
           <Analytics />
           <SpeedInsights />
+          <GoogleAnalytics />
           <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>

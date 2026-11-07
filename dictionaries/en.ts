@@ -10,8 +10,25 @@ import { getProjectsByLang } from "@/data/projects";
 
 export const EN = {
   seo: {
-    title: "The Filimisco - Portfolio",
-    description: "Portfolio of Sixto Steven Uriarte Moreira",
+    title:
+      "Sixto Uriarte (The Filimisco) | Full Stack Developer — React, Next.js & TypeScript",
+    description:
+      "Portfolio of Sixto Steven Uriarte Moreira (The Filimisco), Full Stack Developer specializing in scalable web applications, modern backend architectures, and interactive UI engineering with React, Next.js, TypeScript, and Node.js.",
+    keywords: [
+      "Sixto Uriarte",
+      "Sixto Steven Uriarte Moreira",
+      "The Filimisco",
+      "Full Stack Developer",
+      "Software Engineer",
+      "Frontend Developer",
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Node.js",
+      "PostgreSQL",
+      "Creative Developer",
+      "Web Developer Portfolio",
+    ],
   },
   nav: {
     home: "Home",
