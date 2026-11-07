@@ -28,7 +28,7 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="section section-about relative w-full min-h-dvh flex items-center justify-center transition-colors duration-500 bg-bg-primary select-none py-14 sm:py-16 md:py-20"
+      className="section section-about relative w-full min-h-dvh flex items-center justify-center transition-colors duration-500 bg-bg-primary py-14 sm:py-16 md:py-20"
     >
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 pb-24 sm:pb-6 flex flex-col justify-center">
         {/* Section Header */}

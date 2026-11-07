@@ -39,7 +39,7 @@ export default function Footer() {
     <footer
       id="footer"
       ref={sectionRef}
-      className="relative w-full min-h-dvh flex flex-col justify-between py-12 sm:py-16 md:py-20 px-6 sm:px-12 md:px-16 transition-colors duration-500 overflow-hidden bg-bg-primary select-none"
+      className="relative w-full min-h-dvh flex flex-col justify-between py-12 sm:py-16 md:py-20 px-6 sm:px-12 md:px-16 transition-colors duration-500 overflow-hidden bg-bg-primary"
     >
       {/* Top Header Row */}
       <div ref={topHeaderRef} className="max-w-7xl mx-auto w-full flex items-center justify-between border-b border-current/10 pb-6">

@@ -91,7 +91,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={sectionRef}
-      className="section section-contact relative w-full min-h-dvh flex items-center transition-colors duration-500 bg-bg-primary select-none"
+      className="section section-contact relative w-full min-h-dvh flex items-center transition-colors duration-500 bg-bg-primary"
     >
       <div className="section-content w-full relative">
         <div className="section-inner w-full min-h-dvh flex flex-col justify-center py-14 sm:py-20 md:py-24 pb-32 sm:pb-24 px-4 sm:px-8 md:px-14 relative">
