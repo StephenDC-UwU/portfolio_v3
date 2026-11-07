@@ -11,7 +11,7 @@ import {
   Sparkles,
   LayoutGrid,
   Mail,
-  BookOpen,
+  // BookOpen,
   ChevronDown,
   LayoutPanelTop,
 } from "lucide-react";
@@ -94,7 +94,7 @@ export default function Navbar() {
     { id: "process", label: t.nav.process, icon: LayoutPanelTop, href: `/${lang}#process`, isRoute: false },
     { id: "projects", label: t.nav.projects, icon: LayoutGrid, href: `/${lang}#projects`, isRoute: false },
     { id: "contact", label: t.nav.contact, icon: Mail, href: `/${lang}#contact`, isRoute: false },
-    { id: "blog", label: t.nav.blog, icon: BookOpen, href: `/${lang}/blogs`, isRoute: true },
+    // { id: "blog", label: t.nav.blog, icon: BookOpen, href: `/${lang}/blogs`, isRoute: true },
   ];
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {

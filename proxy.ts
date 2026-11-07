@@ -21,6 +21,24 @@ export function proxy(request: NextRequest) {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
 
+  // Temporarily redirect /blogs routes back to the home page while the blog is hidden
+  if (
+    pathname === "/blogs" ||
+    pathname.startsWith("/blogs/") ||
+    locales.some(
+      (locale) =>
+        pathname === `/${locale}/blogs` ||
+        pathname.startsWith(`/${locale}/blogs/`),
+    )
+  ) {
+    const matchedLocale =
+      locales.find(
+        (locale) =>
+          pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+      ) || defaultLocale;
+    return NextResponse.redirect(new URL(`/${matchedLocale}`, request.url));
+  }
+
   if (pathnameHasLocale) {
     return NextResponse.next();
   }
