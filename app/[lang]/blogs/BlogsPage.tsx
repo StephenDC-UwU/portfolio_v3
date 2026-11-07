@@ -1,55 +1,132 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Filter, Sparkles, ArrowRight, X, BookOpen } from "lucide-react";
+import { Search, Filter, ChevronDown, Mail, X } from "lucide-react";
+import { toast } from "sonner";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { blogPosts } from "@/data/blogs";
+import { getBlogsByLang, type BlogPost } from "@/data/blogs";
+import BlogLoading from "./BlogLoading";
 
 import heroBg from "@/app/assets/blogs/hero-flatlay.jpg";
 import circuitImg from "@/app/assets/blogs/circuit.jpg";
 import Navbar from "@/components/navbar/Navbar";
 
-export default function BlogsPage() {
+export default function BlogsPage({
+  initialPosts,
+  initialCategories,
+  isLoading: isLoadingProp = false,
+}: {
+  initialPosts?: BlogPost[];
+  initialCategories?: { id: string; label: string }[];
+  isLoading?: boolean;
+}) {
   const { lang, t } = useLanguage();
+  const blogPosts =
+    initialPosts && initialPosts.length > 0
+      ? initialPosts
+      : getBlogsByLang(lang);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("recent");
+  const [isFiltersOpen, setIsFiltersOpen] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [newsletterEmail, setNewsletterEmail] = useState<string>("");
+  const [isFiltering, setIsFiltering] = useState<boolean>(false);
+  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const categories = t.blog.categories;
+  const isLoading = isLoadingProp || isFiltering;
 
-  // Filtered blog posts based on search query and category
+  const triggerLoading = () => {
+    setIsFiltering(true);
+    if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
+    loadingTimeoutRef.current = setTimeout(() => {
+      setIsFiltering(false);
+    }, 400);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (loadingTimeoutRef.current) clearTimeout(loadingTimeoutRef.current);
+    };
+  }, []);
+
+  const categories =
+    initialCategories && initialCategories.length > 0
+      ? initialCategories
+      : t.blog.categories;
+  const sortOptions = t.blog.sortOptions;
+
+  // Filtered and sorted blog posts
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter((post) => {
+    const filtered = blogPosts.filter((post) => {
       const matchesCategory =
         activeCategory === "all" || post.category === activeCategory;
       const matchesSearch =
         searchQuery.trim() === "" ||
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.categoryLabel.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.tags.some((tag) =>
           tag.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
+      if (sortBy === "favorites" && !post.favorite) return false;
       return matchesCategory && matchesSearch;
     });
-  }, [searchQuery, activeCategory]);
 
-  const featuredPost = filteredPosts.find((p) => p.featured) || filteredPosts[0];
-  const regularPosts = filteredPosts.filter((p) => p.id !== featuredPost?.id);
+    if (sortBy === "popular") {
+      return [...filtered].sort(
+        (a, b) => Number(Boolean(b.popular)) - Number(Boolean(a.popular))
+      );
+    }
+
+    return filtered;
+  }, [searchQuery, activeCategory, sortBy]);
+
+  const featuredPost =
+    filteredPosts.find((p) => p.featured) || filteredPosts[0] || blogPosts[0];
+  const gridPosts = filteredPosts.slice(0, 4);
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail.trim()) return;
+    try {
+      await fetch("/api/subscribers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: newsletterEmail.trim() }),
+      });
+    } catch {
+      // Fallback notification if DB is not yet connected
+    }
+    toast.success(
+      lang === "en"
+        ? "Subscribed to the newsletter!"
+        : "¡Suscrito al newsletter correctamente!"
+    );
+    setNewsletterEmail("");
+  };
+
+  const resetAllFilters = () => {
+    setSearchQuery("");
+    setActiveCategory("all");
+    setSortBy("recent");
+    setCurrentPage(1);
+  };
 
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary text-text-primary overflow-x-hidden select-none transition-colors duration-500">
+    <div className="relative min-h-screen w-full bg-bg-primary text-text-primary overflow-x-hidden select-none transition-colors duration-500 pb-24">
       {/* Floating Navigation */}
       <Navbar />
 
-      {/* ------------------------------------------------------------- */}
-      {/* 1. HERO SECTION: "VIBE CODE IS REAL"                          */}
-      {/* ------------------------------------------------------------- */}
-      <header className="relative w-full h-[70vh] sm:h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-        {/* Hero Background Image with Atmospheric Overlay */}
-        <div className="absolute inset-0 w-full h-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 pt-24 md:pt-32 space-y-8 sm:space-y-10">
+        {/* ------------------------------------------------------------- */}
+        {/* 1. CONTAINED ROUNDED HERO BANNER: "VIBE CODE IS REAL"         */}
+        {/* ------------------------------------------------------------- */}
+        <header className="relative w-full h-[360px] sm:h-[440px] md:h-[520px] rounded-3xl overflow-hidden shadow-xl">
           <Image
             src={heroBg}
             alt="Vibe Code Lifestyle Flatlay"
@@ -57,227 +134,476 @@ export default function BlogsPage() {
             priority
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-black/30 to-black/50" />
-        </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/20" />
 
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white space-y-4">
-          <h1 className="font-cinzel text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tight leading-[0.95] drop-shadow-2xl">
-            {t.blog.heroTitlePart1}
-            <span className="block font-editorial font-light italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl mt-1 text-[#FAF6ED]/90">
-              {t.blog.heroTitlePart2}
-            </span>
-          </h1>
+          <div className="relative z-10 h-full flex flex-col justify-start p-8 sm:p-12 md:p-16 text-white max-w-2xl">
+            <h1 className="uppercase tracking-tight leading-[0.95] drop-shadow-lg">
+              <span className="block font-cinzel text-5xl sm:text-7xl md:text-8xl font-black tracking-wide">
+                {t.blog.heroTitlePart1}
+              </span>
+              <span className="block font-editorial font-light text-4xl sm:text-6xl md:text-7xl tracking-wider mt-1.5 text-white/95">
+                {t.blog.heroTitlePart2}
+              </span>
+            </h1>
 
-          <p className="font-editorial text-base sm:text-xl md:text-2xl italic text-[#FAF6ED]/80 font-light max-w-xl mx-auto pt-2">
-            {t.blog.heroSubtitle}
-          </p>
-        </div>
-      </header>
-
-      {/* ------------------------------------------------------------- */}
-      {/* 2. MAIN BLOG BODY                                             */}
-      {/* ------------------------------------------------------------- */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 py-10 sm:py-16 space-y-10 sm:space-y-12">
-        {/* Search Bar (Rounded Deep Crimson Pill) */}
-        <div className="w-full max-w-2xl">
-          <div className="relative flex items-center w-full bg-[#58120F] dark:bg-[#470D0B] text-[#E9DFC9] rounded-full px-5 py-3 sm:py-3.5 shadow-lg border border-[#E9DFC9]/15 focus-within:ring-2 focus-within:ring-accent transition-all">
-            <Search size={18} className="text-[#E9DFC9]/70 shrink-0 mr-3" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t.blog.searchPlaceholder}
-              className="w-full bg-transparent text-sm sm:text-base font-sans-clean text-[#E9DFC9] placeholder-[#E9DFC9]/50 focus:outline-none"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="p-1 rounded-full hover:bg-black/20 text-[#E9DFC9]/70 hover:text-[#E9DFC9] cursor-pointer ml-2"
-                title="Limpiar búsqueda"
-              >
-                <X size={16} />
-              </button>
-            )}
+            <p className="mt-5 font-editorial text-lg sm:text-xl md:text-2xl text-white/90 font-light leading-relaxed max-w-xl drop-shadow">
+              {t.blog.heroSubtitle}
+            </p>
           </div>
-        </div>
+        </header>
 
-        {/* 2-Column Main Feed + Sticky Sidebar Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* --------------------------------------------------------- */}
-          {/* LEFT: Articles Feed (Featured + Grid)                    */}
-          {/* --------------------------------------------------------- */}
-          <div className="lg:col-span-8 space-y-8">
-            {/* Featured Hero Article Banner */}
-            {featuredPost && (
-              <Link
-                href={`/${lang}/blogs/${featuredPost.slug}`}
-                className="group relative w-full rounded-3xl overflow-hidden glass-card border border-current/15 shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col justify-end min-h-[320px] sm:min-h-[400px] p-6 sm:p-8 block"
-              >
-                {/* Circuit Background */}
-                <div className="absolute inset-0 w-full h-full bg-black/60 overflow-hidden">
-                  <Image
-                    src={circuitImg}
-                    alt={featuredPost.title}
-                    fill
-                    priority
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/30 group-hover:from-black/90 transition-colors" />
-                </div>
+        {/* ------------------------------------------------------------- */}
+        {/* 2. MAIN BLOG BODY (Full Width OR 2-Column with Filters)       */}
+        {/* ------------------------------------------------------------- */}
+        <div
+          className={`grid grid-cols-1 ${
+            isFiltersOpen ? "lg:grid-cols-12 gap-8 lg:gap-10" : ""
+          } items-start`}
+        >
+          {/* LEFT / MAIN COLUMN */}
+          <div
+            className={`${
+              isFiltersOpen ? "lg:col-span-8" : "w-full"
+            } space-y-8 sm:space-y-10`}
+          >
+            {/* Search & Filter Bar */}
+            <div className="w-full rounded-2xl bg-[#FAF6ED]/85 dark:bg-white/5 border border-current/10 px-5 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between gap-4 shadow-sm backdrop-blur-md">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <Search size={20} className="opacity-60 shrink-0" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={t.blog.searchPlaceholder}
+                  className="w-full bg-transparent text-base sm:text-lg font-editorial text-current placeholder:text-current/50 focus:outline-none"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="p-1.5 rounded-full hover:bg-current/10 opacity-60 hover:opacity-100 cursor-pointer"
+                    aria-label="Clear search"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+              </div>
 
-                {/* Content Overlay */}
-                <div className="relative z-10 text-white space-y-3">
-                  <div className="flex items-center gap-3 text-xs font-cinzel text-white/80 flex-wrap">
-                    <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/80 backdrop-blur-md text-[#FAF6ED] text-[10px] font-bold uppercase tracking-wider">
-                      <Sparkles size={11} />
-                      {featuredPost.categoryLabel}
-                    </span>
-                    <span>{featuredPost.date}</span>
-                    <span>• {featuredPost.readTime}</span>
-                  </div>
-
-                  <h2 className="font-editorial text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#FAF6ED] leading-snug group-hover:text-white transition-colors">
-                    {featuredPost.title}
-                  </h2>
-
-                  <p className="font-sans-clean text-xs sm:text-sm text-white/80 font-light line-clamp-2 max-w-2xl leading-relaxed">
-                    {featuredPost.excerpt}
-                  </p>
-
-                  <div className="pt-2">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-cinzel tracking-wider uppercase font-semibold bg-[#58120F] text-[#E9DFC9] border border-[#E9DFC9]/20 group-hover:scale-105 transition-all shadow-md">
-                      <span>{t.blog.readMore}</span>
-                      <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            )}
-
-            {/* Grid of Remaining Articles (2 columns) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {regularPosts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/${lang}/blogs/${post.slug}`}
-                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden glass-card border border-current/15 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1 cursor-pointer flex flex-col justify-between p-5 sm:p-6 min-h-[260px] block"
-                >
-                  {/* Circuit Background Thumbnail */}
-                  <div className="absolute inset-0 w-full h-full bg-black/60 overflow-hidden">
-                    <Image
-                      src={circuitImg}
-                      alt={post.title}
-                      fill
-                      className="object-cover opacity-60 transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40" />
-                  </div>
-
-                  {/* Top Metadata */}
-                  <div className="relative z-10 text-white/80 text-[11px] font-cinzel flex items-center justify-between">
-                    <span>{post.date}</span>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/10 border border-white/10">
-                      {post.categoryLabel}
-                    </span>
-                  </div>
-
-                  {/* Title & Excerpt */}
-                  <div className="relative z-10 text-white space-y-2 mt-auto pt-4">
-                    <h3 className="font-editorial text-xl sm:text-2xl font-bold tracking-tight text-[#FAF6ED] leading-snug group-hover:text-white transition-colors">
-                      {post.title}
-                    </h3>
-
-                    <p className="font-sans-clean text-xs text-white/75 font-light line-clamp-2 leading-relaxed">
-                      {post.excerpt}
-                    </p>
-
-                    <div className="pt-2 flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-cinzel tracking-wider uppercase font-semibold bg-[#58120F] text-[#E9DFC9] border border-[#E9DFC9]/20 group-hover:scale-105 transition-all shadow-sm">
-                        <span>{t.blog.readMore}</span>
-                        <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform" />
-                      </span>
-
-                      <span className="text-[10px] font-cinzel text-white/60">
-                        {post.readTime}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            {filteredPosts.length === 0 && (
-              <div className="p-10 text-center glass-card rounded-3xl space-y-3">
-                <p className="font-editorial text-2xl font-light opacity-80">
-                  {t.blog.noArticles}
-                </p>
+              <div className="flex items-center gap-2.5 shrink-0">
                 <button
+                  type="button"
                   onClick={() => {
-                    setSearchQuery("");
-                    setActiveCategory("all");
+                    setCurrentPage(1);
+                    triggerLoading();
                   }}
-                  className="px-5 py-2 rounded-full text-xs font-cinzel uppercase tracking-wider bg-current text-white dark:text-black font-semibold cursor-pointer"
+                  className="px-5 py-2 rounded-full text-sm sm:text-base font-editorial font-semibold bg-current/10 hover:bg-current/15 transition-colors cursor-pointer"
                 >
-                  {t.blog.resetFilters}
+                  {t.blog.searchBtn}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsFiltersOpen((prev) => !prev)}
+                  className={`px-5 py-2 rounded-full text-sm sm:text-base font-editorial font-semibold transition-all cursor-pointer ${
+                    isFiltersOpen
+                      ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F]"
+                      : "bg-current/10 hover:bg-current/15"
+                  }`}
+                >
+                  {t.blog.filtersBtn}
                 </button>
               </div>
+            </div>
+
+            {isLoading ? (
+              <BlogLoading />
+            ) : (
+              <>
+                {/* Featured Article Horizontal Card */}
+                {featuredPost && (
+                  <Link
+                    href={`/${lang}/blogs/${featuredPost.slug}`}
+                    className="group rounded-3xl bg-[#FAF6ED]/90 dark:bg-white/5 border border-current/10 p-5 sm:p-7 md:p-8 flex flex-col md:flex-row items-center gap-6 sm:gap-8 md:gap-10 shadow-sm hover:shadow-lg transition-all duration-300"
+                  >
+                    {/* Left Thumbnail Image */}
+                    <div className="relative w-full md:w-[46%] h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden shrink-0 bg-black">
+                      <Image
+                        src={featuredPost.coverImageUrl || circuitImg}
+                        alt={featuredPost.title}
+                        fill
+                        priority
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                      <span className="absolute bottom-4 left-4 px-4 py-1.5 rounded-full bg-[#FAF6ED] text-[#5B1614] text-xs sm:text-sm font-editorial font-semibold shadow-sm">
+                        {t.blog.featuredBadge}
+                      </span>
+                    </div>
+
+                    {/* Right Details */}
+                    <div className="flex-1 space-y-4 sm:space-y-5 py-2 w-full">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <span className="px-4 py-1.5 rounded-full bg-current/5 border border-current/10 text-xs sm:text-sm font-editorial opacity-80">
+                          {featuredPost.date}
+                        </span>
+                        <span className="px-4 py-1.5 rounded-full bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] text-xs sm:text-sm font-editorial font-semibold">
+                          {featuredPost.categoryLabel}
+                        </span>
+                      </div>
+
+                      <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-[1.08] group-hover:opacity-85 transition-opacity">
+                        {featuredPost.title}
+                      </h2>
+
+                      <p className="font-editorial text-base sm:text-lg opacity-80 leading-relaxed line-clamp-2">
+                        {featuredPost.excerpt}
+                      </p>
+
+                      <div className="pt-2">
+                        <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm sm:text-base font-editorial font-semibold bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] group-hover:scale-105 transition-transform shadow-sm">
+                          <span>{t.blog.readMore}</span>
+                          <ChevronDown size={15} />
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                )}
+
+                {/* "Últimas notas" Section Header */}
+                <div className="flex items-end justify-between pt-2">
+                  <div>
+                    <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-none">
+                      {t.blog.latestTitle}
+                    </h3>
+                    <p className="mt-2 text-sm sm:text-base font-editorial opacity-75">
+                      {t.blog.latestSubtitle}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={resetAllFilters}
+                    className="text-sm sm:text-base font-editorial font-medium opacity-80 hover:opacity-100 hover:underline cursor-pointer"
+                  >
+                    {t.blog.viewAll}
+                  </button>
+                </div>
+
+                {/* 2x2 Grid of Articles */}
+                {gridPosts.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+                    {gridPosts.map((post) => (
+                      <Link
+                        key={post.id}
+                        href={`/${lang}/blogs/${post.slug}`}
+                        className="group relative h-72 sm:h-80 md:h-[340px] rounded-3xl overflow-hidden bg-black p-6 sm:p-7 flex flex-col justify-between shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                      >
+                        <Image
+                          src={post.coverImageUrl || circuitImg}
+                          alt={post.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/15" />
+
+                        {/* Top Date Pill */}
+                        <div className="relative z-10">
+                          <span className="inline-block px-4 py-1.5 rounded-full bg-[#FAF6ED]/95 text-[#5B1614] text-xs sm:text-sm font-editorial font-semibold shadow-sm">
+                            {post.date}
+                          </span>
+                        </div>
+
+                        {/* Bottom Title + Read More Pill */}
+                        <div className="relative z-10 space-y-3.5">
+                          <h4 className="font-editorial text-2xl sm:text-3xl font-bold text-white leading-tight">
+                            {post.title}
+                          </h4>
+                          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-editorial font-semibold bg-[#5B1614] text-[#FAF6ED] border border-white/10 group-hover:scale-105 transition-transform shadow-sm">
+                            <span>{t.blog.readMore}</span>
+                            <ChevronDown size={14} />
+                          </span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-12 text-center rounded-3xl bg-[#FAF6ED]/70 dark:bg-white/5 border border-current/10 space-y-4">
+                    <p className="font-editorial text-2xl opacity-80">
+                      {t.blog.noArticles}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={resetAllFilters}
+                      className="px-6 py-2.5 rounded-full text-sm font-editorial font-semibold bg-[#5B1614] text-[#FAF6ED] cursor-pointer"
+                    >
+                      {t.blog.resetFilters}
+                    </button>
+                  </div>
+                )}
+
+                {/* Pagination Controls */}
+                <div className="flex items-center gap-2.5 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCurrentPage((p) => Math.max(1, p - 1));
+                      triggerLoading();
+                    }}
+                    className="px-4 py-2 rounded-full text-sm font-editorial border border-current/15 bg-[#FAF6ED]/60 dark:bg-white/5 opacity-80 hover:opacity-100 cursor-pointer"
+                  >
+                    {t.blog.prevPage}
+                  </button>
+                  {[1, 2, 3].map((page) => (
+                    <button
+                      key={page}
+                      type="button"
+                      onClick={() => {
+                        setCurrentPage(page);
+                        triggerLoading();
+                      }}
+                      className={`w-9 h-9 rounded-full text-sm font-editorial flex items-center justify-center transition-all cursor-pointer ${
+                        currentPage === page
+                          ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-bold shadow-sm"
+                          : "border border-current/15 bg-[#FAF6ED]/60 dark:bg-white/5 opacity-75 hover:opacity-100"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCurrentPage((p) => Math.min(3, p + 1));
+                      triggerLoading();
+                    }}
+                    className="px-4 py-2 rounded-full text-sm font-editorial border border-current/15 bg-[#FAF6ED]/60 dark:bg-white/5 opacity-80 hover:opacity-100 cursor-pointer"
+                  >
+                    {t.blog.nextPage}
+                  </button>
+                </div>
+              </>
             )}
           </div>
 
-          {/* --------------------------------------------------------- */}
-          {/* RIGHT: Crimson Sticky Sidebar                             */}
-          {/* --------------------------------------------------------- */}
-          <aside className="lg:col-span-4 sticky top-24 space-y-6">
-            <div className="rounded-3xl p-6 sm:p-8 bg-[#58120F] text-[#E9DFC9] shadow-2xl border border-[#E9DFC9]/15 space-y-6">
-              {/* Sidebar Header */}
-              <div className="flex items-center gap-2.5 border-b border-[#E9DFC9]/15 pb-4">
-                <Filter size={18} className="text-[#C5A059]" />
-                <h3 className="font-cinzel text-lg font-bold tracking-wider uppercase">
-                  {t.blog.filterTitle}
-                </h3>
-              </div>
+          {/* RIGHT SIDEBAR COLUMN (Visible when Filters Open) */}
+          {isFiltersOpen && (
+            <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-24 animate-in fade-in slide-in-from-right-4 duration-300">
+              {/* Filters White/Cream Card */}
+              <div className="rounded-3xl bg-[#FAF6ED]/90 dark:bg-white/5 border border-current/10 p-6 sm:p-7 space-y-6 shadow-md">
+                {/* Header */}
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-current/10 flex items-center justify-center">
+                    <Filter size={16} className="opacity-80" />
+                  </div>
+                  <div>
+                    <h3 className="font-editorial text-2xl font-bold leading-none">
+                      {t.blog.filterTitle}
+                    </h3>
+                    <p className="text-sm font-editorial opacity-70 mt-1">
+                      {t.blog.filterSubtitle}
+                    </p>
+                  </div>
+                </div>
 
-              {/* Category Filter Pills */}
-              <div className="space-y-2">
-                <span className="text-[10px] font-cinzel uppercase tracking-widest opacity-60 block mb-2">
-                  {t.blog.categoriesLabel}
-                </span>
-                <div className="flex flex-col gap-1.5">
+                {/* Close Filters Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsFiltersOpen(false)}
+                  className="w-full py-3 rounded-full text-sm sm:text-base font-editorial font-semibold bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] hover:opacity-95 transition-opacity cursor-pointer shadow-sm"
+                >
+                  {t.blog.closeFiltersBtn}
+                </button>
+
+                {/* Category Radio Pills */}
+                <div className="space-y-2.5">
                   {categories.map((cat) => {
-                    const isActive = activeCategory === cat.id;
+                    const isSelected = activeCategory === cat.id;
                     return (
                       <button
                         key={cat.id}
-                        onClick={() => setActiveCategory(cat.id)}
-                        className={`w-full text-left px-3.5 py-2 rounded-xl text-xs font-cinzel tracking-wider transition-all cursor-pointer flex items-center justify-between ${isActive
-                            ? "bg-[#E9DFC9] text-[#58120F] font-bold shadow-md scale-[1.02]"
-                            : "hover:bg-black/20 text-[#E9DFC9]/80 hover:text-[#E9DFC9]"
-                          }`}
+                        type="button"
+                        onClick={() =>
+                          setActiveCategory(isSelected ? "all" : cat.id)
+                        }
+                        className={`w-full px-4 py-3 rounded-xl text-sm sm:text-base font-editorial flex items-center gap-3 transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-semibold shadow-sm"
+                            : "bg-white/60 dark:bg-white/5 border border-current/10 hover:border-current/25"
+                        }`}
                       >
+                        <span
+                          className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                            isSelected
+                              ? "border-current bg-current"
+                              : "border-current/40"
+                          }`}
+                        >
+                          {isSelected && (
+                            <span className="w-2 h-2 rounded-full bg-[#5B1614] dark:bg-[#E9DFC9]" />
+                          )}
+                        </span>
                         <span>{cat.label}</span>
-                        {isActive && <span className="text-xs">●</span>}
                       </button>
                     );
                   })}
                 </div>
+
+                {/* Sort By Options */}
+                <div className="space-y-2.5 pt-1">
+                  <span className="text-sm sm:text-base font-editorial font-semibold opacity-80 block">
+                    {t.blog.sortByLabel}
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {sortOptions.map((opt) => {
+                      const isActive = sortBy === opt.id;
+                      return (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => setSortBy(opt.id)}
+                          className={`px-4 py-2 rounded-full text-sm font-editorial transition-all cursor-pointer ${
+                            isActive
+                              ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-semibold shadow-sm"
+                              : "bg-current/5 border border-current/10 opacity-80 hover:opacity-100"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Apply Filters Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCurrentPage(1);
+                    triggerLoading();
+                  }}
+                  className="w-full py-3 rounded-full text-sm sm:text-base font-editorial font-semibold bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] hover:opacity-95 transition-opacity cursor-pointer shadow-sm"
+                >
+                  {t.blog.applyFiltersBtn}
+                </button>
               </div>
 
-              {/* Author / Manifesto Capsule */}
-              <div className="pt-4 border-t border-[#E9DFC9]/15 space-y-3">
-                <div className="flex items-center gap-2 text-xs font-cinzel font-semibold opacity-90">
-                  <BookOpen size={14} className="text-[#C5A059]" />
-                  <span>{t.blog.manifestoTitle}</span>
+              {/* Compact Newsletter Card in Sidebar */}
+              <div className="rounded-3xl bg-[#5B1614] text-[#FAF6ED] p-6 sm:p-7 space-y-4 shadow-xl">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
+                    <Mail size={16} />
+                  </div>
+                  <div>
+                    <h4 className="font-editorial text-2xl font-bold leading-none">
+                      {t.blog.newsletterTitle}
+                    </h4>
+                    <p className="text-sm font-editorial text-white/80 mt-1">
+                      {t.blog.newsletterSubtitle}
+                    </p>
+                  </div>
                 </div>
-                <p className="font-editorial text-xs sm:text-sm font-light italic leading-relaxed text-[#E9DFC9]/80">
-                  {t.blog.manifestoQuote}
+
+                <form
+                  onSubmit={handleNewsletterSubmit}
+                  className="flex items-center bg-white/10 border border-white/15 rounded-full p-1.5 pl-4"
+                >
+                  <input
+                    type="email"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    placeholder={t.blog.newsletterPlaceholder}
+                    className="w-full bg-transparent text-sm sm:text-base font-editorial text-white placeholder:text-white/60 focus:outline-none"
+                  />
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-full bg-[#FAF6ED] text-[#5B1614] text-sm font-editorial font-semibold hover:scale-105 transition-transform cursor-pointer shrink-0"
+                  >
+                    {t.blog.newsletterBtn}
+                  </button>
+                </form>
+
+                <p className="text-xs sm:text-sm font-editorial text-white/75 leading-relaxed">
+                  {t.blog.newsletterConsentPrefix}{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(
+                          new CustomEvent("open-legal-modal", {
+                            detail: { tab: "privacy" },
+                          })
+                        );
+                      }
+                    }}
+                    className="underline font-semibold text-white hover:opacity-90 cursor-pointer"
+                  >
+                    {t.blog.newsletterConsentLink}
+                  </button>
+                  .
+                </p>
+              </div>
+            </aside>
+          )}
+        </div>
+
+        {/* ------------------------------------------------------------- */}
+        {/* 3. BOTTOM FULL-WIDTH NEWSLETTER BANNER (When Filters Closed)  */}
+        {/* ------------------------------------------------------------- */}
+        {!isFiltersOpen && (
+          <section className="rounded-3xl bg-[#5B1614] text-[#FAF6ED] p-7 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl">
+            <div className="flex items-start sm:items-center gap-4">
+              <div className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                <Mail size={20} />
+              </div>
+              <div>
+                <h3 className="font-editorial text-2xl sm:text-3xl font-bold leading-tight">
+                  {t.blog.newsletterTitle}
+                </h3>
+                <p className="text-sm sm:text-base font-editorial text-white/85">
+                  {t.blog.newsletterSubtitle}
+                </p>
+                <p className="text-xs sm:text-sm font-editorial text-white/75 mt-1 leading-relaxed max-w-xl">
+                  {t.blog.newsletterConsentPrefix}{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(
+                          new CustomEvent("open-legal-modal", {
+                            detail: { tab: "privacy" },
+                          })
+                        );
+                      }
+                    }}
+                    className="underline font-semibold text-white hover:opacity-90 cursor-pointer"
+                  >
+                    {t.blog.newsletterConsentLink}
+                  </button>
+                  .
                 </p>
               </div>
             </div>
-          </aside>
-        </div>
-      </main>
+
+            <form
+              onSubmit={handleNewsletterSubmit}
+              className="flex items-center bg-white/10 border border-white/15 rounded-full p-1.5 pl-5 w-full md:w-96 shrink-0"
+            >
+              <input
+                type="email"
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                placeholder={t.blog.newsletterPlaceholder}
+                className="w-full bg-transparent text-sm sm:text-base font-editorial text-white placeholder:text-white/60 focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="px-5 py-2 rounded-full bg-[#FAF6ED] text-[#5B1614] text-sm sm:text-base font-editorial font-semibold hover:scale-105 transition-transform cursor-pointer shrink-0"
+              >
+                {t.blog.newsletterBtn}
+              </button>
+            </form>
+          </section>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 
-@theme {
+@theme inline {
   --color-accent: var(--accent);
   --color-accent-gold: var(--accent-gold);
   --color-bg-primary: var(--bg-primary);
@@ -9,6 +9,10 @@
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
+  --font-editorial: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-cinzel: var(--font-cinzel), 'Cinzel', 'Noto Serif JP', 'Noto Serif SC', 'Noto Serif KR', 'Songti SC', 'Yu Mincho', 'Batang', serif;
+  --font-eb-garamond: var(--font-eb-garamond), 'EB Garamond', Georgia, serif;
+  --font-sans-clean: system-ui, -apple-system, sans-serif;
 }
 
 :root {

@@ -7,6 +7,14 @@ const defaultLocale = "es";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/media")
+  ) {
+    return NextResponse.next();
+  }
+
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
@@ -43,7 +51,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Skip static assets, Next.js internals, and files with extensions
-    "/((?!api|_next/static|_next/image|assets|videos|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ttf|woff|woff2|ico|mp4|webm|ogg|mp3|wav|mov|m4v)$).*)",
+    // Skip static assets, Payload admin/api/media, Next.js internals, and files with extensions
+    "/((?!api|admin|media|_next/static|_next/image|assets|videos|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ttf|woff|woff2|ico|mp4|webm|ogg|mp3|wav|mov|m4v)$).*)",
   ],
 };

@@ -173,6 +173,16 @@ export default function LegalModal({
                 </p>
               </div>
 
+              {/* Newsletter Data Processing Clause */}
+              <div className="p-5 rounded-2xl bg-current/5 border border-current/10 space-y-2">
+                <h4 className="font-editorial text-lg sm:text-xl font-bold text-current">
+                  {t.legal.privacySection.newsletterTitle}
+                </h4>
+                <p className="opacity-85 text-xs sm:text-sm leading-relaxed">
+                  {t.legal.privacySection.newsletterText}
+                </p>
+              </div>
+
               <div className="p-5 rounded-2xl bg-current/5 border border-current/10 space-y-2">
                 <div className="flex items-center gap-2 font-cinzel text-xs font-bold uppercase tracking-wider text-accent">
                   <CheckCircle2 size={16} />

@@ -1,152 +1,323 @@
+export interface BlogSection {
+  id: string;
+  number: string;
+  heading: string;
+  paragraphs: string[];
+  imageUrl?: string;
+  imageAlt?: string;
+  imageCaption?: string;
+  quote?: {
+    text: string;
+    author: string;
+  };
+}
+
 export interface BlogPost {
   id: string;
   slug: string;
   title: string;
   date: string;
   readTime: string;
-  category: "all" | "vibe-coding" | "creative-dev" | "full-stack" | "art-code";
+  category: string;
   categoryLabel: string;
   excerpt: string;
+  coverImageUrl?: string;
   content: string[];
+  sections: BlogSection[];
   codeSnippet?: string;
   tags: string[];
   featured?: boolean;
+  popular?: boolean;
+  favorite?: boolean;
 }
 
-export const blogPosts: BlogPost[] = [
+const defaultSectionsEs: BlogSection[] = [
+  {
+    id: "aprender-a-mirar",
+    number: "01",
+    heading: "Aprender a mirar de nuevo",
+    paragraphs: [
+      "A veces pasamos tan rápido por lo cotidiano que damos por sentado todo lo que ya está ahí. Una línea, una proporción, una textura o el ritmo silencioso de una pequeña irregularidad pueden abrir una pregunta. Antes de buscar una respuesta, vale la pena detenerse y dejar que actúe la curiosidad.",
+      "Este espacio nace como una bitácora para registrar esos hallazgos, reunir tiempos y observar cómo conviven el orden y la complejidad. No se trata de llegar lejos a una especie real, sino de ensayar una mirada: encontrar algo nuevo dentro de un paisaje que parecía conocido. El título funciona aquí como una metáfora del descubrimiento creativo.",
+    ],
+  },
+  {
+    id: "observar-antes-de-nombrar",
+    number: "02",
+    heading: "Observar antes de nombrar",
+    paragraphs: [
+      "Nombrar demasiado pronto puede cerrar una posibilidad. Si decidimos de inmediato qué es algo, dejamos de ver sus matices: qué luz tiene en el primer contacto, cómo se describe sin clasificar, dónde aparece un contraste, qué dirección toma una línea, qué zonas se sienten densas y cuáles permiten respirar.",
+      "Un archivo, una fotografía, un boceto, un fragmento de código o una nota suelta funcionan como pruebas: no buscan explicar todo, sino preparar la atención. El registro se convierte en una forma sencilla de conservar el detalle que despertó la atención. Después, volver a esas notas permite distinguir lo accidental de lo que imaginamos a partir de ello.",
+    ],
+    quote: {
+      text: "“Lo nuevo no siempre está más lejos; a veces está en la forma de mirar.”",
+      author: "— Nota de campo",
+    },
+  },
+  {
+    id: "de-las-formas-a-las-ideas",
+    number: "03",
+    heading: "De las formas a las ideas",
+    paragraphs: [
+      "La exploración creativa comienza cuando una observación encuentra otra. Un ritmo visual puede sugerir una composición; una transición de color, una manera de organizar información. Estas asociaciones suaves no son todavía decisiones definitivas, sino rutas intermedias que podemos probar sin prisa y sin juicios.",
+      "Trasladar una forma a otro contexto también implica cambiarla. Podemos simplificar una estructura, ampliar un vacío, alterar una repetición. Ese movimiento mantiene viva la pregunta: ¿qué pasa si cambiamos la escala, si invertimos el orden, si la propuesta puede alejarse de la imagen que teníamos en mente?",
+    ],
+  },
+  {
+    id: "dejar-espacio-para-explorar",
+    number: "04",
+    heading: "Dejar espacio para explorar",
+    paragraphs: [
+      "No todas las pruebas necesitan convertirse en un proyecto. Algunas sirven para entender por qué una combinación no funciona; otras, para descubrir un camino que no habíamos previsto. Reservar un espacio para esos intentos permite trabajar sin la presión de justificar cada decisión desde el principio.",
+      "Una práctica sencilla consiste en tomar un solo detalle y hacer varias interpretaciones: una más contenida, otra más libre y otra que cambie por completo la escala. Compararlas ayuda a entender lo que cada versión propone. La búsqueda no avanza en línea recta; se construye entre ensayos que van afinando el criterio para un nuevo proyecto.",
+    ],
+  },
+  {
+    id: "volver-con-otra-mirada",
+    number: "05",
+    heading: "Volver con otra mirada",
+    paragraphs: [
+      "Quizá encontrar una nueva especie sea, en este contexto, reconocer una posibilidad que antes pasaba inadvertida. No hace falta convertirla en una certeza. A veces basta con guardar la observación y permitir que encuentre su lugar más adelante, junto a otras imágenes, notas y ensayos.",
+      "El cierre de una exploración puede ser el comienzo de la siguiente. Volver a mirar, revisar lo que dimos por sentado y dejar una pregunta abierta son maneras de mantener la curiosidad en movimiento. Lo nuevo no siempre aparece de golpe; a veces emerge cuando aprendemos a detenernos.",
+    ],
+  },
+];
+
+const defaultSectionsEn: BlogSection[] = [
+  {
+    id: "learning-to-see-anew",
+    number: "01",
+    heading: "Learning to see anew",
+    paragraphs: [
+      "Sometimes we rush so quickly through the everyday that we take everything already there for granted. A line, a proportion, a texture, or the quiet rhythm of a slight irregularity can open a question. Before looking for an answer, it is worth pausing and letting curiosity take over.",
+      "This space was born as a logbook to record those findings, gather moments, and observe how order and complexity coexist. It is not about discovering a literal biological species, but rehearsing a way of looking: finding something new within a landscape that seemed familiar. The title serves here as a metaphor for creative discovery.",
+    ],
+  },
+  {
+    id: "observing-before-naming",
+    number: "02",
+    heading: "Observing before naming",
+    paragraphs: [
+      "Naming too soon can close off a possibility. If we immediately decide what something is, we stop seeing its nuances: what light it holds at first contact, how it feels before classification, where contrast emerges, which direction a line takes, which areas feel dense and which allow room to breathe.",
+      "An archive, a photograph, a sketch, a code snippet, or a loose note act as trials: they do not seek to explain everything, but to prepare our attention. Recording becomes a simple way to preserve the detail that sparked interest. Returning to those notes later lets us distinguish the accidental from what we can imagine from it.",
+    ],
+    quote: {
+      text: "“The new is not always further away; sometimes it lies in the way we look.”",
+      author: "— Field note",
+    },
+  },
+  {
+    id: "from-shapes-to-ideas",
+    number: "03",
+    heading: "From shapes to ideas",
+    paragraphs: [
+      "Creative exploration begins when one observation meets another. A visual rhythm can suggest a composition; a color transition can inspire a way of organizing information. These gentle associations are not yet final decisions, but intermediate paths we can test without haste or judgment.",
+      "Moving a form into another context also means transforming it. We can simplify a structure, expand a void, or alter a repetition. That movement keeps the question alive: what happens if we change the scale, invert the order, or let the proposal drift away from our initial mental image?",
+    ],
+  },
+  {
+    id: "leaving-room-to-explore",
+    number: "04",
+    heading: "Leaving room to explore",
+    paragraphs: [
+      "Not every experiment needs to become a finished project. Some help us understand why a combination fails; others reveal a path we had not anticipated. Reserving space for those attempts allows us to work without the pressure of justifying every decision from the very beginning.",
+      "A simple practice is taking a single detail and crafting several interpretations: one more restrained, another freer, and another that completely shifts the scale. Comparing them clarifies what each version proposes. Discovery does not move in a straight line; it is built through trials that refine our judgment.",
+    ],
+  },
+  {
+    id: "returning-with-another-gaze",
+    number: "05",
+    heading: "Returning with another gaze",
+    paragraphs: [
+      "Perhaps finding a new species in this context means recognizing a possibility that previously went unnoticed. There is no need to turn it into a certainty right away. Sometimes it is enough to keep the observation and let it find its place later alongside other images, notes, and essays.",
+      "The closing of one exploration can be the beginning of the next. Looking again, revisiting what we took for granted, and leaving an open question are ways to keep curiosity in motion. The new does not always appear all at once; sometimes it emerges when we learn to pause.",
+    ],
+  },
+];
+
+export const blogPostsEs: BlogPost[] = [
   {
     id: "1",
-    slug: "encontrando-una-nueva-especie-vibe-coding",
-    title: "Encontrando Una Nueva Especie: La Era del Vibe Coding",
+    slug: "encontrando-una-nueva-especie",
+    title: "Encontrando una nueva especie",
     date: "Sábado 14 Junio 2026",
-    readTime: "5 min de lectura",
-    category: "vibe-coding",
-    categoryLabel: "Vibe Coding",
+    readTime: "Lectura de 4 minutos",
+    category: "editorial",
+    categoryLabel: "Editorial",
     excerpt:
-      "Cómo la intuición, los agentes de IA y la sensibilidad estética están transformando la ingeniería de software moderna en una disciplina puramente creativa.",
-    content: [
-      "Durante décadas, la programación fue concebida como una labor de ensamblaje riguroso, donde cada punto y coma era un ladrillo colocado a mano en una estructura estricta. Sin embargo, estamos presenciando el nacimiento de una nueva especie de creadores: aquellos que programan por intuición estética y visión de producto.",
-      "El 'Vibe Coding' no es una renuncia al rigor técnico; es la elevación del desarrollador al rol de director de orquesta. Al apoyarnos en herramientas generativas y modelos de lenguaje de última generación, la barrera entre la idea conceptual y el código funcional se disuelve casi por completo.",
-      "Lo que verdaderamente distingue a un proyecto en esta era ya no es escribir cada línea desde cero, sino la agudeza visual, la armonía en la arquitectura y la obsesión por crear experiencias que emocionen al usuario.",
-      "Cuando la máquina asume la carga del boilerplate y las tareas sintácticas repetitivas, el programador recupera su cualidad más humana: la capacidad de conectar ideas dispares, el gusto por la tipografía fina, la fluidez del movimiento cinemático y la creación de mundos digitales memorables."
-    ],
-    codeSnippet: `// The Vibe Architecture Principle
-interface CreativeEngineer {
-  intuition: "uncompromising";
-  vision: "editorial-aesthetic";
-  speed: "accelerated-by-ai";
-  craft: () => Promise<MemorableExperience>;
-}
-
-export const manifest: CreativeEngineer = {
-  intuition: "uncompromising",
-  vision: "editorial-aesthetic",
-  speed: "accelerated-by-ai",
-  craft: async () => buildMasterpiece(),
-};`,
-    tags: ["Vibe Coding", "AI Agents", "Creative Dev", "Filosofía"],
+      "Una invitación a detener la mirada, seguir la curiosidad y descubrir nuevas posibilidades en lo que creemos conocer.",
+    content: defaultSectionsEs.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEs,
+    tags: ["Editorial", "Vibe Coding", "Arte Digital", "Mirada"],
     featured: true,
+    popular: true,
+    favorite: true,
   },
   {
     id: "2",
     slug: "arquitecturas-reactivas-typescript-2026",
-    title: "Arquitecturas Reactivas & TypeScript en 2026",
+    title: "Encontrando una nueva especie",
     date: "Sábado 14 Junio 2026",
-    readTime: "4 min de lectura",
-    category: "full-stack",
-    categoryLabel: "Full Stack",
+    readTime: "Lectura de 4 minutos",
+    category: "proyectos",
+    categoryLabel: "Proyectos",
     excerpt:
-      "Patrones de diseño desacoplados con React 19, Zustand y Node.js para aplicaciones web ultrarrápidas y mantenibles.",
-    content: [
-      "Mantener el código limpio a medida que una aplicación crece es el desafío perenne del desarrollo full-stack. En este artículo profundizamos en cómo estructurar stores modulares con Zustand, tipado estricto en APIs REST y optimizaciones de renderizado en React 19.",
-      "El uso consistente de TypeScript no solo previene bugs en tiempo de ejecución, sino que sirve como la documentación viva más precisa de tu sistema.",
-      "Al desacoplar el estado global de la lógica de presentación y utilizar contratos de datos tipados entre el frontend y el backend, los equipos pueden iterar con la máxima velocidad sin sacrificar estabilidad."
-    ],
-    codeSnippet: `import { create } from "zustand";
-
-interface StateStore {
-  activeTheme: "cream" | "crimson";
-  setTheme: (theme: "cream" | "crimson") => void;
-}
-
-export const useStore = create<StateStore>((set) => ({
-  activeTheme: "cream",
-  setTheme: (theme) => set({ activeTheme: theme }),
-}));`,
-    tags: ["TypeScript", "React 19", "Zustand", "Node.js"],
+      "Una invitación a detener la mirada, seguir la curiosidad y descubrir nuevas posibilidades en lo que creemos conocer.",
+    content: defaultSectionsEs.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEs,
+    tags: ["TypeScript", "React 19", "Proyectos", "Arquitectura"],
+    popular: true,
   },
   {
     id: "3",
     slug: "shaders-glsl-gsap-pintando-con-matematicas",
-    title: "Shaders GLSL & GSAP: Pintando con Matemáticas",
-    date: "Viernes 28 Mayo 2026",
-    readTime: "6 min de lectura",
-    category: "creative-dev",
-    categoryLabel: "Creative Dev",
+    title: "Encontrando una nueva especie",
+    date: "Sábado 14 Junio 2026",
+    readTime: "Lectura de 5 minutos",
+    category: "notas-de-campo",
+    categoryLabel: "Notas de campo",
     excerpt:
       "Exploración práctica de shaders fragmentados y pipelines cinemáticos con ScrollTrigger para crear magia visual en la web.",
-    content: [
-      "Los shaders en WebGL permiten calcular el color de cada píxel en paralelo a 60 cuadros por segundo. Cuando combinamos esta potencia con la precisión de timelines de GSAP, la web deja de ser un documento estático para convertirse en un lienzo vivo.",
-      "Analizamos cómo modular la turbulencia, ondas senoidales y distorsiones cromáticas para lograr identidades visuales únicas que cautiven a primera vista.",
-      "Integrar Three.js con React Three Fiber permite componer escenas tridimensionales con la misma elegancia declarativa con la que construimos componentes estándar de UI."
-    ],
-    codeSnippet: `// Fragment Shader: Crimson Plasma Glow
-precision mediump float;
-uniform float u_time;
-uniform vec2 u_resolution;
-
-void main() {
-  vec2 st = gl_FragCoord.xy / u_resolution.xy;
-  vec3 color = vec3(0.35, 0.08, 0.06); // Dark Crimson base
-  color += sin(st.x * 10.0 + u_time) * 0.15;
-  gl_FragColor = vec4(color, 1.0);
-}`,
-    tags: ["WebGL", "GLSL", "GSAP", "Three.js"],
+    content: defaultSectionsEs.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEs,
+    tags: ["WebGL", "GLSL", "GSAP", "Notas de campo"],
+    favorite: true,
   },
   {
     id: "4",
     slug: "la-muerte-del-diseno-generico",
-    title: "La Muerte del Diseño Genérico en la Web",
-    date: "Lunes 12 Mayo 2026",
-    readTime: "3 min de lectura",
-    category: "art-code",
-    categoryLabel: "UI & Arte",
+    title: "Encontrando una nueva especie",
+    date: "Sábado 14 Junio 2026",
+    readTime: "Lectura de 3 minutos",
+    category: "especimenes",
+    categoryLabel: "Especímenes",
     excerpt:
       "Por qué las plantillas aburridas están destinadas a desaparecer y cómo la dirección de arte editorial marca la diferencia.",
-    content: [
-      "El internet moderno sufre de una epidemia de monotonía: interfaces idénticas con los mismos botones y los mismos esquemas de color azules y grises. Reclamar la tipografía serif, los contrastes audaces y las micro-interacciones cinematográficas es el camino hacia la distinción.",
-      "Cada producto digital debe poseer un alma propia. Diseñar con vocación artística no es superficial; es la declaración de que lo que construyes merece ser recordado."
-    ],
-    tags: ["Editorial UI", "Tipografía", "Arte", "Design Systems"],
+    content: defaultSectionsEs.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEs,
+    tags: ["Editorial UI", "Tipografía", "Arte", "Especímenes"],
+    popular: true,
   },
   {
     id: "5",
     slug: "de-dam-a-la-direccion-de-arte",
-    title: "De DAM a la Dirección de Arte: Mi Viaje Creativo",
-    date: "Domingo 20 Abril 2026",
-    readTime: "5 min de lectura",
-    category: "full-stack",
-    categoryLabel: "Full Stack",
+    title: "Encontrando una nueva especie",
+    date: "Sábado 14 Junio 2026",
+    readTime: "Lectura de 5 minutos",
+    category: "editorial",
+    categoryLabel: "Editorial",
     excerpt:
       "Cómo los fundamentos del desarrollo multiplataforma se fusionan con la pasión por el diseño digital y el código de autor.",
-    content: [
-      "Estudiar desarrollo multiplataforma te da los cimientos sólidos de bases de datos, patrones de arquitectura y persistencia de datos. Al sumar a esto una obsesión por el arte y el diseño interactivo, el resultado es un perfil híbrido capaz de construir de punta a punta.",
-      "Entender cómo fluyen los datos desde la base de datos hasta el último frame renderizado en el navegador te permite optimizar cada capa del sistema con total confianza."
-    ],
-    tags: ["DAM", "Mobile", "Full Stack", "Trayectoria"],
+    content: defaultSectionsEs.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEs,
+    tags: ["DAM", "Full Stack", "Editorial", "Trayectoria"],
+    favorite: true,
   },
 ];
 
-export function getBlogPostBySlug(slug: string): BlogPost | undefined {
+export const blogPostsEn: BlogPost[] = [
+  {
+    id: "1",
+    slug: "encontrando-una-nueva-especie",
+    title: "Finding a New Species",
+    date: "Saturday, June 14, 2026",
+    readTime: "4 min read",
+    category: "editorial",
+    categoryLabel: "Editorial",
+    excerpt:
+      "An invitation to pause our gaze, follow curiosity, and discover new possibilities within what we think we already know.",
+    content: defaultSectionsEn.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEn,
+    tags: ["Editorial", "Vibe Coding", "Digital Art", "Gaze"],
+    featured: true,
+    popular: true,
+    favorite: true,
+  },
+  {
+    id: "2",
+    slug: "arquitecturas-reactivas-typescript-2026",
+    title: "Finding a New Species",
+    date: "Saturday, June 14, 2026",
+    readTime: "4 min read",
+    category: "proyectos",
+    categoryLabel: "Projects",
+    excerpt:
+      "An invitation to pause our gaze, follow curiosity, and discover new possibilities within what we think we already know.",
+    content: defaultSectionsEn.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEn,
+    tags: ["TypeScript", "React 19", "Projects", "Architecture"],
+    popular: true,
+  },
+  {
+    id: "3",
+    slug: "shaders-glsl-gsap-pintando-con-matematicas",
+    title: "Finding a New Species",
+    date: "Saturday, June 14, 2026",
+    readTime: "5 min read",
+    category: "notas-de-campo",
+    categoryLabel: "Field notes",
+    excerpt:
+      "A hands-on exploration of fragment shaders and cinematic GSAP ScrollTrigger pipelines to craft visual magic on the web.",
+    content: defaultSectionsEn.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEn,
+    tags: ["WebGL", "GLSL", "GSAP", "Field notes"],
+    favorite: true,
+  },
+  {
+    id: "4",
+    slug: "la-muerte-del-diseno-generico",
+    title: "Finding a New Species",
+    date: "Saturday, June 14, 2026",
+    readTime: "3 min read",
+    category: "especimenes",
+    categoryLabel: "Specimens",
+    excerpt:
+      "Why generic templates are destined to fade away and how editorial art direction sets digital products apart.",
+    content: defaultSectionsEn.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEn,
+    tags: ["Editorial UI", "Typography", "Art", "Specimens"],
+    popular: true,
+  },
+  {
+    id: "5",
+    slug: "de-dam-a-la-direccion-de-arte",
+    title: "Finding a New Species",
+    date: "Saturday, June 14, 2026",
+    readTime: "5 min read",
+    category: "editorial",
+    categoryLabel: "Editorial",
+    excerpt:
+      "How cross-platform engineering fundamentals merge with a passion for digital design and bespoke creative code.",
+    content: defaultSectionsEn.flatMap((s) => s.paragraphs),
+    sections: defaultSectionsEn,
+    tags: ["DAM", "Full Stack", "Editorial", "Journey"],
+    favorite: true,
+  },
+];
+
+export const blogPosts: BlogPost[] = blogPostsEs;
+
+export function getBlogsByLang(lang: string = "es"): BlogPost[] {
+  return lang === "en" ? blogPostsEn : blogPostsEs;
+}
+
+export function getBlogPostBySlug(
+  slug: string,
+  lang: string = "es"
+): BlogPost | undefined {
   if (!slug) return undefined;
   const cleanSlug = decodeURIComponent(slug).trim().toLowerCase();
-  return blogPosts.find((p) => {
+  const list = getBlogsByLang(lang);
+  return list.find((p) => {
     const postSlug = p.slug.trim().toLowerCase();
     const postId = p.id.trim().toLowerCase();
     return postSlug === cleanSlug || postId === cleanSlug;
   });
 }
 
-export function getBlogPostById(id: string): BlogPost | undefined {
-  return getBlogPostBySlug(id);
+export function getBlogPostById(
+  id: string,
+  lang: string = "es"
+): BlogPost | undefined {
+  return getBlogPostBySlug(id, lang);
 }

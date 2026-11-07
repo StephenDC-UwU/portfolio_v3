@@ -8,6 +8,7 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import {
   Home,
   User,
+  Sparkles,
   LayoutGrid,
   Mail,
   ChevronDown,
@@ -40,7 +41,7 @@ export default function Navbar() {
 
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-    const sectionIds = ["hero", "about", "projects", "contact"];
+    const sectionIds = ["hero", "about", "process", "projects", "contact"];
     const triggers: ScrollTrigger[] = [];
 
     const timeout = setTimeout(() => {
@@ -86,6 +87,7 @@ export default function Navbar() {
   const navItems = [
     { id: "hero", label: t.nav.home, icon: Home, href: `/${lang}#hero`, isRoute: false },
     { id: "about", label: t.nav.about, icon: User, href: `/${lang}#about`, isRoute: false },
+    { id: "process", label: t.nav.process, icon: Sparkles, href: `/${lang}#process`, isRoute: false },
     { id: "projects", label: t.nav.projects, icon: LayoutGrid, href: `/${lang}#projects`, isRoute: false },
     { id: "contact", label: t.nav.contact, icon: Mail, href: `/${lang}#contact`, isRoute: false },
     /*  { id: "blog", label: t.nav.blog, icon: BookOpen, href: `/${lang}/blogs`, isRoute: true }, */

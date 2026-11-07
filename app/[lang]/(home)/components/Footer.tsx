@@ -43,14 +43,14 @@ export default function Footer() {
     >
       {/* Top Header Row */}
       <div ref={topHeaderRef} className="max-w-7xl mx-auto w-full flex items-center justify-between border-b border-current/10 pb-6">
-        <div className="flex items-center gap-2">
+        {/*  <div className="flex items-center gap-2">
           <span className="font-cinzel text-xs sm:text-sm font-bold tracking-[0.3em] uppercase opacity-80">
             {t.footer.tagline}
           </span>
-        </div>
-        <span className="text-[10px] sm:text-xs font-cinzel tracking-widest uppercase opacity-60">
+        </div> */}
+        {/* <span className="text-[10px] sm:text-xs font-cinzel tracking-widest uppercase opacity-60">
           {t.footer.portfolioLabel} {"//"} {new Date().getFullYear()}
-        </span>
+        </span> */}
       </div>
 
       {/* Middle Climax Editorial Typography */}

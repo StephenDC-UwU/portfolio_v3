@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { ES } from "@/dictionaries/es";
 import { EN } from "@/dictionaries/en";
+import {
+  getPublishedBlogPosts,
+  getBlogCategories,
+} from "@/lib/payload-blogs";
 import BlogsPage from "./BlogsPage";
 
 
@@ -36,6 +40,11 @@ export async function generateMetadata({
   };
 }
 
-export default function Blogs() {
-  return <BlogsPage />;
+export default async function Blogs({ params }: BlogsPageProps) {
+  const { lang } = await params;
+  const [posts, categories] = await Promise.all([
+    getPublishedBlogPosts(lang),
+    getBlogCategories(lang),
+  ]);
+  return <BlogsPage initialPosts={posts} initialCategories={categories} />;
 }
