@@ -122,8 +122,8 @@ function mapPayloadDocToBlogPost(doc: any, lang: string = "es"): BlogPost {
           heading,
           paragraphs,
           imageUrl:
-            sectionImageObj?.dataUrl || sectionImageObj?.url
-              ? String(sectionImageObj.dataUrl || sectionImageObj.url)
+            sectionImageObj?.cloudinaryUrl || sectionImageObj?.url
+              ? String(sectionImageObj.cloudinaryUrl || sectionImageObj.url)
               : undefined,
           imageAlt: sectionImageObj?.alt
             ? String(sectionImageObj.alt)
@@ -147,8 +147,8 @@ function mapPayloadDocToBlogPost(doc: any, lang: string = "es"): BlogPost {
   const coverImageUrl =
     doc.coverImage &&
     typeof doc.coverImage === "object" &&
-    (doc.coverImage.dataUrl || doc.coverImage.url)
-      ? String(doc.coverImage.dataUrl || doc.coverImage.url)
+    (doc.coverImage.cloudinaryUrl || doc.coverImage.url)
+      ? String(doc.coverImage.cloudinaryUrl || doc.coverImage.url)
       : undefined;
 
   const title = String(
