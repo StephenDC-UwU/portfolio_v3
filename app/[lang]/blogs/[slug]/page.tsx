@@ -91,13 +91,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Article Header (Badges, Title & Subtitle) */}
         <header className="space-y-5">
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="px-4 py-1.5 rounded-full bg-[#FAF6ED]/80 dark:bg-white/5 border border-current/10 text-xs sm:text-sm font-editorial opacity-85">
+            <span className="px-4 py-1.5 rounded-full bg-[#FAF6ED]/80 dark:bg-white/5 border border-current/10 text-xs sm:text-sm
+            lg:text-lg font-editorial opacity-85">
               {post.date}
             </span>
             <span className="px-4 py-1.5 rounded-full bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] text-xs sm:text-sm font-editorial font-semibold">
               {post.categoryLabel}
             </span>
-            <span className="text-xs sm:text-sm font-editorial opacity-75">
+            <span className="text-xs sm:text-sm lg:text-base font-editorial opacity-75">
               {post.readTime}
             </span>
           </div>

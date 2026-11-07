@@ -11,12 +11,16 @@ import {
   Sparkles,
   LayoutGrid,
   Mail,
+  BookOpen,
   ChevronDown,
+  LayoutPanelTop,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageDropdown from "@/components/navbar/LanguageDropdown";
-import ThemeToggleButton from "@/components/navbar/ThemeToggleButton";
+import ThemeToggleButton from "@/components/navbar/ThemeToggleButton"
+
+
 
 
 export default function Navbar() {
@@ -87,10 +91,10 @@ export default function Navbar() {
   const navItems = [
     { id: "hero", label: t.nav.home, icon: Home, href: `/${lang}#hero`, isRoute: false },
     { id: "about", label: t.nav.about, icon: User, href: `/${lang}#about`, isRoute: false },
-    { id: "process", label: t.nav.process, icon: Sparkles, href: `/${lang}#process`, isRoute: false },
+    { id: "process", label: t.nav.process, icon: LayoutPanelTop, href: `/${lang}#process`, isRoute: false },
     { id: "projects", label: t.nav.projects, icon: LayoutGrid, href: `/${lang}#projects`, isRoute: false },
     { id: "contact", label: t.nav.contact, icon: Mail, href: `/${lang}#contact`, isRoute: false },
-    /*  { id: "blog", label: t.nav.blog, icon: BookOpen, href: `/${lang}/blogs`, isRoute: true }, */
+    { id: "blog", label: t.nav.blog, icon: BookOpen, href: `/${lang}/blogs`, isRoute: true },
   ];
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {
