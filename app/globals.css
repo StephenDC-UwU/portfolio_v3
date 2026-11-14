@@ -155,6 +155,19 @@ body {
   animation: subtle-float 6s ease-in-out infinite;
 }
 
+@keyframes scroll-float-down {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.animate-scroll-float {
+  animation: scroll-float-down 2.4s ease-in-out infinite;
+}
+
 @keyframes pulse-glow {
   0%, 100% {
     opacity: 0.4;

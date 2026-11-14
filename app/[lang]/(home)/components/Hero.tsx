@@ -2,6 +2,8 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useHeroAnimation } from "../hooks/useHeroAnimation";
+import gsap from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Image from "next/image";
 import sword from "@/app/assets/hero/sword.svg"
 import roseLeft from "@/app/assets/hero/roses-lefth.png"
@@ -160,6 +162,49 @@ export default function Hero() {
             priority
             className="h-[60dvh] lg:h-[40dvh] w-auto object-contain hidden lg:block rotate-y-180" />
         </div>
+
+        {/* Scroll Down Indicator (Bottom Right) */}
+        <button
+          type="button"
+          onClick={() => {
+            gsap.registerPlugin(ScrollToPlugin);
+            gsap.to(window, {
+              scrollTo: { y: window.innerHeight, autoKill: false },
+              duration: 0.5,
+              ease: "power3.inOut",
+            });
+          }}
+          aria-label="Scroll down"
+          className="hidden md:block group absolute bottom-6 sm:bottom-10 right-6 sm:right-12 z-30 cursor-pointer opacity-75 hover:opacity-100 hover:scale-105 transition-all duration-300 select-none animate-scroll-float"
+        >
+          <svg
+            width="156"
+            height="162"
+            viewBox="0 0 156 162"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-16 sm:w-20 md:w-24 h-auto"
+          >
+            <path
+              d="M78 32.1111V123.778M102 99.3333L78 123.778L54 99.3333"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              stroke="currentColor"
+            />
+            <mask id="stroke0_1_3" fill="currentColor">
+              <path d="M156 81C156 125.735 121.078 162 78 162C34.9218 162 0 125.735 0 81C0 36.2649 34.9218 0 78 0C121.078 0 156 36.2649 156 81Z" />
+            </mask>
+            <ellipse
+              cx="78"
+              cy="81"
+              rx="78"
+              ry="81"
+              strokeWidth="1"
+              stroke="currentColor"
+              mask="url(#stroke0_1_3)"
+            />
+          </svg>
+        </button>
 
       </div>
     </section>
