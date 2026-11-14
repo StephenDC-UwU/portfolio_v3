@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ChevronDown } from "lucide-react";
 
 import Navbar from "@/components/navbar/Navbar";
-import { blogPosts } from "@/data/blogs";
 import {
   getPublishedBlogPostBySlug,
   getPublishedBlogPosts,
@@ -21,15 +20,8 @@ interface BlogPostPageProps {
   }>;
 }
 
-export async function generateStaticParams() {
-  const locales = ["es", "en"];
-  return locales.flatMap((lang) =>
-    blogPosts.map((post) => ({
-      lang,
-      slug: post.slug,
-    }))
-  );
-}
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const { lang, slug } = await params;

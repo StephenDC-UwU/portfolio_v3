@@ -1,4 +1,14 @@
+import { revalidatePath } from "next/cache";
 import type { CollectionConfig } from "payload";
+
+function revalidateBlogs() {
+  try {
+    revalidatePath("/es/blogs");
+    revalidatePath("/en/blogs");
+  } catch {
+    // Ignore when called outside Next.js request context
+  }
+}
 
 export const Categories: CollectionConfig = {
   slug: "categories",
@@ -8,6 +18,20 @@ export const Categories: CollectionConfig = {
   },
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterChange: [
+      ({ doc }) => {
+        revalidateBlogs();
+        return doc;
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        revalidateBlogs();
+        return doc;
+      },
+    ],
   },
   fields: [
     {

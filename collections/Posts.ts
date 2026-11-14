@@ -1,4 +1,19 @@
+import { revalidatePath } from "next/cache";
 import type { CollectionConfig } from "payload";
+
+function revalidateBlogRoutes(slug?: string) {
+  try {
+    revalidatePath("/es/blogs");
+    revalidatePath("/en/blogs");
+    revalidatePath("/sitemap.xml");
+    if (slug) {
+      revalidatePath(`/es/blogs/${slug}`);
+      revalidatePath(`/en/blogs/${slug}`);
+    }
+  } catch {
+    // Ignore when called outside Next.js request context
+  }
+}
 
 export const Posts: CollectionConfig = {
   slug: "posts",
@@ -8,6 +23,20 @@ export const Posts: CollectionConfig = {
   },
   access: {
     read: () => true,
+  },
+  hooks: {
+    afterChange: [
+      ({ doc }) => {
+        revalidateBlogRoutes(doc?.slug);
+        return doc;
+      },
+    ],
+    afterDelete: [
+      ({ doc }) => {
+        revalidateBlogRoutes(doc?.slug);
+        return doc;
+      },
+    ],
   },
   fields: [
     {
