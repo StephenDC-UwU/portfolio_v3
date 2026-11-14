@@ -116,6 +116,7 @@ export const EN = {
     title: "Featured Projects",
     filterAll: "All",
     filterCreative: "Creative Dev",
+    filterLanding: "Landing Page",
     filterApp: "Web Apps",
     filterDesign: "UI / Art",
     viewProject: "View Project",

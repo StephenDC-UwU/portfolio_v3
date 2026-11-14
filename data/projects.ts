@@ -21,6 +21,52 @@ export interface ProjectData extends Omit<
 export const rawProjects: ProjectData[] = [
   {
     id: "1",
+    videoPath: "/videos/hair-template.mp4",
+    githubFrontend: "",
+    demoUrl: "https://templatev1-alpha.vercel.app/",
+    category: "landing",
+    year: "2026",
+    tags: ["Astro", "HTML", "CSS", "Ts"],
+    translations: {
+      es: {
+        title: "Hair Template — Landing Page",
+        categoryLabel: "Landing",
+        description:
+          "Landing Page de una Peluquería, la cual esta echa con Astro y Typescript. He incluye registro de citas y servicios a traves de Google Sheets",
+      },
+      en: {
+        title: "Hair Template — Landing Page",
+        categoryLabel: "Landing",
+        description:
+          "Hair salon landing page built with Astro and Typescript. It includes appointment and service registration through Google Sheets.",
+      },
+    },
+  },
+  {
+    id: "2",
+    videoPath: "/videos/inmerseve-landing.mp4",
+    githubFrontend: "",
+    demoUrl: "https://real-statement-seven.vercel.app/",
+    category: "landing",
+    year: "2026",
+    tags: ["Astro", "UI / UX", "GSAP", "IA Skills"],
+    translations: {
+      es: {
+        title: "Inmerseve — Landing Page de Inmersión & Real Estate",
+        categoryLabel: "Landing",
+        description:
+          "Landing page de experiencia de inmersión para Bienes Raíces. Creada con Astro, CSS3, Vanilla Web (HTML5, Vanilla CSS, JS nativo), GSAP y IA Skills (scroll-world).",
+      },
+      en: {
+        title: "Inmerseve — Immersive & Real Estate Landing Page",
+        categoryLabel: "Landing",
+        description:
+          "Immersive experience landing page for Real Estate. Created with Astro, CSS3, Vanilla Web (HTML5, Vanilla CSS, native JS), GSAP and IA Skills (scroll-world).",
+      },
+    },
+  },
+  {
+    id: "3",
     videoPath: "/videos/ecommerce-diversal.mp4",
     githubFrontend:
       "https://github.com/StephenDC-UwU/frontend-ecommerce_diversal",
@@ -46,7 +92,7 @@ export const rawProjects: ProjectData[] = [
     },
   },
   {
-    id: "2",
+    id: "4",
     videoPath: "/videos/iaschedule.mp4",
     githubFrontend: "https://github.com/StephenDC-UwU/frontend_IAScheduleV2",
     githubBackend: "https://github.com/StephenDC-UwU/backend_IAScheduleV2",
@@ -70,12 +116,12 @@ export const rawProjects: ProjectData[] = [
     },
   },
   {
-    id: "3",
+    id: "5",
     videoPath: "/videos/redesign-laquarium-barcelona.mp4",
     githubFrontend:
       "https://github.com/StephenDC-UwU/redesign-laquarium-barcelona",
     demoUrl: "https://redesign-laquarium-barcelona.vercel.app/",
-    category: "creative",
+    category: "apps",
     year: "2025",
     tags: ["Next.js", "GSAP", "Tailwind CSS", "Server Actions"],
     translations: {
@@ -94,11 +140,11 @@ export const rawProjects: ProjectData[] = [
     },
   },
   {
-    id: "4",
+    id: "6",
     videoPath: "/videos/landing-homes.mp4",
     githubFrontend: "https://github.com/StephenDC-UwU/landpage_new_homes",
     demoUrl: "https://landpage-new-homes.vercel.app/",
-    category: "design",
+    category: "landing",
     year: "2025",
     tags: ["Astro", "Vanilla JS", "CSS3", "UI / UX"],
     translations: {

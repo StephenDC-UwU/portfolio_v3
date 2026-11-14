@@ -119,6 +119,7 @@ export const ES = {
     title: "Proyectos Destacados",
     filterAll: "Todos",
     filterCreative: "Creative Dev",
+    filterLanding: "Landing Page",
     filterApp: "Web Apps",
     filterDesign: "UI / Art",
     viewProject: "Ver Proyecto",

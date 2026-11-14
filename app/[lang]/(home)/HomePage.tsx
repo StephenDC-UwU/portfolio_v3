@@ -38,7 +38,7 @@ const HomePage = () => {
                 </div>
 
                 {/* 4. Projects Section (Full natural scrollable content with shadow) */}
-                <div className="panel-section relative z-30 w-full bg-bg-primary shadow-[0_-25px_50px_rgba(0,0,0,0.35)]">
+                <div className="panel-section relative z-30 w-full min-h-dvh bg-bg-primary shadow-[0_-25px_50px_rgba(0,0,0,0.35)]">
                     <Projects />
                 </div>
 

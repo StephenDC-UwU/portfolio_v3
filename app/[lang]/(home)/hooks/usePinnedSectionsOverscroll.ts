@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export const usePinnedSectionsOverscroll = (
   mainRef: React.RefObject<HTMLElement>,
@@ -13,6 +13,11 @@ export const usePinnedSectionsOverscroll = (
     const ctx = gsap.context(() => {
       const panels = gsap.utils.toArray<HTMLElement>(".panel-section");
 
+      const getPanelNaturalHeight = (panel: HTMLElement) => {
+        const inner = panel.firstElementChild as HTMLElement | null;
+        return inner ? inner.offsetHeight : panel.offsetHeight;
+      };
+
       panels.forEach((panel: HTMLElement, i: number) => {
         // Pin current panel when the next panel slides up to cover it
         if (i < panels.length - 1) {
@@ -22,13 +27,17 @@ export const usePinnedSectionsOverscroll = (
             id: `panel-pin-${i}`,
             trigger: panel,
             start: () =>
-              panel.offsetHeight > window.innerHeight
+              getPanelNaturalHeight(panel) > window.innerHeight
                 ? "bottom bottom"
                 : "top top",
             endTrigger: nextPanel,
             end: "top top",
             pin: true,
             pinSpacing: false,
+            invalidateOnRefresh: true,
+            onRefreshInit: () => {
+              gsap.set(panel, { clearProps: "height,maxHeight" });
+            },
             onLeave: () => {
               // Hide completely once fully covered behind the next panel
               gsap.set(panel, { autoAlpha: 0 });
@@ -50,7 +59,7 @@ export const usePinnedSectionsOverscroll = (
               scrollTrigger: {
                 trigger: panel,
                 start: () =>
-                  panel.offsetHeight > window.innerHeight
+                  getPanelNaturalHeight(panel) > window.innerHeight
                     ? "bottom bottom"
                     : "top top",
                 endTrigger: nextPanel,

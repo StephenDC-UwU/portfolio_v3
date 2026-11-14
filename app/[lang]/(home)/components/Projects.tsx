@@ -1,18 +1,39 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAnimationFade } from "../hooks/useAnimationFade";
 import ProjectCard from "./projects/ProjectCard";
 
+type ProjectFilter = "all" | "apps" | "landing" | "design";
 
 export default function Projects() {
   const { t } = useLanguage();
 
-  const filter = "all";
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+
+  const [filter, setFilter] = useState<ProjectFilter>("all");
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const panel = sectionRef.current?.closest(".panel-section") as HTMLElement | null;
+    if (panel) {
+      gsap.set(panel, {
+        clearProps: "height,maxHeight",
+        autoAlpha: 1,
+        scale: 1,
+        filter: "brightness(1)",
+      });
+    }
+    const id = requestAnimationFrame(() => {
+      ScrollTrigger.refresh(true);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [filter]);
 
   useAnimationFade({
     sectionRef,
@@ -38,7 +59,7 @@ export default function Projects() {
     <section
       id="projects"
       ref={sectionRef}
-      className="section section-projects relative w-full transition-colors duration-500 bg-bg-primary"
+      className="section section-projects relative w-full min-h-dvh transition-colors duration-500 bg-bg-primary"
     >
       <div className="section-content w-full relative">
         <div className="section-inner w-full pt-16 sm:pt-24 md:pt-28 pb-28 sm:pb-32 px-4 sm:px-8 md:px-14 relative">
@@ -61,13 +82,15 @@ export default function Projects() {
               </div>
 
               {/* Category Filter Tabs */}
-              {/*    <div className="flex items-center gap-2 flex-wrap">
-                {[
-                  { id: "all", label: t.projects.filterAll },
-                  { id: "creative", label: t.projects.filterCreative },
-                  { id: "apps", label: t.projects.filterApp },
-                  { id: "design", label: t.projects.filterDesign },
-                ].map((tab) => (
+              <div className="flex items-center gap-2 flex-wrap">
+                {(
+                  [
+                    { id: "all", label: t.projects.filterAll },
+                    { id: "landing", label: t.projects.filterLanding },
+                    { id: "apps", label: t.projects.filterApp },
+                    /*  { id: "design", label: t.projects.filterDesign }, */
+                  ] satisfies { id: ProjectFilter; label: string }[]
+                ).map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => setFilter(tab.id)}
@@ -85,7 +108,7 @@ export default function Projects() {
                     {tab.label}
                   </button>
                 ))}
-              </div> */}
+              </div>
             </div>
 
             {/* Projects Grid */}
