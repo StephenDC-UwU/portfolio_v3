@@ -118,7 +118,7 @@ export default function BlogsPage({
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-bg-primary text-text-primary overflow-x-hidden select-none transition-colors duration-500 pb-24">
+    <div className="relative min-h-screen w-full bg-bg-primary text-text-primary overflow-x-hidden transition-colors duration-500 pb-24">
       {/* Floating Navigation */}
       <Navbar />
 

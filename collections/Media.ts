@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import fs from "fs/promises";
 import type { CollectionConfig } from "payload";
 
 interface CloudinaryCredentials {
@@ -84,7 +85,14 @@ export const Media: CollectionConfig = {
     beforeChange: [
       async ({ data, req }) => {
         const file = req.file;
-        if (!file?.data) {
+        const fileBuffer =
+          file?.data && file.data.length > 0
+            ? file.data
+            : file?.tempFilePath
+              ? await fs.readFile(file.tempFilePath)
+              : null;
+
+        if (!file || !fileBuffer) {
           return data;
         }
 
@@ -107,7 +115,7 @@ export const Media: CollectionConfig = {
         const signature = signCloudinaryParams(paramsToSign, apiSecret);
 
         const mime = file.mimetype || "image/jpeg";
-        const base64File = `data:${mime};base64,${file.data.toString("base64")}`;
+        const base64File = `data:${mime};base64,${fileBuffer.toString("base64")}`;
 
         const formData = new FormData();
         formData.append("file", base64File);
@@ -195,6 +203,12 @@ export const Media: CollectionConfig = {
   upload: {
     disableLocalStorage: true,
     mimeTypes: ["image/*"],
+    adminThumbnail: ({ doc }) => {
+      if (doc && typeof doc.cloudinaryUrl === "string" && doc.cloudinaryUrl) {
+        return doc.cloudinaryUrl;
+      }
+      return null;
+    },
     handlers: [
       async (req, { doc, params }) => {
         try {
@@ -205,12 +219,22 @@ export const Media: CollectionConfig = {
               : null;
 
           if (!mediaDoc && params?.filename) {
+            const decodedName = decodeURIComponent(params.filename);
             const found = await req.payload.find({
               collection: "media",
               where: {
-                filename: {
-                  equals: decodeURIComponent(params.filename),
-                },
+                or: [
+                  {
+                    filename: {
+                      equals: decodedName,
+                    },
+                  },
+                  {
+                    filename: {
+                      equals: params.filename,
+                    },
+                  },
+                ],
               },
               limit: 1,
             });

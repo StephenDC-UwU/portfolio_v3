@@ -54,6 +54,27 @@ function formatEditorialDate(isoOrString?: string, lang: string = "es"): string 
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+function resolveMediaUrl(mediaObj: any): string | undefined {
+  if (!mediaObj || typeof mediaObj !== "object") return undefined;
+
+  if (
+    typeof mediaObj.cloudinaryUrl === "string" &&
+    /^https?:\/\//i.test(mediaObj.cloudinaryUrl.trim())
+  ) {
+    return mediaObj.cloudinaryUrl.trim();
+  }
+
+  if (
+    typeof mediaObj.url === "string" &&
+    (/^(https?:\/\/|data:image\/)/i.test(mediaObj.url.trim()))
+  ) {
+    return mediaObj.url.trim();
+  }
+
+  return undefined;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapPayloadDocToBlogPost(doc: any, lang: string = "es"): BlogPost {
   const isEn = lang === "en";
   const categoryObj =
@@ -121,10 +142,7 @@ function mapPayloadDocToBlogPost(doc: any, lang: string = "es"): BlogPost {
           number: String(sec.number || String(idx + 1).padStart(2, "0")),
           heading,
           paragraphs,
-          imageUrl:
-            sectionImageObj?.cloudinaryUrl || sectionImageObj?.url
-              ? String(sectionImageObj.cloudinaryUrl || sectionImageObj.url)
-              : undefined,
+          imageUrl: resolveMediaUrl(sectionImageObj),
           imageAlt: sectionImageObj?.alt
             ? String(sectionImageObj.alt)
             : heading,
@@ -144,12 +162,7 @@ function mapPayloadDocToBlogPost(doc: any, lang: string = "es"): BlogPost {
       })
     : [];
 
-  const coverImageUrl =
-    doc.coverImage &&
-    typeof doc.coverImage === "object" &&
-    (doc.coverImage.cloudinaryUrl || doc.coverImage.url)
-      ? String(doc.coverImage.cloudinaryUrl || doc.coverImage.url)
-      : undefined;
+  const coverImageUrl = resolveMediaUrl(doc.coverImage);
 
   const title = String(
     (isEn && doc.title_en ? doc.title_en : doc.title) || ""
