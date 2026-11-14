@@ -172,8 +172,8 @@ export const ES = {
     seoTitle: "Bitácora & Artículos | The Filimisco",
     seoDescription:
       "Una selección editorial de notas, proyectos y hallazgos visuales pensados para leer, explorar y volver.",
-    heroTitlePart1: "VIBE CODE",
-    heroTitlePart2: "IS REAL",
+    heroTitlePart1: "Blogs, Articulos y Notas",
+    heroTitlePart2: "",
     heroSubtitle:
       "Una selección editorial de notas, proyectos y hallazgos visuales pensados para leer, explorar y volver.",
     searchPlaceholder: "Buscar notas, proyectos o temas",
@@ -211,7 +211,8 @@ export const ES = {
     newsletterTitle: "Newsletter",
     newsletterSubtitle: "Recibe nuevas notas",
     newsletterDescription: "Recibe las nuevas publicaciones del blog.",
-    newsletterConsentPrefix: "Al suscribirte, aceptas el uso de tu correo para enviarte nuevas publicaciones conforme a nuestra",
+    newsletterConsentPrefix:
+      "Al suscribirte, aceptas el uso de tu correo para enviarte nuevas publicaciones conforme a nuestra",
     newsletterConsentLink: "Política de Privacidad",
     newsletterPlaceholder: "Tu correo",
     newsletterBtn: "Suscribirse",

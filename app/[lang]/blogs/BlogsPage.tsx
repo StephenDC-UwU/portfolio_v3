@@ -139,7 +139,7 @@ export default function BlogsPage({
 
           <div className="relative z-10 h-full flex flex-col justify-start p-8 sm:p-12 md:p-16 text-white max-w-2xl">
             <h1 className="uppercase tracking-tight leading-[0.95] drop-shadow-lg">
-              <span className="block font-cinzel text-5xl sm:text-7xl md:text-8xl font-black tracking-wide">
+              <span className="block font-cinzel text-5xl sm:text-6xl md:text-7xl font-black tracking-wide">
                 {t.blog.heroTitlePart1}
               </span>
               <span className="block font-editorial font-light text-4xl sm:text-6xl md:text-7xl tracking-wider mt-1.5 text-white/95">
@@ -157,15 +157,13 @@ export default function BlogsPage({
         {/* 2. MAIN BLOG BODY (Full Width OR 2-Column with Filters)       */}
         {/* ------------------------------------------------------------- */}
         <div
-          className={`grid grid-cols-1 ${
-            isFiltersOpen ? "lg:grid-cols-12 gap-8 lg:gap-10" : ""
-          } items-start`}
+          className={`grid grid-cols-1 ${isFiltersOpen ? "lg:grid-cols-12 gap-8 lg:gap-10" : ""
+            } items-start`}
         >
           {/* LEFT / MAIN COLUMN */}
           <div
-            className={`${
-              isFiltersOpen ? "lg:col-span-8" : "w-full"
-            } space-y-8 sm:space-y-10`}
+            className={`${isFiltersOpen ? "lg:col-span-8" : "w-full"
+              } space-y-8 sm:space-y-10`}
           >
             {/* Search & Filter Bar */}
             <div className="w-full rounded-2xl bg-[#FAF6ED]/85 dark:bg-white/5 border border-current/10 px-5 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between gap-4 shadow-sm backdrop-blur-md">
@@ -203,11 +201,10 @@ export default function BlogsPage({
                 <button
                   type="button"
                   onClick={() => setIsFiltersOpen((prev) => !prev)}
-                  className={`px-5 py-2 rounded-full text-sm sm:text-base font-editorial font-semibold transition-all cursor-pointer ${
-                    isFiltersOpen
-                      ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F]"
-                      : "bg-current/10 hover:bg-current/15"
-                  }`}
+                  className={`px-5 py-2 rounded-full text-sm sm:text-base font-editorial font-semibold transition-all cursor-pointer ${isFiltersOpen
+                    ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F]"
+                    : "bg-current/10 hover:bg-current/15"
+                    }`}
                 >
                   {t.blog.filtersBtn}
                 </button>
@@ -360,11 +357,10 @@ export default function BlogsPage({
                         setCurrentPage(page);
                         triggerLoading();
                       }}
-                      className={`w-9 h-9 rounded-full text-sm font-editorial flex items-center justify-center transition-all cursor-pointer ${
-                        currentPage === page
-                          ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-bold shadow-sm"
-                          : "border border-current/15 bg-[#FAF6ED]/60 dark:bg-white/5 opacity-75 hover:opacity-100"
-                      }`}
+                      className={`w-9 h-9 rounded-full text-sm font-editorial flex items-center justify-center transition-all cursor-pointer ${currentPage === page
+                        ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-bold shadow-sm"
+                        : "border border-current/15 bg-[#FAF6ED]/60 dark:bg-white/5 opacity-75 hover:opacity-100"
+                        }`}
                     >
                       {page}
                     </button>
@@ -424,18 +420,16 @@ export default function BlogsPage({
                         onClick={() =>
                           setActiveCategory(isSelected ? "all" : cat.id)
                         }
-                        className={`w-full px-4 py-3 rounded-xl text-sm sm:text-base font-editorial flex items-center gap-3 transition-all cursor-pointer ${
-                          isSelected
-                            ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-semibold shadow-sm"
-                            : "bg-white/60 dark:bg-white/5 border border-current/10 hover:border-current/25"
-                        }`}
+                        className={`w-full px-4 py-3 rounded-xl text-sm sm:text-base font-editorial flex items-center gap-3 transition-all cursor-pointer ${isSelected
+                          ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-semibold shadow-sm"
+                          : "bg-white/60 dark:bg-white/5 border border-current/10 hover:border-current/25"
+                          }`}
                       >
                         <span
-                          className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                            isSelected
-                              ? "border-current bg-current"
-                              : "border-current/40"
-                          }`}
+                          className={`w-4 h-4 rounded-full border flex items-center justify-center ${isSelected
+                            ? "border-current bg-current"
+                            : "border-current/40"
+                            }`}
                         >
                           {isSelected && (
                             <span className="w-2 h-2 rounded-full bg-[#5B1614] dark:bg-[#E9DFC9]" />
@@ -460,11 +454,10 @@ export default function BlogsPage({
                           key={opt.id}
                           type="button"
                           onClick={() => setSortBy(opt.id)}
-                          className={`px-4 py-2 rounded-full text-sm font-editorial transition-all cursor-pointer ${
-                            isActive
-                              ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-semibold shadow-sm"
-                              : "bg-current/5 border border-current/10 opacity-80 hover:opacity-100"
-                          }`}
+                          className={`px-4 py-2 rounded-full text-sm font-editorial transition-all cursor-pointer ${isActive
+                            ? "bg-[#5B1614] text-[#FAF6ED] dark:bg-[#E9DFC9] dark:text-[#58120F] font-semibold shadow-sm"
+                            : "bg-current/5 border border-current/10 opacity-80 hover:opacity-100"
+                            }`}
                         >
                           {opt.label}
                         </button>

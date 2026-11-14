@@ -169,8 +169,8 @@ export const EN = {
     seoTitle: "Blog & Articles | The Filimisco",
     seoDescription:
       "An editorial selection of notes, projects, and visual findings crafted to read, explore, and revisit.",
-    heroTitlePart1: "VIBE CODE",
-    heroTitlePart2: "IS REAL",
+    heroTitlePart1: "Blogs, Articles and Notes",
+    heroTitlePart2: "",
     heroSubtitle:
       "An editorial selection of notes, projects, and visual findings crafted to read, explore, and revisit.",
     searchPlaceholder: "Search notes, projects, or topics",
